@@ -1,10 +1,7 @@
 import webpack from 'webpack';
 import path from 'path';
 
-/* eslint-disable no-console */
-
-export default {
-  devtool: 'cheap-module-eval-source-map',
+module.exports = {
   entry: [
     'eventsource-polyfill', // necessary for hot reloading with IE
     'webpack-hot-middleware/client?reload=true', //note that it reloads the page if hot module reloading fails.
@@ -18,6 +15,7 @@ export default {
   devServer: {
     contentBase: path.resolve(__dirname, 'client')
   },
+  devtool: 'cheap-module-eval-source-map',
   plugins: [
     new webpack.HotModuleReplacementPlugin()
   ],
