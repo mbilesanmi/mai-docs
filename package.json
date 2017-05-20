@@ -6,7 +6,7 @@
   "scripts": {
     "prestart": "babel-node tools/startMessage.js",
     "start": "npm-run-all --parallel test:watch open:client lint:watch",
-    "open:client": "nodemon ./bin/www --exec babel-node",
+    "open:client": "nodemon ./tools/srcServer --exec babel-node",
     "build": "babel client -d dist",
     "serve": "node dist/bundle.js",
     "lint": "node_modules/.bin/esw client tools",

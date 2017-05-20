@@ -26,14 +26,17 @@ export default (sequelize, DataTypes) => {
     },
     loggedIn: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      defaultValue: false
     }
   }, {
     classMethods: {
       associate: (models) => {
         // associations can be defined here
-        User.belongsTo(models.Roles, {
+        User.belongsTo(models.Role, {
           foreignKey: 'roleId'
+        });
+        User.hasMany(models.Document, {
+          foreignKey: 'ownerId'
         });
       }
     }

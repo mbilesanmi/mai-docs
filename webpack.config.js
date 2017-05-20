@@ -10,6 +10,7 @@ module.exports = {
   target: 'web',
   output: {
     path: __dirname,
+    publicPath: '/',
     filename: 'dist/bundle.js',
   },
   devServer: {
