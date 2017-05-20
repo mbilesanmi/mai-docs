@@ -1,24 +1,19 @@
 import path from 'path';
-// import documents from './documents';
-// import roles from './roles';
-// import users from './users';
 
-// module.exports = (app) => {
+import RoleController from '../controllers/role';
+
 const Routes = (app) => {
-  // Setup a default catch-all route that sends back a welcome message in JSON format.
-  // app.get('*', (req, res) => {
-  //   res.sendFile(path.join(__dirname, '../client/index.html'));
-  //   res.status(200).send({
-  //     message: 'Welcome to the beginning of nothingness.',
-  //   })
-  // });
   app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../../client/index.html'));
   });
 
-  // app.use('/api/documents', documents);
-  // app.use('/api/roles', roles);
-  // app.use('/api/users', users);
+  app.get('/api', (req, res) => res.status(200).send({
+    message: 'Welcome to the Todos API!',
+  }));
+
+  app.post('/api/roles', RoleController.create);
+  app.get('/api/roles', RoleController.getAll);
+  app.get('/api/roles/:roleId', RoleController.getOne);
 };
 
 export default Routes;
