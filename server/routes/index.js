@@ -14,6 +14,8 @@ const Routes = (app) => {
   app.post('/api/roles', RoleController.create);
   app.get('/api/roles', RoleController.getAll);
   app.get('/api/roles/:roleId', RoleController.getOne);
+  app.put('/api/roles/:roleId', RoleController.update);
+  app.delete('/api/roles/:roleId', RoleController.deleteRole);
 };
 
 export default Routes;
