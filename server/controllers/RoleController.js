@@ -6,10 +6,10 @@ const RoleController = {
   create(request, response) {
     return Roles
       .create({
-        title:request.body.title,
+        title: request.body.title,
       })
       .then(role => response.status(201).send(role))
-      .catch(error => response.status(400).send(eror));
+      .catch(error => response.status(400).send(error));
   },
   getAll(request, response) {
     return Roles
@@ -20,7 +20,7 @@ const RoleController = {
   getOne(request, response) {
     return Roles
       .findById(request.params.roleId, {})
-      .then(role => {
+      .then((role) => {
         if (!role) {
           return response.status(404).send({
             message: 'Role does not exist'
@@ -33,7 +33,7 @@ const RoleController = {
   update(request, response) {
     return Roles
       .findById(request.params.roleId, {})
-      .then(role => {
+      .then((role) => {
         if (!role) {
           return response.status(404).send({
             message: 'Role Not Found',
@@ -41,15 +41,17 @@ const RoleController = {
         }
         return role
           .update(request.body)
-          .then(() => response.status(200).send(role))  // Send back the updated todo.
-          .catch((error) => response.status(400).send(error));
+          .then(() =>
+            // Send back the updated todo.
+            response.status(200).send(role))
+          .catch(error => response.status(400).send(error));
       })
-      .catch((error) => response.status(400).send(error));
+      .catch(error => response.status(400).send(error));
   },
   deleteRole(request, response) {
     return Roles
       .findById(request.params.roleId)
-      .then(role => {
+      .then((role) => {
         if (!role) {
           return response.status(400).send({
             message: 'Role Not Found',
@@ -57,7 +59,10 @@ const RoleController = {
         }
         return role
           .destroy()
-          .then(() => response.status(200).send({ message: 'Role deleted successfully.' }))
+          .then(() =>
+            response.status(200).send({
+              message: 'Role deleted successfully.'
+            }))
           .catch(error => response.status(400).send(error));
       })
       .catch(error => response.status(400).send(error));

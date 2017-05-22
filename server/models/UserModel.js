@@ -1,5 +1,5 @@
 export default (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
+  const UserModel = sequelize.define('User', {
     firstname: {
       type: DataTypes.STRING,
       allowNull: false
@@ -20,10 +20,6 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    roleId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
     loggedIn: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
@@ -32,14 +28,14 @@ export default (sequelize, DataTypes) => {
     classMethods: {
       associate: (models) => {
         // associations can be defined here
-        User.belongsTo(models.Role, {
+        UserModel.belongsTo(models.Role, {
           foreignKey: 'roleId'
         });
-        User.hasMany(models.Document, {
+        UserModel.hasMany(models.Doc, {
           foreignKey: 'ownerId'
         });
       }
     }
   });
-  return User;
+  return UserModel;
 };

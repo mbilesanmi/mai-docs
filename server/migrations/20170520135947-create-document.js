@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    queryInterface.createTable('Documents', {
+    queryInterface.createTable('Docs', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -17,7 +17,12 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       ownerId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id',
+          as: 'ownerId'
+        }
       },
       createdAt: {
         allowNull: false,
@@ -29,6 +34,6 @@ module.exports = {
       }
     });
   },
-  down: (queryInterface, Sequelize) => 
-    queryInterface.dropTable('Documents'),
+  down: queryInterface /*  , Sequelize*/ =>
+    queryInterface.dropTable('Docs'),
 };

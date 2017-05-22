@@ -23,7 +23,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       roleId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Roles',
+          key: 'id',
+          as: 'roleId'
+        }
       },
       loggedIn: {
         type: Sequelize.BOOLEAN

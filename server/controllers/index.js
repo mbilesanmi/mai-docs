@@ -1,9 +1,9 @@
-import RoleController from './role';
-import UserController from './user';
-import DocumentController from './document';
+import RoleController from './RoleController';
+import UserController from './UserController';
+import DocController from './DocController';
 
 export default {
   RoleController,
   UserController,
-  DocumentController,
+  DocController,
 };

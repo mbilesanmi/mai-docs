@@ -1,5 +1,5 @@
 export default (sequelize, DataTypes) => {
-  const Document = sequelize.define('Document', {
+  const Doc = sequelize.define('Doc', {
     title: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -19,13 +19,13 @@ export default (sequelize, DataTypes) => {
     }
   }, {
     classMethods: {
-      associate: function(models) {
+      associate: (models) => {
         // associations can be defined here
-        Document.belongsTo(models.User, {
+        Doc.belongsTo(models.User, {
           foreignKey: 'ownerId'
         });
       }
     }
   });
-  return Document;
+  return Doc;
 };
