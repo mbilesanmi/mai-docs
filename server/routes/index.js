@@ -29,6 +29,9 @@ const Routes = (app) => {
   );
 
   app.post(
+    '/api/users/login', UserController.login
+  );
+  app.post(
     '/api/users', UserController.create
   );
   app.get(
@@ -37,9 +40,9 @@ const Routes = (app) => {
   app.get(
     '/api/users/:userId', UserController.getOne
   );
-  app.get(
-    '/api/users/:userId/docs', UserController.getMyDocs
-  );
+  // app.get(
+  //   '/api/users/:userId/docs', UserController.getMyDocs
+  // );
   app.put(
     '/api/users/:userId', UserController.update
   );
