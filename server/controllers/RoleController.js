@@ -1,15 +1,14 @@
 import model from '../models';
 
-const Roles = model.Role;
+const Roles = model.Roles;
 
 const RoleController = {
   create(request, response) {
-    return Roles
-      .create({
-        title: request.body.title,
-      })
-      .then(role => response.status(201).send(role))
-      .catch(error => response.status(400).send(error));
+    Roles.create({
+      title: request.body.title,
+    })
+    .then(role => response.status(201).send(role))
+    .catch(error => response.status(400).send(error));
   },
   getAll(request, response) {
     return Roles
@@ -19,7 +18,7 @@ const RoleController = {
   },
   getOne(request, response) {
     return Roles
-      .findById(request.params.roleId, {})
+      .findById(request.params.id, {})
       .then((role) => {
         if (!role) {
           return response.status(404).send({
@@ -32,7 +31,7 @@ const RoleController = {
   },
   update(request, response) {
     return Roles
-      .findById(request.params.roleId, {})
+      .findById(request.params.id, {})
       .then((role) => {
         if (!role) {
           return response.status(404).send({
@@ -50,7 +49,7 @@ const RoleController = {
   },
   deleteRole(request, response) {
     return Roles
-      .findById(request.params.roleId)
+      .findById(request.params.id)
       .then((role) => {
         if (!role) {
           return response.status(400).send({

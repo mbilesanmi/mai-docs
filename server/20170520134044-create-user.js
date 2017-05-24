@@ -1,28 +1,37 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    queryInterface.createTable('Docs', {
+    queryInterface.createTable('Users', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      title: {
+      firstname: {
         type: Sequelize.STRING
       },
-      content: {
+      lastname: {
         type: Sequelize.STRING
       },
-      access: {
-        type: Sequelize.BOOLEAN
+      username: {
+        type: Sequelize.STRING
       },
-      ownerId: {
+      email: {
+        type: Sequelize.STRING
+      },
+      password: {
+        type: Sequelize.STRING
+      },
+      roleId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Users',
+          model: 'Roles',
           key: 'id',
-          as: 'ownerId'
+          as: 'roleId'
         }
+      },
+      lastLogin: {
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
@@ -35,5 +44,5 @@ module.exports = {
     });
   },
   down: queryInterface /*  , Sequelize*/ =>
-    queryInterface.dropTable('Docs'),
+    queryInterface.dropTable('Users'),
 };

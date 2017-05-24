@@ -1,17 +1,17 @@
 export default (sequelize, DataTypes) => {
-  const Doc = sequelize.define('Doc', {
+  const Documents = sequelize.define('Documents', {
     title: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true
     },
     content: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false
     },
     access: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false
+      type: DataTypes.ENUM('Public', 'Private', 'Role'),
+      defaultValue: 'Public'
     },
     ownerId: {
       type: DataTypes.INTEGER,
@@ -21,11 +21,11 @@ export default (sequelize, DataTypes) => {
     classMethods: {
       associate: (models) => {
         // associations can be defined here
-        Doc.belongsTo(models.User, {
+        Documents.belongsTo(models.Users, {
           foreignKey: 'ownerId'
         });
       }
     }
   });
-  return Doc;
+  return Documents;
 };

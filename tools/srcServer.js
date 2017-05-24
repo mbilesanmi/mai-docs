@@ -31,10 +31,10 @@ app.use(require('webpack-hot-middleware')(compiler, {
 }));
 routes(app);
 
-if (process.env.NODE_ENV = 'test') {
+if (process.env.NODE_ENV === 'test') {
   app.listen(port, (err) => {
     if (err) {
-    } else {
+    } else if (process.env.NODE_ENV !== 'test') {
       open(`http://localhost:${port}`);
       console.log(`Express server is up on port ${port}`);
     }

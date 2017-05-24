@@ -1,61 +1,61 @@
 import model from '../models';
 
-const Docs = model.Doc;
+const Documents = model.Documents;
 
-const DocController = {
+const DocumentController = {
   create(request, response) {
-    return Docs
+    return Documents
       .create(request.body)
-      .then(doc => response.status(201).send(doc))
+      .then(document => response.status(201).send(document))
       .catch(error => response.status(400).send(error));
   },
   getAll(request, response) {
-    return Docs
+    return Documents
       .findAll({})
-      .then(docs => response.status(200).send(docs))
+      .then(documents => response.status(200).send(documents))
       .catch(error => response.status(400).send(error));
   },
   getOne(request, response) {
-    return Docs
-      .findById(request.params.docId, {})
-      .then((doc) => {
-        if (!doc) {
+    return Documents
+      .findById(request.params.id, {})
+      .then((document) => {
+        if (!document) {
           return response.status(404).send({
             message: 'Document does not exist'
           });
         }
-        return response.status(200).send(doc);
+        return response.status(200).send(document);
       })
       .catch(error => response.status(400).send(error));
   },
   update(request, response) {
-    return Docs
+    return Documents
       .findById(request.params.documentId, {})
-      .then((doc) => {
-        if (!doc) {
+      .then((document) => {
+        if (!document) {
           return response.status(404).send({
             message: 'Document Not Found',
           });
         }
-        return doc
+        return document
           .update(request.body)
           .then(() =>
             // Send back the updated todo.
-            response.status(200).send(doc))
+            response.status(200).send(document))
           .catch(error => response.status(400).send(error));
       })
       .catch(error => response.status(400).send(error));
   },
   deleteDoc(request, response) {
-    return Docs
-      .findById(request.params.docId)
-      .then((doc) => {
-        if (!doc) {
+    return Documents
+      .findById(request.params.id)
+      .then((document) => {
+        if (!document) {
           return response.status(400).send({
             message: 'Document not found',
           });
         }
-        return doc
+        return document
           .destroy()
           .then(() =>
             response.status(200).send({
@@ -68,4 +68,4 @@ const DocController = {
   },
 };
 
-export default DocController;
+export default DocumentController;

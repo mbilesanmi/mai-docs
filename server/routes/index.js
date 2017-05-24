@@ -1,7 +1,7 @@
 import path from 'path';
 import RoleController from '../controllers/RoleController';
 import UserController from '../controllers/UserController';
-import DocController from '../controllers/DocController';
+import DocumentController from '../controllers/DocumentController';
 
 const Routes = (app) => {
   app.get('/', (req, res) => {
@@ -48,19 +48,19 @@ const Routes = (app) => {
   );
 
   app.post(
-    '/api/docs', DocController.create
+    '/api/documents', DocumentController.create
   );
   app.get(
-    '/api/docs', DocController.getAll
+    '/api/documents', DocumentController.getAll
   );
   app.get(
-    '/api/docs/:id', DocController.getOne
+    '/api/documents/:id', DocumentController.getOne
   );
   app.put(
-    '/api/docs/:id', DocController.update
+    '/api/documents/:id', DocumentController.update
   );
   app.delete(
-    '/api/docs/:id', DocController.deleteDoc
+    '/api/documents/:id', DocumentController.deleteDoc
   );
 };
 

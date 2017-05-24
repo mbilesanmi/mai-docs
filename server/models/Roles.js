@@ -1,22 +1,22 @@
 export default (sequelize, DataTypes) => {
-  const Role = sequelize.define('Role', {
+  const Roles = sequelize.define('Roles', {
     title: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      validate:{
+      validate: {
         notEmpty: true
       }
     }
   }, {
     classMethods: {
-      associate: function(models) {
+      associate: (models) => {
         // associations can be defined here
-        Role.hasMany(models.User, {
+        Roles.hasMany(models.Users, {
           foreignKey: 'roleId'
         });
       }
     }
   });
-  return Role;
+  return Roles;
 };

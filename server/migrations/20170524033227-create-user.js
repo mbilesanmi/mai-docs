@@ -30,8 +30,8 @@ module.exports = {
           as: 'roleId'
         }
       },
-      loggedIn: {
-        type: Sequelize.BOOLEAN
+      lastLogin: {
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
@@ -43,6 +43,6 @@ module.exports = {
       }
     });
   },
-  down: (queryInterface, Sequelize) =>
+  down: queryInterface /*  , Sequelize*/ =>
     queryInterface.dropTable('Users'),
 };

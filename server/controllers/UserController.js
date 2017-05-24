@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import model from '../models';
 
-const Users = model.User;
-const Docs = model.Doc;
+const Users = model.Users;
+const Documents = model.Documents;
 const secret = 'secret';
 
 const UserController = {
@@ -16,7 +16,11 @@ const UserController = {
     return Users
       .findOne({
         where: {
-          username: request.body.loginId
+          $or: [{
+            username: request.body.loginId
+          }, {
+            email: request.body.loginId
+          }]
         }
       })
       .then((user) => {
@@ -25,20 +29,29 @@ const UserController = {
             status: 404,
             message: 'User does not exist'
           });
-        } else if (user.password === request.body.password) {
+        } else if (user.validPassword(request.body.password)) {
+          const userData = {
+            Id: user.id,
+            name: `${user.firstname} ${user.lastname}`,
+            username: user.username,
+            email: user.email,
+            phone: user.phone,
+            roleId: user.roleId
+          };
           const token = jwt.sign({
-            expiresIn: '1hr',
-            user
+            Id: user.id,
+            roleId: user.roleId,
+            expiresIn: '1hr'
           }, secret);
           response.status(200).send({
             status: 200,
-            user,
+            userData,
             message: 'User logged in successfully',
             token
           });
         } else {
-          response.status(401).json({
-            status: 401,
+          response.status(400).json({
+            status: 400,
             message: 'Could not sign you in. Kindly check your login details'
           });
         }
@@ -54,53 +67,47 @@ const UserController = {
       });
   },
   create(request, response) {
-    return Users
-      .findOne({
-        where: {
-          username: request.body.username
-        }
-      })
-      .then((user) => {
-        if (!user) {
-          Users
-            .create(request.body)
-            .then((user) => {
-              const token = jwt.sign({
-                userData: {
-                  id: user.id,
-                  name: `${user.firstname} ${user.lastname}`,
-                  username: user.username,
-                  email: user.email,
-                  roleId: user.roleId
-                }
-              }, secret, { expiresIn: '1h' });
-              return response.status(201).send({
-                user,
-                message: 'User signup completed successfully',
-                token
-              });
-            })
-            .catch(error => response.status(400).send(error));
-        } else {
-          return response.status(409).send({
-            status: 409,
-            message: 'User already exists',
+    Users.findAll({
+      where: {
+        username: request.body.username
+      }
+    })
+    .then((user) => {
+      if (user) {
+        return response.status(409).send({ message: 'User already exist' });
+      }
+      Users.create(request.body)
+        .then((newUser) => {
+          const token = jwt.sign({
+            userData: {
+              id: newUser.id,
+              name: `${newUser.firstname} ${newUser.lastname}`,
+              username: newUser.username,
+              email: newUser.email,
+              roleId: newUser.roleId
+            }
+          }, secret, { expiresIn: '1h' });
+          return response.status(201).send({
+            newUser,
+            message: 'User signup completed successfully',
+            token
           });
-        }
-      })
-      .catch(error => response.status(400).send(error));
+        })
+        .catch(error => response.status(400).send(error));
+    })
+    .catch(error => response.status(400).send(error));
   },
   getAll(request, response) {
     return Users
-      .findAll({})
+      .findAll()
       .then(users => response.status(200).send(users))
       .catch(error => response.status(400).send(error));
   },
   getOne(request, response) {
     return Users
-      .findById(request.params.userId, {
+      .findById(request.params.id, {
         include: [{
-          model: Docs
+          model: Documents
         }]
       })
       .then((user) => {
@@ -115,7 +122,7 @@ const UserController = {
   },
   update(request, response) {
     return Users
-      .findById(request.params.userId, {})
+      .findById(request.params.id, {})
       .then((user) => {
         if (!user) {
           return response.status(404).send({
@@ -133,7 +140,7 @@ const UserController = {
   },
   deleteUser(request, response) {
     return Users
-      .findById(request.params.userId)
+      .findById(request.params.id)
       .then((user) => {
         if (!user) {
           return response.status(400).send({
