@@ -13,54 +13,54 @@ const Routes = (app) => {
   }));
 
   app.post(
-    '/api/roles', RoleController.create
+    '/api/role', RoleController.create
   );
   app.get(
-    '/api/roles', RoleController.getAll
+    '/api/role', RoleController.getAll
   );
   app.get(
-    '/api/roles/:id', RoleController.getOne
+    '/api/role/:id', RoleController.getOne
   );
   app.put(
-    '/api/roles/:id', RoleController.update
+    '/api/role/:id', RoleController.update
   );
   app.delete(
-    '/api/roles/:id', RoleController.delete
+    '/api/role/:id', RoleController.delete
   );
 
   app.post(
-    '/api/users/login', UserController.login
+    '/api/user/login', UserController.login
   );
   app.post(
-    '/api/users', UserController.create
+    '/api/user', UserController.create
   );
   app.get(
-    '/api/users', UserController.getAll
+    '/api/user', UserController.getAll
   );
   app.get(
-    '/api/users/:id', UserController.getOne
+    '/api/user/:id', UserController.getOne
   );
   app.put(
-    '/api/users/:id', UserController.update
+    '/api/user/:id', UserController.update
   );
   app.delete(
-    '/api/users/:id', UserController.delete
+    '/api/user/:id', UserController.delete
   );
 
   app.post(
-    '/api/documents', DocumentController.create
+    '/api/document', DocumentController.create
   );
   app.get(
-    '/api/documents', DocumentController.getAll
+    '/api/document', DocumentController.getAll
   );
   app.get(
-    '/api/documents/:id', DocumentController.getOne
+    '/api/document/:id', DocumentController.getOne
   );
   app.put(
-    '/api/documents/:id', DocumentController.update
+    '/api/document/:id', DocumentController.update
   );
   app.delete(
-    '/api/documents/:id', DocumentController.delete
+    '/api/document/:id', DocumentController.delete
   );
 };
 

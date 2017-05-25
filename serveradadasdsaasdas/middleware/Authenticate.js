@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
+// import model from '../models';
 
+// const Role = model.Role;
 const secret = 'secret';
 
 const Authenticate = {

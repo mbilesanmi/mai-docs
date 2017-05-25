@@ -11,10 +11,11 @@
     "serve": "node dist/bundle.js",
     "lint": "node_modules/.bin/esw client tools",
     "lint:watch": "npm run lint -- --watch",
+    "mai:test": "",
     "test": "npm run db:test-seed && npm run test:mocha",
     "test:mocha": "cross-env NODE_ENV=test mocha ./server/**/*.test.js --compilers js:babel-register",
     "test:watch": "npm run test -- --watch",
-    "db:test-seed": "cross-env NODE_ENV=test babel-node ./server/tests/helper/seed-helper.js"
+    "db:test-seed": "cross-env NODE_ENV=test babel-node ./server/tests/helpers/seedHelper.js"
   },
   "repository": {
     "type": "git",

@@ -4,26 +4,20 @@ const Role = model.Role;
 
 const RoleController = {
   create(request, response) {
-    Role
-      .create({
-        title: request.body.title,
-      })
-      .then((role) => {
-        response.status(201).send(
-          role
-          // message: 'Role created successfully',
-        );
-      })
-      .catch(error => response.status(400).send(error));
+    Role.create({
+      title: request.body.title,
+    })
+    .then(role => response.status(201).send(role))
+    .catch(error => response.status(400).send(error));
   },
   getAll(request, response) {
-    Role
+    return Role
       .findAll({})
       .then(role => response.status(200).send(role))
       .catch(error => response.status(400).send(error));
   },
   getOne(request, response) {
-    Role
+    return Role
       .findById(request.params.id, {})
       .then((role) => {
         if (!role) {
@@ -36,7 +30,7 @@ const RoleController = {
       .catch(error => response.status(400).send(error));
   },
   update(request, response) {
-    Role
+    return Role
       .findById(request.params.id, {})
       .then((role) => {
         if (!role) {
@@ -71,7 +65,7 @@ const RoleController = {
           .catch(error => response.status(400).send(error));
       })
       .catch(error => response.status(400).send(error));
-  }
+  },
 };
 
 export default RoleController;

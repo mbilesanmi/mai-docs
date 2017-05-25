@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
 import model from '../models';
 
-const User = model.User;
+const Users = model.User;
+const Documents = model.Document;
 const secret = 'secret';
 
 const UserController = {
@@ -12,7 +13,7 @@ const UserController = {
         message: 'Fields cannot be empty'
       });
     }
-    User
+    return Users
       .findOne({
         where: {
           $or: [{
@@ -30,7 +31,7 @@ const UserController = {
           });
         } else if (user.validPassword(request.body.password)) {
           const userData = {
-            id: user.id,
+            Id: user.id,
             name: `${user.firstname} ${user.lastname}`,
             username: user.username,
             email: user.email,
@@ -38,7 +39,7 @@ const UserController = {
             roleId: user.roleId
           };
           const token = jwt.sign({
-            id: user.id,
+            Id: user.id,
             roleId: user.roleId,
             expiresIn: '1hr'
           }, secret);
@@ -66,46 +67,44 @@ const UserController = {
       });
   },
   create(request, response) {
-    User
-      .findAll({
-        where: {
-          username: request.body.username
-        }
-      })
-      .then((user) => {
-        if (user) {
-          return response.status(409).send({ message: 'User already exists' });
-        }
-        User
-          .create(request.body)
-            .then((newUser) => {
-              const token = jwt.sign({
-                userData: {
-                  id: newUser.id,
-                  name: `${newUser.firstname} ${newUser.lastname}`,
-                  username: newUser.username,
-                  email: newUser.email,
-                  roleId: newUser.roleId
-                }
-              }, secret, { expiresIn: '1h' });
-              return response.status(201).send({
-                newUser,
-                message: 'User signup completed successfully',
-                token
-              });
-            })
-            .catch(error => response.status(400).send(error));
-      })
-      .catch(error => response.status(400).send(error));
+    Users.findAll({
+      where: {
+        username: request.body.username
+      }
+    })
+    .then((user) => {
+      if (user) {
+        return response.status(409).send({ message: 'User already exists' });
+      }
+      Users.create(request.body)
+        .then((newUser) => {
+          const token = jwt.sign({
+            userData: {
+              id: newUser.id,
+              name: `${newUser.firstname} ${newUser.lastname}`,
+              username: newUser.username,
+              email: newUser.email,
+              roleId: newUser.roleId
+            }
+          }, secret, { expiresIn: '1h' });
+          return response.status(201).send({
+            newUser,
+            message: 'User signup completed successfully',
+            token
+          });
+        })
+        .catch(error => response.status(400).send(error));
+    })
+    .catch(error => response.status(400).send(error));
   },
   getAll(request, response) {
-    User
+    return Users
       .findAll()
       .then(users => response.status(200).send(users))
       .catch(error => response.status(400).send(error));
   },
   getOne(request, response) {
-    User
+    return Users
       .findById(request.params.id, {
         include: [{
           model: Document
@@ -122,7 +121,7 @@ const UserController = {
       .catch(error => response.status(400).send(error));
   },
   update(request, response) {
-    User
+    return Users
       .findById(request.params.id, {})
       .then((user) => {
         if (!user) {
@@ -140,7 +139,7 @@ const UserController = {
       .catch(error => response.status(400).send(error));
   },
   delete(request, response) {
-    User
+    return Users
       .findById(request.params.id)
       .then((user) => {
         if (!user) {
@@ -157,7 +156,7 @@ const UserController = {
           .catch(error => response.status(400).send(error));
       })
       .catch(error => response.status(400).send(error));
-  }
+  },
 };
 
 export default UserController;

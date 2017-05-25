@@ -1,7 +1,7 @@
 import faker from 'faker';
 import models from '../../models/';
 
-export const roles = [{
+export const role = [{
   title: 'Super User'
 }, {
   title: 'Author'
@@ -9,10 +9,10 @@ export const roles = [{
   title: 'Guest'
 }];
 
-export const users = [{
-  firstname: 'admin',
-  lastname: 'admin',
-  username: 'admin',
+export const user = [{
+  firstname: 'Admin',
+  lastname: 'Admin',
+  username: 'Admin',
   email: 'admin@admin.com',
   password: 'password',
   roleId: 1
@@ -32,7 +32,7 @@ export const users = [{
   roleId: 2
 }];
 
-export const documents = [{
+export const document = [{
   title: 'seed document test',
   content: faker.lorem.paragraph(),
   access: 'Private',
@@ -47,9 +47,9 @@ export const documents = [{
 const seeds = () => {
   models.sequelize.sync({ force: true }).then(() => {
     // Table created
-    models.Roles.bulkCreate(roles);
-    models.Users.bulkCreate(users, { individualHooks: true }).then(() => {
-      models.Documents.bulkCreate(documents);
+    models.Role.bulkCreate(role);
+    models.User.bulkCreate(user, { individualHooks: true }).then(() => {
+      models.Document.bulkCreate(document);
     });
   });
 };

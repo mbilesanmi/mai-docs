@@ -1,77 +1,71 @@
 import model from '../models';
 
-const Role = model.Role;
+const Documents = model.Document;
 
-const RoleController = {
+const DocumentController = {
   create(request, response) {
-    Role
-      .create({
-        title: request.body.title,
-      })
-      .then((role) => {
-        response.status(201).send(
-          role
-          // message: 'Role created successfully',
-        );
-      })
+    return Documents
+      .create(request.body)
+      .then(document => response.status(201).send(document))
       .catch(error => response.status(400).send(error));
   },
   getAll(request, response) {
-    Role
+    return Documents
       .findAll({})
-      .then(role => response.status(200).send(role))
+      .then(documents => response.status(200).send(documents))
       .catch(error => response.status(400).send(error));
   },
   getOne(request, response) {
-    Role
+    return Documents
       .findById(request.params.id, {})
-      .then((role) => {
-        if (!role) {
+      .then((document) => {
+        if (!document) {
           return response.status(404).send({
-            message: 'Role does not exist'
+            message: 'Document does not exist'
           });
         }
-        return response.status(200).send(role);
+        return response.status(200).send(document);
       })
       .catch(error => response.status(400).send(error));
   },
   update(request, response) {
-    Role
-      .findById(request.params.id, {})
-      .then((role) => {
-        if (!role) {
+    return Documents
+      .findById(request.params.documentId, {})
+      .then((document) => {
+        if (!document) {
           return response.status(404).send({
-            message: 'Role Not Found',
+            message: 'Document Not Found',
           });
         }
-        return role
+        return document
           .update(request.body)
           .then(() =>
             // Send back the updated todo.
-            response.status(200).send(role))
+            response.status(200).send(document))
           .catch(error => response.status(400).send(error));
       })
       .catch(error => response.status(400).send(error));
   },
   delete(request, response) {
-    return Role
+    return Documents
       .findById(request.params.id)
-      .then((role) => {
-        if (!role) {
+      .then((document) => {
+        if (!document) {
           return response.status(400).send({
-            message: 'Role Not Found',
+            message: 'Document not found',
           });
         }
-        return role
+        return document
           .destroy()
           .then(() =>
             response.status(200).send({
-              message: 'Role deleted successfully.'
-            }))
+              message: 'Document deleted successfully.'
+            })
+          )
           .catch(error => response.status(400).send(error));
       })
       .catch(error => response.status(400).send(error));
-  }
+  },
 };
 
-export default RoleController;
+export default DocumentController;

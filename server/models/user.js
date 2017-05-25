@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 
 export default (sequelize, DataTypes) => {
-  const Users = sequelize.define('Users', {
+  const User = sequelize.define('User', {
     firstname: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -67,15 +67,14 @@ export default (sequelize, DataTypes) => {
     classMethods: {
       associate: (models) => {
         // associations can be defined here
-        Users.belongsTo(models.Roles, {
+        User.belongsTo(models.Role, {
           foreignKey: 'roleId'
         });
-        Users.hasMany(models.Documents, {
+        User.hasMany(models.Document, {
           foreignKey: 'ownerId'
         });
       }
     },
-
     instanceMethods: {
       hashPassword() {
         this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(8));
@@ -84,7 +83,6 @@ export default (sequelize, DataTypes) => {
         return bcrypt.compareSync(password, this.password);
       }
     },
-
     hooks: {
       beforeCreate(user) {
         user.hashPassword();
@@ -97,5 +95,5 @@ export default (sequelize, DataTypes) => {
       }
     }
   });
-  return Users;
+  return User;
 };
