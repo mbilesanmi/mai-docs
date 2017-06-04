@@ -1,7 +1,6 @@
 export default {
   users: { allUsers: [], userDetails: false, authUser: {} },
-  isAuth: false,
-  user: {},
+  isAuth: { isAuthenticated: false, loggedInUser: null },
   documents: { documents: [], documentDetails: false },
   roles: []
 };

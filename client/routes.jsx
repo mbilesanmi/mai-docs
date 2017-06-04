@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import App from './components/App.jsx';
 import Login from './components/home/Signin.jsx';
-// import HomePage from './components/home/HomePage.jsx';
+import Dashboard from './components/home/Dashboard.jsx';
 // import AboutPage from './components/about/AboutPage.jsx';
 // import DocumentsPage from './components/document/DocumentsPage.jsx';
 // import UsersPage from './components/user/UsersPage.jsx';
@@ -13,11 +13,12 @@ import Login from './components/home/Signin.jsx';
 // import ManageCoursePage from './components/course/ManageCoursePage.jsx';
 // import SignupPage from './components/auth/Signup.jsx';
 // import SigninPage from './components/auth/Signin.jsx';
-// import requireAuth from './utils/requireAuth';
+import requireAuth from './utils/requireAuthentication';
 
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={Login} />
+    <Route path="dashboard" component={requireAuth(Dashboard)} />
     {/*<Route path="about" component={AboutPage} />
     <Route path="signup" component={SignupPage} />
     <Route path="login" component={SigninPage} />

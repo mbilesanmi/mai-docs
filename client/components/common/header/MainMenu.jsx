@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-const MainMenu = () => (
+const MainMenu = ({ logout }) => (
   <div>
     <ul className="right hide-on-med-and-down">
       <li>
@@ -17,7 +17,7 @@ const MainMenu = () => (
         <Link activeClassName="active" to="/roles">Manage Roles</Link>
       </li>
       <li>
-        <Link activeClassName="active" to="/logout">Logout</Link>
+        <Link activeClassName="active" to="/logout" onClick={logout}>Logout</Link>
       </li>
     </ul>
 
@@ -35,7 +35,7 @@ const MainMenu = () => (
         <Link activeClassName="active" to="/roles">Manage Roles</Link>
       </li>
       <li>
-        <Link activeClassName="active" to="/logout">Logout</Link>
+        <Link activeClassName="active" to="/logout" onClick={logout}>Logout</Link>
       </li>
     </ul>
     <a href="#" dataactivates="nav-mobile" className="button-collapse">
@@ -43,5 +43,9 @@ const MainMenu = () => (
     </a>
   </div>
 );
+
+MainMenu.propTypes = {
+  logout: PropTypes.func
+};
 
 export default MainMenu;

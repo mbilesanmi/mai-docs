@@ -25,7 +25,6 @@ class Signin extends Component {
       errors: {},
       isLoading: true
     });
-    // console.log('state.user', this.state.user);
     this.props.userActions.login(this.state.user)
     .then(() => {
       this.setState({ isLoading: false });
@@ -34,7 +33,6 @@ class Signin extends Component {
     })
     .catch(() => {
       this.setState({ isLoading: false });
-      // console.log('error in signing in------');
       toastr.error('Unable to login user, please try again');
     });
   }
@@ -47,8 +45,8 @@ class Signin extends Component {
   }
 
   componentWillMount() {
-    if (localStorage.getItem('maiDocsJwtToken')) {
-      alert('Already logged in');
+    if (this.props.isAuthenticated) {
+      toastr.error('Already logged in');
       this.context.router.push('/dashboard');
     }
   }
@@ -76,6 +74,7 @@ class Signin extends Component {
 
 Signin.propTypes = {
   user: PropTypes.object,
+  isAuthenticated: PropTypes.bool.isRequired,
   userActions: PropTypes.object.isRequired
 };
 
@@ -92,7 +91,12 @@ Signin.contextTypes = {
  * @returns {object}
  */
 function mapStateToProps(state) {
-  return { user: state.user };
+  console.log('isAuth state before Signin', state.isAuth);
+  console.log('isAuth state after Signin in signin', state.isAuth);
+  return {
+    user: state.isAuth.loggedInUser,
+    isAuthenticated: state.isAuth.isAuthenticated
+  };
 }
 
 const mapDispatchToProps = dispatch => ({
