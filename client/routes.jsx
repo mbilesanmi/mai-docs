@@ -4,8 +4,8 @@ import App from './components/App.jsx';
 import Login from './components/home/Signin.jsx';
 import Dashboard from './components/home/Dashboard.jsx';
 import SignupPage from './components/home/Signup.jsx';
+import AllDocuments from './components/document/AllDocuments.jsx';
 // import AboutPage from './components/about/AboutPage.jsx';
-// import DocumentsPage from './components/document/DocumentsPage.jsx';
 // import UsersPage from './components/user/UsersPage.jsx';
 // import ManageUserPage from './components/user/ManageUserPage.jsx';
 // import RolesPage from './components/role/RolesPage.jsx';
@@ -19,6 +19,7 @@ export default (
   <Route path="/" component={App}>
     <IndexRoute component={Login} />
     <Route path="dashboard" component={requireAuth(Dashboard)} />
+    <Route path="documents" component={requireAuth(AllDocuments)} />
     <Route path="signup" component={SignupPage} />
     {/*<Route path="about" component={AboutPage} />
     <Route path="login" component={SigninPage} />
