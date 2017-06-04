@@ -22,7 +22,10 @@ class Header extends Component {
   render() {
     return (
       <nav className="nav-wrapper teal" role="navigation">
-        <IndexLink to="/dashboard" classID="logo-container" className="brand-logo">
+        <IndexLink
+          to="/dashboard"
+          classID="logo-container"
+          className="brand-logo">
           Mai Docs
         </IndexLink>
         <MainMenu logout={this.logout} />
@@ -42,4 +45,3 @@ Header.contextTypes = {
 };
 
 export default connect(null, { logout })(Header);
-// export default Header;

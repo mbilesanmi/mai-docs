@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import manageUsers from './userReducer';
+import users from './userReducer';
 import isAuth from './authUserReducer';
 // import manageDocuments from './documentReducer';
 // import manageRoles from './roleReducer';
@@ -7,7 +7,7 @@ import isAuth from './authUserReducer';
 // import currentlySelected from './currentlySelectedReducers';
 
 const rootReducer = combineReducers({
-  manageUsers,
+  users,
   isAuth,
   // manageDocuments,
   // manageRoles,

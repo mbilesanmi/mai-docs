@@ -2,10 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import toastr from 'toastr';
-import SigninForm from './SigninForm.jsx';
+import SignupForm from './SignupForm.jsx';
 import * as userActions from '../../actions/userActions';
 
-class Signin extends Component {
+class Signup extends Component {
   constructor(props, context) {
     super(props, context);
 
@@ -32,15 +32,17 @@ class Signin extends Component {
       errors: {},
       isLoading: true
     });
-    this.props.userActions.login(this.state.user)
+    this.props.userActions.createUser(this.state.user)
     .then(() => {
       this.setState({ isLoading: false });
-      toastr.success('Logged in Successfully');
+      toastr.success(
+        `Signup Successfully! Welcome ${this.state.user.username}`);
       this.context.router.push('/dashboard');
     })
     .catch(() => {
       this.setState({ isLoading: false });
-      toastr.error('Unable to login user, please try again');
+      toastr.error(
+        'Account creation failed. Please check your details and try again.');
     });
   }
 
@@ -51,6 +53,10 @@ class Signin extends Component {
     return this.setState({ user });
   }
 
+  /**
+   * React Render
+   * @return {object} html
+   */
   render() {
     return (
       <div>
@@ -58,7 +64,7 @@ class Signin extends Component {
         <p>Mai Document manager</p>
         <div className="container">
           <div className="row">
-            <SigninForm
+            <SignupForm
               user={this.state.user}
               onChange={this.updateUserState}
               onSubmit={this.onSubmit}
@@ -72,7 +78,7 @@ class Signin extends Component {
   }
 }
 
-Signin.propTypes = {
+Signup.propTypes = {
   user: PropTypes.object,
   isAuthenticated: PropTypes.bool.isRequired,
   userActions: PropTypes.object.isRequired
@@ -80,7 +86,7 @@ Signin.propTypes = {
 
 // Pull in the React Router context
 // so router is available on this.context.router.
-Signin.contextTypes = {
+Signup.contextTypes = {
   router: PropTypes.object
 };
 
@@ -91,6 +97,8 @@ Signin.contextTypes = {
  * @returns {object}
  */
 function mapStateToProps(state) {
+  console.log('isAuth state before Signup', state.isAuth);
+  console.log('isAuth state after Signup in signup', state.isAuth);
   return {
     user: state.isAuth.loggedInUser,
     isAuthenticated: state.isAuth.isAuthenticated
@@ -101,4 +109,5 @@ const mapDispatchToProps = dispatch => ({
   userActions: bindActionCreators(userActions, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signin);
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
+// export default Signup;

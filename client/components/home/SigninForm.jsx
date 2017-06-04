@@ -43,8 +43,8 @@ const SigninForm = ({ onChange, onSubmit, loading, errors }) => (
           </div>
           <div className="input-field col s12">
             <p className="margin center medium-small sign-up">
-              Already have an account?
-              <Link to="/signin"> Signin</Link>
+              Don't have an account?
+              <Link to="/signup"> Signup</Link>
             </p>
           </div>
         </div>

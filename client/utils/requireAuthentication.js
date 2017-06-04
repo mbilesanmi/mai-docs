@@ -37,10 +37,8 @@ export default function (ComposedComponent) {
   };
 
   function mapStateToProps(state) {
-    // console.log('isAuth state after signin', state.isAuth.isAuthenticated);
     return { isAuthenticated: state.isAuth.isAuthenticated };
   }
 
   return connect(mapStateToProps)(RequireAuth);
-  // return connect(null)(Authenticate);
 }

@@ -17,6 +17,9 @@ const MainMenu = ({ logout }) => (
         <Link activeClassName="active" to="/roles">Manage Roles</Link>
       </li>
       <li>
+        <Link activeClassName="active" to="/signup">Signup</Link>
+      </li>
+      <li>
         <Link activeClassName="active" to="/logout" onClick={logout}>Logout</Link>
       </li>
     </ul>
