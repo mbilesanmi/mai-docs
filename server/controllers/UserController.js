@@ -2,7 +2,10 @@ import jwt from 'jsonwebtoken';
 import model from '../models';
 
 const User = model.User;
+const Documents = model.Document;
+// const Documents = model.Document;
 const secret = 'secret';
+
 
 const UserController = {
   login(request, response) {
@@ -62,21 +65,27 @@ const UserController = {
     response.status(200)
       .json({
         success: true,
-        message: 'User logged out',
+        message: 'User logged out'
       });
   },
   create(request, response) {
+    console.log('body request', request.body);
     User
-      .findAll({
+      .findOne({
         where: {
-          username: request.body.username
+          $or: [{
+            username: request.body.username
+          }, {
+            email: request.body.email
+          }]
         }
       })
-      .then((user) => {
-        if (user) {
+      .then((foundUser) => {
+        console.log('resp', foundUser);
+        if (foundUser) {
           return response.status(409).send({ message: 'User already exists' });
         }
-        User
+        return User
           .create(request.body)
             .then((newUser) => {
               const token = jwt.sign({
@@ -94,13 +103,23 @@ const UserController = {
                 token
               });
             })
-            .catch(error => response.status(400).send(error));
+            .catch((error) => {
+              response.status(403).send({
+                error,
+                message: 'User signup failed'
+              });
+            });
       })
       .catch(error => response.status(400).send(error));
   },
   getAll(request, response) {
     User
-      .findAll()
+      .findAll({
+        include: [{
+          model: Documents,
+          as: 'documents'
+        }],
+      })
       .then(users => response.status(200).send(users))
       .catch(error => response.status(400).send(error));
   },
@@ -108,8 +127,9 @@ const UserController = {
     User
       .findById(request.params.id, {
         include: [{
-          model: Document
-        }]
+          model: Documents,
+          as: 'documents'
+        }],
       })
       .then((user) => {
         if (!user) {
@@ -130,7 +150,7 @@ const UserController = {
             message: 'User Not Found',
           });
         }
-        return user
+        user
           .update(request.body)
           .then(() =>
             // Send back the updated user data.
@@ -145,7 +165,7 @@ const UserController = {
       .then((user) => {
         if (!user) {
           return response.status(400).send({
-            message: 'User not found',
+            message: 'User not found'
           });
         }
         return user

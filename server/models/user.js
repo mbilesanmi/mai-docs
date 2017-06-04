@@ -61,7 +61,7 @@ export default (sequelize, DataTypes) => {
       }
     },
     lastLogin: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATE
     }
   }, {
     classMethods: {
@@ -71,7 +71,8 @@ export default (sequelize, DataTypes) => {
           foreignKey: 'roleId'
         });
         User.hasMany(models.Document, {
-          foreignKey: 'ownerId'
+          foreignKey: 'ownerId',
+          as: 'documents',
         });
       }
     },

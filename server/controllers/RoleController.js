@@ -4,17 +4,35 @@ const Role = model.Role;
 
 const RoleController = {
   create(request, response) {
+    if (request.body.title === '') {
+      return response.status(400).send({
+        message: 'Title field cannot be empty'
+      });
+    }
     Role
-      .create({
-        title: request.body.title,
+      .findOne({
+        where: { title: request.body.title }
       })
-      .then((role) => {
-        response.status(201).send(
-          role
-          // message: 'Role created successfully',
-        );
+      .then((foundRole) => {
+        if (!foundRole) {
+          Role
+            .create({
+              title: request.body.title
+            })
+            .then(role => response.status(201).send({
+              role,
+              message: 'Role created successfully'
+            }))
+            .catch(error => response.status(400).send({
+              error,
+              message: 'Error creating new role'
+            }));
+        }
       })
-      .catch(error => response.status(400).send(error));
+      .catch(error => response.status(400).send({
+        error,
+        message: 'Role must be unique'
+      }));
   },
   getAll(request, response) {
     Role
@@ -41,7 +59,7 @@ const RoleController = {
       .then((role) => {
         if (!role) {
           return response.status(404).send({
-            message: 'Role Not Found',
+            message: 'Role Not Found'
           });
         }
         return role
@@ -59,7 +77,7 @@ const RoleController = {
       .then((role) => {
         if (!role) {
           return response.status(400).send({
-            message: 'Role Not Found',
+            message: 'Role Not Found'
           });
         }
         return role

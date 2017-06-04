@@ -5,11 +5,11 @@ import DocumentController from '../controllers/DocumentController';
 
 const Routes = (app) => {
   app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../public/index.html'));
+    res.sendFile(path.join(__dirname, '../../client/index.html'));
   });
 
   app.get('/api', (req, res) => res.status(200).send({
-    message: 'Welcome to the Todos API!',
+    message: 'Welcome to the Todos API!'
   }));
 
   app.post(
@@ -52,6 +52,9 @@ const Routes = (app) => {
   );
   app.get(
     '/api/documents', DocumentController.getAll
+  );
+  app.get(
+    '/api/documents/:id', DocumentController.getOne
   );
   app.get(
     '/api/documents/:id', DocumentController.getOne

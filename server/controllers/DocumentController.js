@@ -1,6 +1,8 @@
 import model from '../models';
 
 const Documents = model.Document;
+// const Roles = model.Role;
+const Users = model.User;
 
 const DocumentController = {
   create(request, response) {
@@ -15,6 +17,44 @@ const DocumentController = {
       .then(documents => response.status(200).send(documents))
       .catch(error => response.status(400).send(error));
   },
+  getMyDocuments(req, res) {
+    return Documents
+    .findAll({
+      where: {
+        $or: [
+          { viewAccess: 'public' },
+          {
+            role: String(req.decoded.data.roleId)
+          },
+          {
+            userId: req.params.id
+          }
+        ]
+      },
+      include: [Users],
+      order: [['updatedAt', 'DESC']]
+    })
+    .then((document) => {
+      if (!document) {
+        return res.status(404).send({
+          message: 'Document Not Found',
+        });
+      }
+      return res.status(200).send(document);
+    })
+    .catch(error => res.status(400).send({
+      error,
+      message: 'Error occurred while retrieving documents'
+    }));
+  },
+  // getMyDocuments(request, response) {
+  //   Documents
+  //     .findAll({
+  //       where: { ownerId: request.body.username }
+  //     })
+  //     .then(documents => response.status(200).send(documents))
+  //     .catch(error => response.status(400).send(error));
+  // },
   getOne(request, response) {
     Documents
       .findById(request.params.id, {})
@@ -34,7 +74,7 @@ const DocumentController = {
       .then((document) => {
         if (!document) {
           return response.status(404).send({
-            message: 'Document Not Found',
+            message: 'Document Not Found'
           });
         }
         document
@@ -52,7 +92,7 @@ const DocumentController = {
       .then((document) => {
         if (!document) {
           return response.status(400).send({
-            message: 'Document not found',
+            message: 'Document not found'
           });
         }
         document
