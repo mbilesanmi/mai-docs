@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { IndexLink } from 'react-router';
 import { connect } from 'react-redux';
+import toastr from 'toastr';
 import MainMenu from './MainMenu.jsx';
 import { logout } from '../../../actions/userActions';
 
@@ -14,6 +15,8 @@ class Header extends Component {
   logout(event) {
     event.preventDefault();
     this.props.logout();
+    toastr.info('You are now logged out');
+    this.context.router.push('/');
   }
 
   render() {
@@ -30,6 +33,12 @@ class Header extends Component {
 
 Header.propTypes = {
   logout: PropTypes.func.isRequired
+};
+
+// Pull in the React Router context
+// so router is available on this.context.router.
+Header.contextTypes = {
+  router: PropTypes.object
 };
 
 export default connect(null, { logout })(Header);

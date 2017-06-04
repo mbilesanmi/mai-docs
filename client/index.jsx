@@ -8,17 +8,11 @@ import jwtDecode from 'jwt-decode';
 import configureStore from './store/configureStore';
 import routes from './routes.jsx';
 import setAuthorizationToken from './utils/authenticate';
-// import * as courseActions from './actions/courseActions';
-// import  * as roleActions from './actions/roleActions';
-// import * as documentActions from './actions/documentActions';
 import { setCurrentUser } from './actions/userActions';
 import '../node_modules/materialize-css/dist/js/materialize.min';
 import '../node_modules/materialize-css/dist/css/materialize.min.css';
 import '../node_modules/toastr/build/toastr.min.css';
 
-
-// const initialState = [];
-// const store = configureStore(initialState);
 const store = configureStore();
 
 // store.dispatch(courseActions.loadCourses());

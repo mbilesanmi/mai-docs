@@ -6,6 +6,9 @@ import setAuthorizationToken from '../utils/authenticate';
 export function setCurrentUser(user) {
   return { type: types.SET_LOGGEDIN_USER, user };
 }
+export function signoutUser(user) {
+  return { type: types.SIGNOUT_USER, user };
+}
 
 export function login(user) {
   return dispatch => axios.post('api/users/login', user)
@@ -25,6 +28,6 @@ export function logout() {
   return (dispatch) => {
     localStorage.removeItem('maiDocsJwtToken');
     setAuthorizationToken(false);
-    dispatch(setCurrentUser({}));
+    dispatch(signoutUser({}));
   };
 }
