@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as documentActions from '../../actions/documentActions';
 import DocumentList from '../document/DocumentList.jsx';
+// import DocumentTasks from '../document/ManageDocument.jsx';
 
 class AllDocuments extends Component {
   constructor(props, context) {
@@ -20,9 +21,12 @@ class AllDocuments extends Component {
   render() {
     const { documents } = this.props;
     return (
-      <div>
-        <h1>All Documents</h1>
-        <DocumentList documents={documents} />
+      <div className="section">
+        <div className="container">
+          {/*<DocumentTasks />*/}
+          <h1>All Documents</h1>
+          <DocumentList documents={documents} />
+        </div>
       </div>
     );
   }
@@ -34,7 +38,6 @@ AllDocuments.propTypes = {
 };
 
 function mapStateToProps(state) {
-  console.log('state', state);
   return {
     documents: state.documents
   };

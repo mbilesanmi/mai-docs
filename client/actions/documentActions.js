@@ -25,6 +25,21 @@ export function getMyDocuments(id, limit = 10, offset = 0) {
   });
 }
 
+/**
+ * delete document from database using DELETE api route /documents/:id
+ *
+ * @export
+ * @param {any} id
+ * @returns {object} documents
+ */
+export function deleteDocument(id, ownerId) {
+  return dispatch => axios.delete(`/api/documents/${id}`)
+  .then(() => {
+    dispatch(getMyDocuments(ownerId));
+    dispatch(getAllDocuments());
+  });
+}
+
 // export function getUserDocs(id, limit = 10, offset = 0) {
 //   return (dispatch) =>
 //     axios.get(`/api/v1/users/${id}/documents/?limit=${limit}&offset=${offset}`)
