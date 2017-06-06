@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import toastr from 'toastr';
-import DocumentForm from '../document/DocumentForm.jsx';
 import * as documentActions from '../../actions/documentActions';
+import DocumentForm from '../document/DocumentForm.jsx';
 
 class ManageDocument extends Component {
   constructor(props, context) {
@@ -21,24 +21,26 @@ class ManageDocument extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('nextprops', this.props);
     if (this.props.document.id !== nextProps.document.id) {
       // Necessary to repopulate the form when document is loaded directly
-      console.log('this.props', this.props);
       this.setState({ document: Object.assign({}, nextProps.document) });
     }
   }
 
+  componentWillMount() {
+    this.props.actions.getAllDocuments();
+  }
+
+  componentDidMount() {
+    $('select').material_select();
+  }
+
   updateDocumentState(event) {
-    let field;
-    let document = this.state.document;
-    if (event.value !== undefined) {
-      field = 'viewAccess';
-      document[field] = event.value;
-    } else if (event.target.value !== undefined) {
-      field = event.target.name;
-      document[field] = event.target.value;
-    }
+    const field = event.target.name;
+    const authorId = 'ownerId';
+    const document = this.state.document;
+    document[field] = event.target.value;
+    document[authorId] = this.props.authorId;
     return this.setState({ document });
   }
 
@@ -46,42 +48,36 @@ class ManageDocument extends Component {
     event.preventDefault();
     this.setState({ saving: true });
     this.props.actions.createDocument(this.state.document)
-    .then(() => {
-      this.redirect();
-    })
-    .catch((error) => {
-      console.log('error in creating document', error);
+    .then(() => this.redirect())
+    .catch(() => {
       this.setState({ saving: false });
-      toastr.error('The document could not be created');
+      toastr.error(this.props.message);
     });
   }
+
   updateDocument(event) {
     event.preventDefault();
     this.setState({ saving: true });
-    this.props.actions.updateDocument(this.state.document.id, this.state.document)
-    .then(() =>
-      this.redirect()
-    )
-    .catch((error) => {
-      console.log('document state', this.state.document);
-      console.log('error', error);
+    this.props.actions.updateDocument(
+      this.state.document.id, this.state.document)
+    .then(() => this.redirect())
+    .catch(() => {
+      this.setState({ saving: false });
+      toastr.error(this.props.message);
     });
   }
 
   redirect() {
     this.setState({ saving: false });
-    toastr.success('Document saved successfully');
+    toastr.success(this.props.message);
     this.context.router.push('/dashboard');
   }
 
   render() {
     const isUpdate = this.props.document.id;
-    console.log('is update doc', isUpdate);
     return (
       <div className="section">
         <div className="container">
-          {/*<DocumentTasks />*/}
-          {/*<h1>Manage Documents</h1>*/}
           <DocumentForm
             document={this.state.document}
             onChange={this.updateDocumentState}
@@ -97,7 +93,9 @@ class ManageDocument extends Component {
 
 ManageDocument.propTypes = {
   actions: PropTypes.object.isRequired,
-  document: PropTypes.object.isRequired
+  document: PropTypes.object.isRequired,
+  authorId: PropTypes.number.isRequired,
+  message: PropTypes.string
 };
 
 // Pull in the React Router context
@@ -107,24 +105,27 @@ ManageDocument.contextTypes = {
 };
 
 function getDocumentById(documents, id) {
-  const document = documents.filter(document => String(document.id) === id);
+  const document = documents.filter(document => document.id === id);
   // Filter returns an array, have to grab the first.
   if (document) return document[0];
   return null;
 }
 
 function mapStateToProps(state, ownProps) {
-  console.log('ownProps', ownProps);
-  const documentId = ownProps.params.id;
+  const documentId = parseInt(ownProps.params.id, 10);
+  const authorId = state.isAuth.loggedInUser.id;
+  const message = state.message;
 
   let document = { id: '', title: '', content: '', viewAccess: '' };
 
   if (documentId && state.documents.length > 0) {
     document = getDocumentById(state.documents, documentId);
   }
-  
+
   return {
-    document
+    document,
+    authorId,
+    message
   };
 }
 
@@ -135,25 +136,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageDocument);
-
-
-/*import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
-// import DocumentListRow from './DocumentListRow.jsx';
-
-const DocumentTask = () => (
-      <div className="row">
-        <div className="col s12">
-          <Link to="" className="btn-floating btn-large waves-effect waves-light red">
-            <i className="material-icons">add</i>
-          </Link>
-          
-        </div>
-      </div>
-);
-
-// DocumentTask.propTypes = {
-//   documents: PropTypes.array.isRequired
-// };
-
-export default DocumentTask;*/

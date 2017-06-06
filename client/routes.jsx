@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import App from './components/App.jsx';
 import Login from './components/home/Signin.jsx';
-import Dashboard from './components/home/Dashboard.jsx';
+// import Dashboard from './components/home/Dashboard.jsx';
 import SignupPage from './components/home/Signup.jsx';
 import AllDocuments from './components/document/AllDocuments.jsx';
 import ManageDocument from './components/document/ManageDocument.jsx';
@@ -19,9 +19,9 @@ import requireAuth from './utils/requireAuthentication';
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={Login} />
-    <Route path="dashboard" component={requireAuth(Dashboard)} />
+    <Route path="dashboard" component={requireAuth(AllDocuments)} />
     {/* Require admin auth */}
-    <Route path="documents" component={requireAuth(AllDocuments)} />
+    {/*<Route path="documents" component={requireAuth(AllDocuments)} />*/}
     {/* Require owner auth */}
     <Route path="document" component={requireAuth(ManageDocument)} />
     <Route path="document/:id" component={requireAuth(ManageDocument)} />

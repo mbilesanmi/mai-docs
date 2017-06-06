@@ -7,9 +7,9 @@ const MainMenu = ({ logout }) => (
       <li>
         <Link activeClassName="active" to="/about">About</Link>
       </li>
-      <li>
+      {/*<li>
         <Link activeClassName="active" to="/documents">Documents</Link>
-      </li>
+      </li>*/}
       <li>
         <Link activeClassName="active" to="/users">Manage Users</Link>
       </li>
@@ -28,9 +28,9 @@ const MainMenu = ({ logout }) => (
       <li>
         <Link activeClassName="active" to="/about">About</Link>
       </li>
-      <li>
+      {/*<li>
         <Link activeClassName="active" to="/documents">Documents</Link>
-      </li>
+      </li>*/}
       <li>
         <Link activeClassName="active" to="/users">Manage Users</Link>
       </li>

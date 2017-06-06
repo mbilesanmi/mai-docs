@@ -1,4 +1,64 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
+
+const DocumentListRow = ({ document }) => (
+  <div className="col s12 m6 l4">
+      <div className="card medium hoverable z-depth-5">
+        <div className="card-content">
+          <h4>{document.title}</h4>
+          <div className="col s12 light">
+            <b>Published on:</b> {document.createdAt}
+          </div>
+          <div className="col s12 light">
+            <b>Access:</b> {document.viewAccess}
+          </div>
+          <div className="col s12 light">
+            {document.content}
+          </div>
+        </div>
+        <div className="card-action">
+          <Link
+            to={`/document/${document.id}`}
+            data-position="bottom"
+            data-delay="50"
+            data-tooltip="Delete document"
+            className="btn-floating blue tooltipped">
+            <i className="material-icons">visibility</i>
+          </Link>
+          &nbsp;&nbsp;
+          <Link
+            to={`/document/${document.id}`}
+            data-position="top"
+            data-delay="50"
+            data-tooltip="View document"
+            className="btn btn-floating green tooltipped">
+            <i id={document.id} className="material-icons">
+              mode_edit
+            </i>
+          </Link>
+          &nbsp;&nbsp;
+          <a className="btn tooltipped btn-floating red"
+            data-position="bottom"
+            data-delay="50"
+            data-tooltip="Delete document"
+            onClick="">
+            <i id={document.id} className="material-icons">
+              delete
+            </i>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+
+DocumentListRow.propTypes = {
+  document: PropTypes.object.isRequired
+};
+
+export default DocumentListRow;
+
+
+/*import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -9,19 +69,13 @@ import * as documentActions from '../../actions/documentActions';
 class DocumentListRow extends Component {
   constructor(props, context) {
     super(props, context);
-    
-    this.state = {
-      id: 0
-    };
 
-    // this.editDocument = this.editDocument.bind(this);
     this.deleteDocument = this.deleteDocument.bind(this);
-    // this.confirmDelete = this.confirmDelete.bind(this);
   }
 
-  // deleteDocument() {
-  //   this.setState({ id: 0 });
-  // }
+  componentDidMount() {
+    $('.tooltipped').tooltip({ delay: 50 });
+  }
 
   deleteDocument(event) {
     event.preventDefault();
@@ -44,42 +98,45 @@ class DocumentListRow extends Component {
           toastr.error('Unable to delete document');
         });
       } else {
-        swal('Cancelled', 'Your imaginary file is safe :)', 'error');
+        swal('Cancelled', 'Your document is safe :)', 'error');
       }
     });
   }
 
   render() {
-    console.log('props', this.props.currentUrlPath);
-    let ownerActionsTag = '';
+    console.log('props', this.props);
+    let ownerActionsTag;
     if (this.props.loggedInID === this.props.document.ownerId) {
-      ownerActionsTag =
-        (
+      ownerActionsTag = (
+        <span>
           <span>
-            <span>
-              <Link to={`/document/${this.props.document.id}`}
-                className="btn-floating green">
-                <i id={this.props.document.id} className="material-icons">
-                  mode_edit
-                </i>
-              </Link>
-            </span>
-            <span>&nbsp;&nbsp;</span>
-            <span>
-              <a className="btn tooltipped btn-floating red"
-                data-position="bottom"
-                data-delay="50"
-                data-tooltip="Delete document"
-                onClick={this.deleteDocument}>
-                <i id={this.props.document.id} className="material-icons">
-                  delete
-                </i>
-              </a>
-            </span>
+            <Link
+              to={`/document/${this.props.document.id}`}
+              data-position="top"
+              data-delay="50"
+              data-tooltip="View document"
+              className="btn btn-floating green tooltipped">
+              <i id={this.props.document.id} className="material-icons">
+                mode_edit
+              </i>
+            </Link>
           </span>
-        );
+          <span>&nbsp;&nbsp;</span>
+          <span>
+            <a className="btn tooltipped btn-floating red"
+              data-position="bottom"
+              data-delay="50"
+              data-tooltip="Delete document"
+              onClick={this.deleteDocument}>
+              <i id={this.props.document.id} className="material-icons">
+                delete
+              </i>
+            </a>
+          </span>
+        </span>
+      );
     }
-    return(
+    return (
       <div className="col s12 m6 l4">
         <div className="card medium hoverable z-depth-5">
           <div className="card-content">
@@ -115,7 +172,7 @@ class DocumentListRow extends Component {
 DocumentListRow.propTypes = {
   document: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
-  currentUrlPath: PropTypes.string
+  loggedInID: PropTypes.number
 };
 
 // Pull in the React Router context
@@ -136,4 +193,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DocumentListRow);
+export default connect(mapStateToProps, mapDispatchToProps)(DocumentListRow);*/

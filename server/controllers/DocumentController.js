@@ -4,16 +4,83 @@ const Documents = model.Document;
 // const Roles = model.Role;
 const Users = model.User;
 
+// getMyDocuments(request, response) {
+//   Documents
+//     .findAll({
+//       where: { ownerId: request.body.username }
+//     })
+//     .then(documents => response.status(200).send(documents))
+//     .catch(error => response.status(400).send(error));
+// },
+
 const DocumentController = {
   create(request, response) {
-    Documents
-      .create(request.body)
-      .then(document => response.status(201).send(document))
-      .catch(error => response.status(400).send(error));
+    // console.log('reuest', request.body);
+    if (request.body.title === '' || request.body.content === ''
+      || request.body.viewAccess === '') {
+      return response.status(400).send({
+        message: 'Fields cannot be empty'
+      });
+    }
+    return Documents
+      .create({
+        title: request.body.title,
+        content: request.body.content,
+        viewAccess: request.body.viewAccess,
+        ownerId: request.body.ownerId
+      })
+      .then(document => response.status(201).send({
+        document,
+        message: 'Document created successfully!'
+      }))
+      .catch(error => response.status(500).send({
+        error,
+        message: 'Something went wrong! The document could not be saved.'
+      }));
+  },
+  update(request, response) {
+    // console.log('docs id in server', request.params.id);
+    if (request.body.title === '' || request.body.content === ''
+      || request.body.viewAccess === '') {
+      return response.status(400).send({
+        message: 'Fields cannot be empty'
+      });
+    }
+    return Documents
+      .findById(parseInt(request.params.id, 10), {})
+      .then((document) => {
+        if (!document) {
+          return response.status(404).send({
+            message: 'Document Not Found'
+          });
+        }
+        return document
+          .update({
+            title: request.body.title,
+            content: request.body.content,
+            viewAccess: request.body.viewAccess
+          })
+          .then(() => response.status(201).send({
+            document,
+            message: 'Document successfully updated!'
+          }))
+          .catch(error => response.status(500).send({
+            error,
+            message: 'Something went wrong! The document could not be saved.'
+          }));
+      })
+      .catch(error => response.status(500).send({
+        error,
+        message: 'The document could not be saved.'
+      }));
   },
   getAll(request, response) {
     Documents
-      .findAll({})
+      .findAll({
+        where: {
+          viewAccess: 'Public'
+        }
+      })
       .then(documents => response.status(200).send(documents))
       .catch(error => response.status(400).send(error));
   },
@@ -47,14 +114,6 @@ const DocumentController = {
       message: 'Error occurred while retrieving documents'
     }));
   },
-  // getMyDocuments(request, response) {
-  //   Documents
-  //     .findAll({
-  //       where: { ownerId: request.body.username }
-  //     })
-  //     .then(documents => response.status(200).send(documents))
-  //     .catch(error => response.status(400).send(error));
-  // },
   getOne(request, response) {
     Documents
       .findById(request.params.id, {})
@@ -65,24 +124,6 @@ const DocumentController = {
           });
         }
         return response.status(200).send(document);
-      })
-      .catch(error => response.status(400).send(error));
-  },
-  update(request, response) {
-    Documents
-      .findById(request.params.documentId, {})
-      .then((document) => {
-        if (!document) {
-          return response.status(404).send({
-            message: 'Document Not Found'
-          });
-        }
-        document
-          .update(request.body)
-          .then(() =>
-            // Send back the updated todo.
-            response.status(200).send(document))
-          .catch(error => response.status(400).send(error));
       })
       .catch(error => response.status(400).send(error));
   },

@@ -5,5 +5,6 @@ export default {
     loggedInUser: null
   },
   documents: [],
-  roles: []
+  roles: [],
+  message: null
 };

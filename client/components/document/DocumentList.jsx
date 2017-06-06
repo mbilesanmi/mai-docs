@@ -1,12 +1,11 @@
 import React, { PropTypes } from 'react';
 import DocumentListRow from './DocumentListRow.jsx';
 
-const DocumentList = ({ documents, currentUrlPath }) => (
+const DocumentList = ({ documents }) => (
   <div className="row">
     <div className="col s12">
       {documents.map(document =>
         <DocumentListRow
-          currentUrlPath={currentUrlPath}
           key={document.id}
           document={document}
         />
@@ -16,8 +15,7 @@ const DocumentList = ({ documents, currentUrlPath }) => (
 );
 
 DocumentList.propTypes = {
-  documents: PropTypes.array.isRequired,
-  currentUrlPath: PropTypes.string
+  documents: PropTypes.array.isRequired
 };
 
 export default DocumentList;

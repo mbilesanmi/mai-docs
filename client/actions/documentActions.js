@@ -3,25 +3,61 @@ import axios from 'axios';
 import * as types from './actionTypes';
 // import setAuthorizationToken from '../utils/authenticate';
 
+export function passSuccessMessage(successMessage) {
+  return { type: types.SUCCESS_MESSAGE, successMessage };
+}
+export function passFailureMessage(errorMessage) {
+  return { type: types.ERROR_MESSAGE, errorMessage };
+}
 export function getAllDocumentsSuccess(documents) {
   return { type: types.GET_ALL_DOCUMENTS_SUCCESS, documents };
 }
-
-export function getMyDocumentsSuccess(documents) {
-  return { type: types.GET_MY_DOCUMENTS_SUCCESS, documents };
+export function createDocumentSuccess(document) {
+  return { type: types.CREATE_DOCUMENT_SUCCESS, document };
+}
+export function updateDocumentSuccess(document) {
+  return { type: types.UPDATE_DOCUMENT_SUCCESS, document };
 }
 
-export function getAllDocuments(limit = 10, offset = 0) {
-  return dispatch => axios.get('api/documents')
+// export function getMyDocumentsSuccess(documents) {
+//   return { type: types.GET_MY_DOCUMENTS_SUCCESS, documents };
+// }
+
+export function getAllDocuments() {
+  return dispatch => axios.get('/api/documents')
   .then((response) => {
     dispatch(getAllDocumentsSuccess(response.data));
   });
 }
 
-export function getMyDocuments(id, limit = 10, offset = 0) {
-  return dispatch => axios.get(`api/users/${id}`)
+export function createDocument(document) {
+  return dispatch => axios.post('api/documents', document)
   .then((response) => {
-    dispatch(getMyDocumentsSuccess(response.data.documents));
+    dispatch(getAllDocuments());
+    console.log('response', response.data.message);
+    dispatch(passSuccessMessage(response.data.message));
+  })
+  .catch((error) => {
+    console.log('err', error.response.data.message);
+    dispatch(passFailureMessage(error.response.data.message));
+    throw (error);
+  });
+}
+
+export function updateDocument(id, document) {
+  return dispatch => axios.put(`/api/documents/${id}`, document)
+  .then((response) => {
+    dispatch(getAllDocuments());
+    console.log('response', response.data.message);
+    dispatch(passSuccessMessage(response.data.message));
+    // dispatch(updateDocumentSuccess(response.data.message));
+    // dispatch(updateDocumentSuccess());
+  })
+  .catch((error) => {
+    console.log('err', error.response.data.message);
+    dispatch(passFailureMessage(error.response.data.message));
+    throw (error);
+    // console.log('err', err);
   });
 }
 
@@ -39,6 +75,14 @@ export function deleteDocument(id, ownerId) {
     dispatch(getAllDocuments());
   });
 }
+
+// export function getMyDocuments(id, limit = 10, offset = 0) {
+//   return dispatch => axios.get(`api/users/${id}`)
+//   .then((response) => {
+//     dispatch(getMyDocumentsSuccess(response.data.documents));
+//   });
+// }
+
 
 // export function getUserDocs(id, limit = 10, offset = 0) {
 //   return (dispatch) =>

@@ -1,54 +1,90 @@
 import React, { PropTypes } from 'react';
-import Select from 'react-select';
-import 'react-select/dist/react-select.css';
-import TextInput from '../common/TextInput.jsx';
+// import Select from 'react-select';
+// import 'react-select/dist/react-select.css';
+// import TextInput from '../common/TextInput.jsx';
+// import SelectInput from '../common/SelectInput.jsx';
 // import SelectInput from '../common/SelectInput.jsx';
 // import TextInput from '../common/.jsx';
 
 const options = [
-  { value: 'Public', label: 'Public' },
-  { value: 'Private', label: 'Private' },
-  { value: 'Role', label: 'Role' }
+  { name: 'viewAccess', value: 'Public', label: 'Public' },
+  { name: 'viewAccess', value: 'Private', label: 'Private' },
+  { name: 'viewAccess', value: 'Role', label: 'Role' }
 ];
 
 const DocumentForm = ({ document, onSave,
-    onChange, saving, errors }) => {
-  return (
-    <form>
-      <h1>Title: { document.title }</h1>
-      <TextInput
-        name="title"
-        label="Title"
-        value={document.title}
-        onChange={onChange}
-        error={errors.title}/>
-
-      <Select
-          name="viewAccess"
-          options={options}
-          value={document.viewAccess}
+  onChange, saving, errors }) => (
+  <form>
+    <h1>Title: { document.title }</h1>
+    <div className="row">
+      <div className="input-field col l8 m8 s12">
+        <input
+          name="title"
+          type="text"
+          value={document.title}
           onChange={onChange}
-          onInputChange={onChange}
-          placeholder="Set document access rights"
-          clearable=""
-        />
+          placeholder="Document title goes here" />
+        <label htmlFor="title">Title</label>
+      </div>
 
-      <TextInput
-        name="content"
-        label="Content"
-        value={document.content}
-        onChange={onChange}
-        error={errors.content}/>
+      <div className="input-field col l4 m4 s12">
+        {/*<Select
+            name="viewAccess"
+            onChange={onChange}
+            options={options}
+        />*/}
+        {/*<label htmlFor="viewAccess">Select Document Permission</label>*/}
+        <select name="viewAccess" className="browser-default" value={document.viewAccess} onChange={onChange}>
+          <option value="">Choose your option</option>
+          <option value="Private">Private</option>
+          <option value="Public">Public</option>
+          <option value="Role">Role</option>
+        </select>
+      </div>
+    </div>
 
-      <input
-        type="submit"
-        disabled={saving}
-        value={saving ? 'Saving...' : 'Save'}
-        className="btn btn-primary"
-        onClick={onSave}/>
-    </form>
-  );
-};
+    {/*<TextInput
+      name="title"
+      label="Title"
+      value={document.title}
+      onChange={onChange}
+      error={errors.title}/>*/}
+
+    {/*<SelectInput
+      name="viewAccess"
+      label=""
+      options={options}
+      value={document.viewAccess}
+      onChange={onChange}
+      clearable=""
+    />*/}
+
+    <div className="row">
+      <div className="input-field">
+        <textarea
+          name="content"
+          id="content"
+          value={document.content}
+          onChange={onChange}
+          className="materialize-textarea"
+          placeholder="Enter your document content here" />
+        {/*<textarea
+          name="content"
+          id="content"
+          value={document.content}
+          onChange={onChange}
+          className="materialize-textarea" />*/}
+      </div>
+    </div>
+
+    <input
+      type="submit"
+      disabled={saving}
+      value={saving ? 'Saving...' : 'Save'}
+      className="btn btn-primary"
+      onClick={onSave}/>
+  </form>
+);
 
 DocumentForm.propTypes = {
   document: PropTypes.object.isRequired,
