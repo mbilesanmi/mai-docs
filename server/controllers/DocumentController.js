@@ -102,13 +102,7 @@ const DocumentController = {
   },
   getAll(request, response) {
     Documents
-      .findAll({
-        where: {
-          viewAccess: {
-            $ne: 'Private'
-          }
-        }
-      })
+      .findAll()
       .then(documents => response.status(200).send(documents))
       .catch(error => response.status(400).send(error));
   },
@@ -143,17 +137,23 @@ const DocumentController = {
     }));
   },
   getOne(request, response) {
-    Documents
-      .findById(request.params.id, {})
+    return Documents
+      .findById(parseInt(request.params.id, 10), {})
       .then((document) => {
         if (!document) {
           return response.status(404).send({
             message: 'Document does not exist'
           });
         }
-        return response.status(200).send(document);
+        return response.status(200).send({
+          document,
+          message: 'Document loaded'
+        });
       })
-      .catch(error => response.status(400).send(error));
+      .catch(error => response.status(500).send({
+        error,
+        message: 'Something went wrong! The document could not be opened.'
+      }));
   }
 };
 

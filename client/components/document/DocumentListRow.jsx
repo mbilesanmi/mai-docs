@@ -19,7 +19,7 @@ const DocumentListRow = ({ document, loggedInUserID }) => (
         </div>
         <div className="card-action">
           <Link
-            to={`/document/${document.id}`}
+            to={`/document/view/${document.id}`}
             data-position="bottom"
             data-delay="50"
             data-tooltip="View document"

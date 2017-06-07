@@ -15,7 +15,7 @@ export default (state = initialState.documents, action) => {
     case types.UPDATE_DOCUMENT_SUCCESS:
       return [
         ...state.filter(document => document.id !== action.document.id),
-        Object.assign({}, action.course)
+        Object.assign({}, action.document)
       ];
 
     default:

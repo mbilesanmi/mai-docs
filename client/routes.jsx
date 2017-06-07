@@ -6,6 +6,8 @@ import Login from './components/home/Signin.jsx';
 import SignupPage from './components/home/Signup.jsx';
 import AllDocuments from './components/document/AllDocuments.jsx';
 import ManageDocument from './components/document/ManageDocument.jsx';
+import ViewDocument from './components/document/ViewDocument.jsx';
+import FourOFour from './components/common/FourOFour.jsx';
 // import AboutPage from './components/about/AboutPage.jsx';
 // import UsersPage from './components/user/UsersPage.jsx';
 // import ManageUserPage from './components/user/ManageUserPage.jsx';
@@ -20,12 +22,14 @@ export default (
   <Route path="/" component={App}>
     <IndexRoute component={Login} />
     <Route path="dashboard" component={requireAuth(AllDocuments)} />
+    <Route path="document" component={requireAuth(ManageDocument)} />
+    <Route path="document/view/:id" component={requireAuth(ViewDocument)} />
+    <Route path="document/:id" component={requireAuth(ManageDocument)} />
+    <Route path="signup" component={SignupPage} />
+    <Route path="404" component={FourOFour} />
     {/* Require admin auth */}
     {/*<Route path="documents" component={requireAuth(AllDocuments)} />*/}
     {/* Require owner auth */}
-    <Route path="document" component={requireAuth(ManageDocument)} />
-    <Route path="document/:id" component={requireAuth(ManageDocument)} />
-    <Route path="signup" component={SignupPage} />
     {/*<Route path="about" component={AboutPage} />
     <Route path="login" component={SigninPage} />
     <Route path="documents" component={requireAuth(DocumentsPage)} />

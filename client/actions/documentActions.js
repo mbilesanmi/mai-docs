@@ -9,7 +9,7 @@ export function passSuccessMessage(successMessage) {
 export function passFailureMessage(errorMessage) {
   return { type: types.ERROR_MESSAGE, errorMessage };
 }
-export function getAllDocumentsSuccess(documents) {
+export function getDocumentSuccess(documents) {
   return { type: types.GET_ALL_DOCUMENTS_SUCCESS, documents };
 }
 export function createDocumentSuccess(document) {
@@ -22,7 +22,23 @@ export function updateDocumentSuccess(document) {
 export function getAllDocuments() {
   return dispatch => axios.get('/api/documents')
   .then((response) => {
-    dispatch(getAllDocumentsSuccess(response.data));
+    dispatch(getDocumentSuccess(response.data));
+  })
+  .catch((error) => {
+    dispatch(passFailureMessage(error.response.data.message));
+    throw (error);
+  });
+}
+export function getOneDocument(id) {
+  return dispatch => axios.get(`/api/documents/${id}`)
+  .then((response) => {
+    console.log('document passed', response.data);
+    dispatch(getDocumentSuccess(response.data.document));
+    dispatch(passSuccessMessage(response.data.message));
+  })
+  .catch((error) => {
+    dispatch(passFailureMessage(error.response.data.message));
+    throw (error);
   });
 }
 
