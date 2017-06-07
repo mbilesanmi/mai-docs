@@ -9,10 +9,8 @@ import * as documentActions from '../../actions/documentActions';
 class DocumentTasks extends Component {
   constructor(props, context) {
     super(props, context);
-    console.log('sdfdfddfdf');
 
     this.deleteDocument = this.deleteDocument.bind(this);
-    // console.log(this.props);
   }
 
   componentDidMount() {

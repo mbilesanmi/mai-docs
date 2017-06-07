@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+/*import React, { PropTypes } from 'react';
 import DocumentListRow from './DocumentListRow.jsx';
 
 const DocumentList = ({ documents, loggedInUserID }) => (
@@ -21,4 +21,4 @@ DocumentList.propTypes = {
   loggedInUserID: PropTypes.number.isRequired
 };
 
-export default DocumentList;
+export default DocumentList;*/

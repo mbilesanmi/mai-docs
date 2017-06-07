@@ -78,7 +78,10 @@ class ManageDocument extends Component {
     return (
       <div className="section">
         <div className="container">
-          <h1>{isUpdate ? `Edit ${this.state.document.title}` : 'Add new document'}</h1>
+          <h1>
+            {isUpdate ? `Edit ${this.state.document.title}`
+              : 'Add new document'}
+          </h1>
           <DocumentForm
             document={this.state.document}
             onChange={this.updateDocumentState}

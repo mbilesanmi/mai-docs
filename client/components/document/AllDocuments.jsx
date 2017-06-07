@@ -1,14 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
-import { bindActionCreators } from 'redux';
-import * as documentActions from '../../actions/documentActions';
-import DocumentList from './DocumentList.jsx';
+import DocumentListRow from './DocumentListRow.jsx';
 
 class AllDocuments extends Component {
   constructor(props, context) {
     super(props, context);
-    
+
     this.redirectToManageDocument = this.redirectToManageDocument.bind(this);
 
     this.state = {
@@ -18,23 +15,10 @@ class AllDocuments extends Component {
 
   componentDidMount() {
     $('.tooltipped').tooltip({ delay: 50 });
-    // $('.tooltipped').tooltip('remove');
-  }
-
-  componentWillMount() {
-    // this.props.actions.getAllDocuments()
-    // .then(() => {
-    //   console.log('documents found');
-    // })
-    // .catch(() => {
-    //   console.log('No documents found');
-    //   // this.setState({ saving: false });
-    //   // toastr.error(this.props.message);
-    // });
   }
 
   redirectToManageDocument() {
-    browserHistory.push('/document');
+    this.context.router.push('/document');
   }
 
   render() {
@@ -50,7 +34,9 @@ class AllDocuments extends Component {
               <form>
                 <div className="input-field">
                   <input id="search" type="search" required />
-                  <label className="label-icon" htmlFor="search"><i className="material-icons">search</i></label>
+                  <label className="label-icon" htmlFor="search">
+                    <i className="material-icons">search</i>
+                  </label>
                   <i className="material-icons">close</i>
                 </div>
               </form>
@@ -66,7 +52,18 @@ class AllDocuments extends Component {
               </a>
             </div>
           </div>
-          <DocumentList loggedInUserID={this.props.loggedInUserID} documents={documents} />
+          <div className="row">
+            <div className="col s12">
+              {documents.filter(document => document.viewAccess !== 'Private')
+              .map(document =>
+                <DocumentListRow
+                  loggedInUserID={this.props.loggedInUserID}
+                  key={document.id}
+                  document={document}
+                />
+              )}
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -74,24 +71,21 @@ class AllDocuments extends Component {
 }
 
 AllDocuments.propTypes = {
-  actions: PropTypes.object.isRequired,
   documents: PropTypes.array,
   loggedInUserID: PropTypes.number
 };
 
-function mapStateToProps(state /* , ownProps*/) {
-  // console.log('ownProps', ownProps);
+// Pull in the React Router context
+// so router is available on this.context.router.
+AllDocuments.contextTypes = {
+  router: PropTypes.object
+};
 
+function mapStateToProps(state) {
   return {
     documents: state.documents || {},
     loggedInUserID: state.isAuth.loggedInUser.id
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(documentActions, dispatch)
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AllDocuments);
+export default connect(mapStateToProps)(AllDocuments);
