@@ -17,7 +17,8 @@ class AllDocuments extends Component {
   }
 
   componentDidMount() {
-    $('.tooltipped').tooltip({ delay: 50 });
+    // $('.tooltipped').tooltip({ delay: 50 });
+    $('.tooltipped').tooltip('remove');
   }
 
   componentWillMount() {
@@ -48,7 +49,7 @@ class AllDocuments extends Component {
               </a>
             </div>
           </div>
-          <DocumentList documents={documents} />
+          <DocumentList loggedInUserID={this.props.loggedInUserID} documents={documents} />
         </div>
       </div>
     );
@@ -57,14 +58,16 @@ class AllDocuments extends Component {
 
 AllDocuments.propTypes = {
   actions: PropTypes.object.isRequired,
-  documents: PropTypes.array.isRequired
+  documents: PropTypes.array.isRequired,
+  loggedInUserID: PropTypes.number
 };
 
-function mapStateToProps(state, ownProps) {
-  console.log('ownProps', ownProps);
+function mapStateToProps(state /* , ownProps*/) {
+  // console.log('ownProps', ownProps);
 
   return {
-    documents: state.documents
+    documents: state.documents,
+    loggedInUserID: state.isAuth.loggedInUser.id
   };
 }
 

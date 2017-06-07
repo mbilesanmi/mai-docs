@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
+import DocumentTasks from './DocumentTasks.jsx';
 
-const DocumentListRow = ({ document }) => (
+const DocumentListRow = ({ document, loggedInUserID }) => (
   <div className="col s12 m6 l4">
       <div className="card medium hoverable z-depth-5">
         <div className="card-content">
@@ -21,38 +22,20 @@ const DocumentListRow = ({ document }) => (
             to={`/document/${document.id}`}
             data-position="bottom"
             data-delay="50"
-            data-tooltip="Delete document"
+            data-tooltip="View document"
             className="btn-floating blue tooltipped">
             <i className="material-icons">visibility</i>
           </Link>
           &nbsp;&nbsp;
-          <Link
-            to={`/document/${document.id}`}
-            data-position="top"
-            data-delay="50"
-            data-tooltip="View document"
-            className="btn btn-floating green tooltipped">
-            <i id={document.id} className="material-icons">
-              mode_edit
-            </i>
-          </Link>
-          &nbsp;&nbsp;
-          <a className="btn tooltipped btn-floating red"
-            data-position="bottom"
-            data-delay="50"
-            data-tooltip="Delete document"
-            onClick="">
-            <i id={document.id} className="material-icons">
-              delete
-            </i>
-          </a>
+          <DocumentTasks loggedInUserID={loggedInUserID} ownerId={document.ownerId} documentId={document.id} />
         </div>
       </div>
     </div>
   );
 
 DocumentListRow.propTypes = {
-  document: PropTypes.object.isRequired
+  document: PropTypes.object.isRequired,
+  loggedInUserID: PropTypes.number
 };
 
 export default DocumentListRow;

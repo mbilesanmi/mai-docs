@@ -19,10 +19,6 @@ export function updateDocumentSuccess(document) {
   return { type: types.UPDATE_DOCUMENT_SUCCESS, document };
 }
 
-// export function getMyDocumentsSuccess(documents) {
-//   return { type: types.GET_MY_DOCUMENTS_SUCCESS, documents };
-// }
-
 export function getAllDocuments() {
   return dispatch => axios.get('/api/documents')
   .then((response) => {
@@ -34,11 +30,9 @@ export function createDocument(document) {
   return dispatch => axios.post('api/documents', document)
   .then((response) => {
     dispatch(getAllDocuments());
-    console.log('response', response.data.message);
     dispatch(passSuccessMessage(response.data.message));
   })
   .catch((error) => {
-    console.log('err', error.response.data.message);
     dispatch(passFailureMessage(error.response.data.message));
     throw (error);
   });
@@ -48,33 +42,41 @@ export function updateDocument(id, document) {
   return dispatch => axios.put(`/api/documents/${id}`, document)
   .then((response) => {
     dispatch(getAllDocuments());
-    console.log('response', response.data.message);
     dispatch(passSuccessMessage(response.data.message));
+    // console.log('response', response.data.message);
     // dispatch(updateDocumentSuccess(response.data.message));
     // dispatch(updateDocumentSuccess());
   })
   .catch((error) => {
-    console.log('err', error.response.data.message);
     dispatch(passFailureMessage(error.response.data.message));
     throw (error);
-    // console.log('err', err);
+    // console.log('err', error.response.data.message);
   });
 }
 
 /**
- * delete document from database using DELETE api route /documents/:id
+ * delete document from database using DELETE api route /api/documents/:id
  *
  * @export
- * @param {any} id
+ * @param {any} id - The document ID
+ * @param {any} ownerId - ID of the document owner
  * @returns {object} documents
  */
-export function deleteDocument(id, ownerId) {
+export function deleteDocument(id) {
   return dispatch => axios.delete(`/api/documents/${id}`)
-  .then(() => {
-    dispatch(getMyDocuments(ownerId));
+  .then((response) => {
+    dispatch(passSuccessMessage(response.data.message));
     dispatch(getAllDocuments());
+    // dispatch(getMyDocuments(ownerId));
+  })
+  .catch((error) => {
+    dispatch(passFailureMessage(error.response.data.message));
   });
 }
+
+// export function getMyDocumentsSuccess(documents) {
+//   return { type: types.GET_MY_DOCUMENTS_SUCCESS, documents };
+// }
 
 // export function getMyDocuments(id, limit = 10, offset = 0) {
 //   return dispatch => axios.get(`api/users/${id}`)

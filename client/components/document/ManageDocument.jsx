@@ -20,19 +20,19 @@ class ManageDocument extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.document.id !== nextProps.document.id) {
-      // Necessary to repopulate the form when document is loaded directly
-      this.setState({ document: Object.assign({}, nextProps.document) });
-    }
-  }
-
   componentWillMount() {
     this.props.actions.getAllDocuments();
   }
 
   componentDidMount() {
     $('select').material_select();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.document.id !== nextProps.document.id) {
+      // Necessary to repopulate the form when document is loaded directly
+      this.setState({ document: Object.assign({}, nextProps.document) });
+    }
   }
 
   updateDocumentState(event) {
@@ -78,6 +78,7 @@ class ManageDocument extends Component {
     return (
       <div className="section">
         <div className="container">
+          <h1>{isUpdate ? `Edit ${this.state.document.title}` : 'Add new document'}</h1>
           <DocumentForm
             document={this.state.document}
             onChange={this.updateDocumentState}

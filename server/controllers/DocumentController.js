@@ -74,11 +74,39 @@ const DocumentController = {
         message: 'The document could not be saved.'
       }));
   },
+  delete(request, response) {
+    return Documents
+      .findById(parseInt(request.params.id, 10), {})
+      .then((document) => {
+        if (!document) {
+          return response.status(400).send({
+            message: 'Document not found'
+          });
+        }
+        return document
+          .destroy()
+          .then(() =>
+            response.status(200).send({
+              message: 'Document deleted successfully.'
+            })
+          )
+          .catch(error => response.status(500).send({
+            error,
+            message: 'Something went wrong! The document could not be saved.'
+          }));
+      })
+      .catch(error => response.status(500).send({
+        error,
+        message: 'The document could not be deleted.'
+      }));
+  },
   getAll(request, response) {
     Documents
       .findAll({
         where: {
-          viewAccess: 'Public'
+          viewAccess: {
+            $ne: 'Private'
+          }
         }
       })
       .then(documents => response.status(200).send(documents))
@@ -124,26 +152,6 @@ const DocumentController = {
           });
         }
         return response.status(200).send(document);
-      })
-      .catch(error => response.status(400).send(error));
-  },
-  delete(request, response) {
-    Documents
-      .findById(request.params.id)
-      .then((document) => {
-        if (!document) {
-          return response.status(400).send({
-            message: 'Document not found'
-          });
-        }
-        document
-          .destroy()
-          .then(() =>
-            response.status(200).send({
-              message: 'Document deleted successfully.'
-            })
-          )
-          .catch(error => response.status(400).send(error));
       })
       .catch(error => response.status(400).send(error));
   }
