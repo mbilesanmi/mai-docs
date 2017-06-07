@@ -65,6 +65,10 @@ const Routes = (app) => {
   app.delete(
     '/api/documents/:id', DocumentController.delete
   );
+
+  app.get(
+    '/api/search/users', UserController.search
+  );
 };
 
 export default Routes;

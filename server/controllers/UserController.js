@@ -69,7 +69,6 @@ const UserController = {
       });
   },
   create(request, response) {
-    console.log('body request', request.body);
     User
       .findOne({
         where: {
@@ -182,7 +181,43 @@ const UserController = {
           .catch(error => response.status(400).send(error));
       })
       .catch(error => response.status(400).send(error));
-  }
+  },
+  search(request, response) {
+    console.log('search req', request);
+    const query = request.query.search;
+    return User
+      .findAll({
+        where: {
+          $or: [{
+            username: {
+              $iLike: `%${query}%`,
+            }
+          }, {
+            email: {
+              $iLike: `%${query}%`
+            }
+          }]
+        }
+      })
+      .then((users) => {
+        if (users.length <= 0) {
+          return response.status(404)
+          .send({
+            message: 'Users Not Found',
+          });
+        }
+        return response.status(200).send({
+          users
+        });
+      })
+      .catch((error) => {
+        response.status(412).send({
+          error,
+          message: 'Error occurred while retrieving Users'
+        });
+      });
+  },
+
 };
 
 export default UserController;

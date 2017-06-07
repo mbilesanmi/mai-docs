@@ -9,6 +9,7 @@ class Dashboard extends Component {
 
     this.redirectToManageDocument = this.redirectToManageDocument.bind(this);
     this.onViewAccessChange = this.onViewAccessChange.bind(this);
+    this.onSearchChange = this.onSearchChange.bind(this);
 
     this.state = {
       documents: [],
@@ -52,6 +53,7 @@ class Dashboard extends Component {
 
           <DocumentActionBar
             redirectToManageDocument={this.redirectToManageDocument}
+            onSearchChange={this.onSearchChange}
             onViewAccessChange={this.onViewAccessChange} />
 
           <div className="row">
