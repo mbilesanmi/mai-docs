@@ -1,28 +1,46 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import DocumentListRow from '../document/DocumentListRow.jsx';
+import DocumentActionBar from '../document/DocumentActionBar.jsx';
 
 class Dashboard extends Component {
   constructor(props, context) {
     super(props, context);
 
     this.redirectToManageDocument = this.redirectToManageDocument.bind(this);
+    this.onViewAccessChange = this.onViewAccessChange.bind(this);
 
     this.state = {
       documents: [],
+      accessType: null
     };
-  }
-
-  componentDidMount() {
-    $('.tooltipped').tooltip({ delay: 50 });
   }
 
   redirectToManageDocument() {
     this.context.router.push('/document');
   }
 
+  onViewAccessChange(event) {
+    this.setState({ accessType: event.target.value });
+  }
+
+  onSearchChange(event) {
+    console.log('seaching', event.target.value);
+  }
+
   render() {
     const { documents } = this.props;
+
+    let filteredDocuments;
+    if (this.state.accessType === null || this.state.accessType === 'All') {
+      filteredDocuments = documents.filter(document =>
+        document.ownerId === this.props.loggedInUserID);
+    } else {
+      filteredDocuments = documents.filter(document =>
+        document.ownerId === this.props.loggedInUserID).filter(document =>
+          document.viewAccess === this.state.accessType
+        );
+    }
     return (
       <div className="section">
         <div className="container">
@@ -31,63 +49,18 @@ class Dashboard extends Component {
               <h1>My Documents</h1>
             </div>
           </div>
-          <div className="row">
-            <div className="col l3 m3 s1">
-              <a
-                onClick={this.redirectToManageDocument}
-                data-position="left"
-                data-delay="50"
-                data-tooltip="Add document"
-                className="btn btn-floating blue tooltipped">
-                <i className="material-icons">add</i>
-              </a>
-            </div>
 
-            <div className="col l5 m5 s12">
-              <form>
-                <div className="input-field">
-                  <input id="search" type="search" placeholder="Search within your own documents" />
-                  <label className="label-icon" htmlFor="search">
-                    <i className="material-icons">search</i>
-                  </label>
-                  <i className="material-icons">close</i>
-                </div>
-              </form>
-            </div>
+          <DocumentActionBar
+            redirectToManageDocument={this.redirectToManageDocument}
+            onViewAccessChange={this.onViewAccessChange} />
 
-            <div className="input-field col l4 m4 s12">
-              <form action="#">
-                <h6>Filter by View Access permission</h6>
-                <input
-                  className="with-gap"
-                  name="viewAccess"
-                  type="radio"
-                  id="Public" />&nbsp;
-                <label htmlFor="Public">Public</label>
-                <input
-                  className="with-gap"
-                  name="viewAccess"
-                  type="radio"
-                  id="Private" />&nbsp;
-                <label htmlFor="Private">Private</label>
-                <input
-                  className="with-gap"
-                  name="viewAccess"
-                  type="radio"
-                  id="Role" />&nbsp;
-                <label htmlFor="Role">Role</label>
-              </form>
-            </div>
-          </div>
           <div className="row">
             <div className="col s12">
-              {documents.filter(document => document.ownerId === this.props.loggedInUserID)
-              .map(document =>
+              {filteredDocuments.map(document =>
                 <DocumentListRow
                   loggedInUserID={this.props.loggedInUserID}
                   key={document.id}
-                  document={document}
-                />
+                  document={document} />
               )}
             </div>
           </div>
@@ -116,68 +89,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(Dashboard);
-
-
-
-/*import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as documentActions from '../../actions/documentActions';
-import DocumentList from '../document/DocumentList.jsx';
-
-class Dashboard extends Component {
-  constructor(props, context) {
-    super(props, context);
-
-    // this.updateUserState = this.updateUserState.bind(this);
-
-    this.state = {
-      documents: [],
-      // user: Object.assign({}, props.user),
-      // errors: {},
-      // isLoading: false
-    };
-  }
-
-  componentWillMount() {
-    this.props.actions.getMyDocuments(this.props.ownerID);
-  }
-
-  render() {
-    const { documents } = this.props;
-    const currentUrlPath = this.props.location.pathname;
-    console.log('props1', currentUrlPath);
-    return (
-      <div className="section">
-        <div className="container">
-          {/*<DocumentTasks />*/
-//           <h1>Dashboard</h1>
-//           <h3>My Documents</h3>
-//           <DocumentList currentUrlPath={currentUrlPath} documents={documents} />
-//         </div>
-//       </div>
-//     );
-//   }
-// }
-
-// Dashboard.propTypes = {
-//   actions: PropTypes.object.isRequired,
-//   ownerID: PropTypes.number.isRequired,
-//   documents: PropTypes.array.isRequired,
-//   location: PropTypes.object
-// };
-
-// function mapStateToProps(state) {
-//   return {
-//     ownerID: state.isAuth.loggedInUser.id,
-//     documents: state.isAuth.loggedInUserDocuments || []
-//   };
-// }
-
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     actions: bindActionCreators(documentActions, dispatch)
-//   };
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);*/

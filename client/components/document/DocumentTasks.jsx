@@ -13,10 +13,6 @@ class DocumentTasks extends Component {
     this.deleteDocument = this.deleteDocument.bind(this);
   }
 
-  componentDidMount() {
-    $('.tooltipped').tooltip({ delay: 50 });
-  }
-
   deleteDocument(event) {
     event.preventDefault();
     swal({
@@ -48,23 +44,11 @@ class DocumentTasks extends Component {
         <span>
           <Link
             to={`/document/${this.props.documentId}`}
-            data-position="top"
-            data-delay="50"
-            data-tooltip="Edit document"
-            className="btn btn-floating green tooltipped">
-            <i id={this.props.documentId} className="material-icons">
-              mode_edit
-            </i>
+            className="waves-effect waves-light btn green">Edit
           </Link>
           &nbsp;&nbsp;
-          <a className="btn tooltipped btn-floating red"
-            data-position="bottom"
-            data-delay="50"
-            data-tooltip="Delete document"
-            onClick={this.deleteDocument}>
-            <i id={this.props.documentId} className="material-icons">
-              delete
-            </i>
+          <a className="waves-effect waves-light btn red"
+            onClick={this.deleteDocument}>Delete
           </a>
         </span>
       );

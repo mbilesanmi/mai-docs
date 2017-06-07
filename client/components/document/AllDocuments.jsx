@@ -1,28 +1,41 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import DocumentListRow from './DocumentListRow.jsx';
+import DocumentActionBar from './DocumentActionBar.jsx';
 
 class AllDocuments extends Component {
   constructor(props, context) {
     super(props, context);
 
     this.redirectToManageDocument = this.redirectToManageDocument.bind(this);
+    this.onViewAccessChange = this.onViewAccessChange.bind(this);
 
     this.state = {
       documents: [],
+      accessType: null
     };
-  }
-
-  componentDidMount() {
-    $('.tooltipped').tooltip({ delay: 50 });
   }
 
   redirectToManageDocument() {
     this.context.router.push('/document');
   }
 
+  onViewAccessChange(event) {
+    this.setState({ accessType: event.target.value });
+  }
+
   render() {
     const { documents } = this.props;
+    let filteredDocuments;
+    if (this.state.accessType === null || this.state.accessType === 'All') {
+      filteredDocuments = documents.filter(document =>
+        document.viewAccess !== 'Private');
+    } else {
+      filteredDocuments = documents.filter(document =>
+        document.viewAccess !== 'Private').filter(document =>
+          document.viewAccess === this.state.accessType
+        );
+    }
     return (
       <div className="section">
         <div className="container">
@@ -30,37 +43,20 @@ class AllDocuments extends Component {
             <div className="col l6 m6 s12">
               <h1>Sitewide Documents</h1>
             </div>
-            <div className="col l5 m5 s12">
-              <form>
-                <div className="input-field">
-                  <input id="search" type="search" required />
-                  <label className="label-icon" htmlFor="search">
-                    <i className="material-icons">search</i>
-                  </label>
-                  <i className="material-icons">close</i>
-                </div>
-              </form>
-            </div>
-            <div className="col l1 m1 s1">
-              <a
-                onClick={this.redirectToManageDocument}
-                data-position="left"
-                data-delay="50"
-                data-tooltip="Add document"
-                className="btn btn-floating blue tooltipped">
-                <i className="material-icons">add</i>
-              </a>
-            </div>
           </div>
+
+          <DocumentActionBar
+            redirectToManageDocument={this.redirectToManageDocument}
+            onViewAccessChange={this.onViewAccessChange}
+            sitewide="sitewide" />
+
           <div className="row">
             <div className="col s12">
-              {documents.filter(document => document.viewAccess !== 'Private')
-              .map(document =>
+              {filteredDocuments.map(document =>
                 <DocumentListRow
                   loggedInUserID={this.props.loggedInUserID}
                   key={document.id}
-                  document={document}
-                />
+                  document={document} />
               )}
             </div>
           </div>
