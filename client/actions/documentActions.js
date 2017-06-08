@@ -82,8 +82,7 @@ export function updateDocument(id, document) {
  * delete document from database using DELETE api route /api/documents/:id
  *
  * @export
- * @param {any} id - The document ID
- * @param {any} ownerId - ID of the document owner
+ * @param {any} id - The ID of the document to be deleted
  * @returns {object} documents
  */
 export function deleteDocument(id) {

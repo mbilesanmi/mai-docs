@@ -25,15 +25,13 @@ class UserTasks extends Component {
       closeOnConfirm: false
     }, (isConfirm) => {
       if (isConfirm) {
-        swal('Deleted!', 'The selected profile has been deleted.', 'success');
-        // this.props.actions.deleteUser(
-        //   this.props.documentId, this.props.ownerId)
-        // .then(() =>
-        //   swal('Deleted!', 'The selected file has been deleted.', 'success')
-        // )
-        // .catch(() => {
-        //   toastr.error('Unable to delete document');
-        // });
+        this.props.actions.deleteUser(this.props.userId)
+        .then(() =>
+          swal('Deleted!', 'The selected profile has been deleted.', 'success')
+        )
+        .catch(() =>
+          swal('Cancelled', 'Unable to delete user profile', 'error')
+        );
       } else {
         swal('Cancelled', 'The user profile is safe :)', 'error');
       }

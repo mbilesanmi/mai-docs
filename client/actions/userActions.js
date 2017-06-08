@@ -82,3 +82,21 @@ export function logout() {
     dispatch(signoutUser({}));
   };
 }
+
+/**
+ * delete user from database using DELETE api route /api/user/:id
+ *
+ * @export
+ * @param {any} id - The ID of the user to be deleted
+ * @returns {object} users
+ */
+export function deleteUser(id) {
+  return dispatch => axios.delete(`/api/users/${id}`)
+  .then((response) => {
+    dispatch(passSuccessMessage(response.data.message));
+    dispatch(getAllUsers());
+  })
+  .catch((error) => {
+    dispatch(passFailureMessage(error.response.data.message));
+  });
+}
