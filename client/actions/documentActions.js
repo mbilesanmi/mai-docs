@@ -9,6 +9,9 @@ export function passSuccessMessage(successMessage) {
 export function passFailureMessage(errorMessage) {
   return { type: types.ERROR_MESSAGE, errorMessage };
 }
+export function searchDocumentsSuccess(documents) {
+  return { type: types.SEARCH_DOCUMENTS_SUCCESS, documents };
+}
 export function getDocumentSuccess(documents) {
   return { type: types.GET_ALL_DOCUMENTS_SUCCESS, documents };
 }
@@ -19,9 +22,24 @@ export function updateDocumentSuccess(document) {
   return { type: types.UPDATE_DOCUMENT_SUCCESS, document };
 }
 
+export function search(queryString) {
+  return dispatch => axios.get(`/api/search/documents/?search=${queryString}`)
+  .then((response) => {
+    // console.log('typeof response.data', response.data.documents);
+    // console.log('response.data', response);
+    dispatch(passSuccessMessage(response.data.message));
+    dispatch(searchDocumentsSuccess(response.data));
+  })
+  .catch((error) => {
+    // console.log('typeof error.response.data', error.response.data.message);
+    dispatch(passFailureMessage(error.response.data.message));
+    // throw (error);
+  });
+}
 export function getAllDocuments() {
   return dispatch => axios.get('/api/documents')
   .then((response) => {
+    console.log('typeof getall response.data', response.data);
     dispatch(getDocumentSuccess(response.data));
   })
   .catch((error) => {

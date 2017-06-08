@@ -184,17 +184,17 @@ const UserController = {
   },
   search(request, response) {
     console.log('search req', request);
-    const query = request.query.search;
+    const search = request.query.search;
     return User
       .findAll({
         where: {
           $or: [{
             username: {
-              $iLike: `%${query}%`,
+              $iLike: `%${search}%`,
             }
           }, {
             email: {
-              $iLike: `%${query}%`
+              $iLike: `%${search}%`
             }
           }]
         }

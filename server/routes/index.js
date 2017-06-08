@@ -12,6 +12,7 @@ const Routes = (app) => {
     message: 'Welcome to the Todos API!'
   }));
 
+  // ROLES API ENDPOINT ROUTES
   app.post(
     '/api/roles', RoleController.create
   );
@@ -28,6 +29,7 @@ const Routes = (app) => {
     '/api/roles/:id', RoleController.delete
   );
 
+  // USERS API ENDPOINT ROUTES
   app.post(
     '/api/users/login', UserController.login
   );
@@ -47,6 +49,7 @@ const Routes = (app) => {
     '/api/users/:id', UserController.delete
   );
 
+  // DOCUMENTS API ENDPOINT ROUTES
   app.post(
     '/api/documents', DocumentController.create
   );
@@ -66,8 +69,12 @@ const Routes = (app) => {
     '/api/documents/:id', DocumentController.delete
   );
 
+  // SEARCH API ENDPOINT ROUTES
   app.get(
-    '/api/search/users', UserController.search
+    '/api/search/users/', UserController.search
+  );
+  app.get(
+    '/api/search/documents/', DocumentController.search
   );
 };
 
