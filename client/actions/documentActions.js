@@ -25,21 +25,16 @@ export function updateDocumentSuccess(document) {
 export function search(queryString) {
   return dispatch => axios.get(`/api/search/documents/?search=${queryString}`)
   .then((response) => {
-    // console.log('typeof response.data', response.data.documents);
-    // console.log('response.data', response);
     dispatch(passSuccessMessage(response.data.message));
     dispatch(searchDocumentsSuccess(response.data));
   })
   .catch((error) => {
-    // console.log('typeof error.response.data', error.response.data.message);
     dispatch(passFailureMessage(error.response.data.message));
-    // throw (error);
   });
 }
 export function getAllDocuments() {
   return dispatch => axios.get('/api/documents')
   .then((response) => {
-    console.log('typeof getall response.data', response.data);
     dispatch(getDocumentSuccess(response.data));
   })
   .catch((error) => {
@@ -50,7 +45,6 @@ export function getAllDocuments() {
 export function getOneDocument(id) {
   return dispatch => axios.get(`/api/documents/${id}`)
   .then((response) => {
-    console.log('document passed', response.data);
     dispatch(getDocumentSuccess(response.data.document));
     dispatch(passSuccessMessage(response.data.message));
   })
@@ -77,14 +71,10 @@ export function updateDocument(id, document) {
   .then((response) => {
     dispatch(getAllDocuments());
     dispatch(passSuccessMessage(response.data.message));
-    // console.log('response', response.data.message);
-    // dispatch(updateDocumentSuccess(response.data.message));
-    // dispatch(updateDocumentSuccess());
   })
   .catch((error) => {
     dispatch(passFailureMessage(error.response.data.message));
     throw (error);
-    // console.log('err', error.response.data.message);
   });
 }
 
@@ -101,32 +91,8 @@ export function deleteDocument(id) {
   .then((response) => {
     dispatch(passSuccessMessage(response.data.message));
     dispatch(getAllDocuments());
-    // dispatch(getMyDocuments(ownerId));
   })
   .catch((error) => {
     dispatch(passFailureMessage(error.response.data.message));
   });
 }
-
-// export function getMyDocumentsSuccess(documents) {
-//   return { type: types.GET_MY_DOCUMENTS_SUCCESS, documents };
-// }
-
-// export function getMyDocuments(id, limit = 10, offset = 0) {
-//   return dispatch => axios.get(`api/users/${id}`)
-//   .then((response) => {
-//     dispatch(getMyDocumentsSuccess(response.data.documents));
-//   });
-// }
-
-
-// export function getUserDocs(id, limit = 10, offset = 0) {
-//   return (dispatch) =>
-//     axios.get(`/api/v1/users/${id}/documents/?limit=${limit}&offset=${offset}`)
-//       .then((response) => {
-//         dispatch({
-//           type: 'FETCHED_DOCUMENTS',
-//           payload: response.data.documents
-//         });
-//       });
-// }

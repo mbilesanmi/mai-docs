@@ -97,8 +97,6 @@ Signup.contextTypes = {
  * @returns {object}
  */
 function mapStateToProps(state) {
-  console.log('isAuth state before Signup', state.isAuth);
-  console.log('isAuth state after Signup in signup', state.isAuth);
   return {
     user: state.isAuth.loggedInUser,
     isAuthenticated: state.isAuth.isAuthenticated
@@ -110,4 +108,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);
-// export default Signup;

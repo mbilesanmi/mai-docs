@@ -1,21 +1,10 @@
 import model from '../models';
 
 const Documents = model.Document;
-// const Roles = model.Role;
 const Users = model.User;
-
-// getMyDocuments(request, response) {
-//   Documents
-//     .findAll({
-//       where: { ownerId: request.body.username }
-//     })
-//     .then(documents => response.status(200).send(documents))
-//     .catch(error => response.status(400).send(error));
-// },
 
 const DocumentController = {
   create(request, response) {
-    // console.log('reuest', request.body);
     if (request.body.title === '' || request.body.content === ''
       || request.body.viewAccess === '') {
       return response.status(400).send({
@@ -39,7 +28,6 @@ const DocumentController = {
       }));
   },
   update(request, response) {
-    // console.log('docs id in server', request.params.id);
     if (request.body.title === '' || request.body.content === ''
       || request.body.viewAccess === '') {
       return response.status(400).send({
@@ -156,7 +144,6 @@ const DocumentController = {
       }));
   },
   search(request, response) {
-    // console.log('search req', request);
     const search = request.query.search;
     return Documents
       .findAll({
