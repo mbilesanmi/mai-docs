@@ -20,6 +20,9 @@ export function passSuccessMessage(successMessage) {
 export function passFailureMessage(errorMessage) {
   return { type: types.ERROR_MESSAGE, errorMessage };
 }
+export function searchUsersSuccess(documents) {
+  return { type: types.SEARCH_USERS_SUCCESS, documents };
+}
 export function getUserSuccess(users) {
   return { type: types.GET_ALL_USERS_SUCCESS, users };
 }
@@ -32,6 +35,17 @@ export function setCurrentUser(user) {
 }
 export function signoutUser(user) {
   return { type: types.SIGNOUT_USER, user };
+}
+
+export function search(queryString) {
+  return dispatch => axios.get(`/api/search/users/?search=${queryString}`)
+  .then((response) => {
+    dispatch(passSuccessMessage(response.data.message));
+    dispatch(searchUsersSuccess(response.data));
+  })
+  .catch((error) => {
+    dispatch(passFailureMessage(error.response.data.message));
+  });
 }
 
 export function getAllUsers() {

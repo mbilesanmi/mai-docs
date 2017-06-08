@@ -3,7 +3,6 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import swal from 'sweetalert';
-import toastr from 'toastr';
 import * as userActions from '../../actions/userActions';
 
 class UserTasks extends Component {
@@ -22,6 +21,7 @@ class UserTasks extends Component {
       showCancelButton: true,
       confirmButtonColor: '#DD6B55',
       confirmButtonText: 'Yes, GO AHEAD!',
+      timer: 5000,
       closeOnConfirm: false
     }, (isConfirm) => {
       if (isConfirm) {
@@ -55,8 +55,6 @@ class UserTasks extends Component {
 
 UserTasks.propTypes = {
   userId: PropTypes.number,
-  // ownerId: PropTypes.number,
-  // loggedInUserID: PropTypes.number,
   actions: PropTypes.object.isRequired
 };
 
@@ -66,16 +64,10 @@ UserTasks.contextTypes = {
   router: PropTypes.object
 };
 
-function mapStateToProps(state) {
-  return {
-    // loggedInID: state.isAuth.loggedInUser.id
-  };
-}
-
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(userActions, dispatch)
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserTasks);
+export default connect(null, mapDispatchToProps)(UserTasks);

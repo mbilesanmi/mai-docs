@@ -13,6 +13,12 @@ const UserListRow = ({ user }) => (
           <div className="col s12 light">
             <b>Username:</b> {user.username}
           </div>
+          <div className="col s12 light">
+            <b>Role:</b> {user.roleId}
+          </div>
+          <div className="col s12 light">
+            <b>Joined on:</b> {user.createdAt.slice(0, 10)}
+          </div>
         </div>
         <div className="card-action">
           <UserTasks userId={user.id} />
