@@ -96,7 +96,7 @@ AllUsers.contextTypes = {
 };
 
 const mapStateToProps = state => ({
-  searchResults: state.searchResults.documents || [],
+  searchResults: state.searchResults.users || [],
   users: state.users || {},
   loggedInUserID: state.isAuth.loggedInUser.id
 });

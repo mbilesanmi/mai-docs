@@ -4,10 +4,12 @@ import initialState from './initialState';
 export default (state = initialState.searchResults, action) => {
   switch (action.type) {
     case types.SEARCH_DOCUMENTS_SUCCESS:
-      return action.documents;
+      console.log('action', action);
+      return action;
 
     case types.SEARCH_USERS_SUCCESS:
-      return action.users;
+      console.log('action', action);
+      return action;
 
     default:
       return state;

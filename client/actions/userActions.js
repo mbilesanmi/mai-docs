@@ -3,16 +3,9 @@ import axios from 'axios';
 import * as types from './actionTypes';
 import setAuthorizationToken from '../utils/authenticate';
 
-// export function createDocumentSuccess(document) {
-//   return { type: types.CREATE_DOCUMENT_SUCCESS, document };
-// }
-// export function updateDocumentSuccess(document) {
-//   return { type: types.UPDATE_DOCUMENT_SUCCESS, document };
-// }
+// export function updateDocumentSuccess(document)
 
-// export function searchDocumentsSuccess(documents) {
-//   return { type: types.SEARCH_DOCUMENTS_SUCCESS, documents };
-// }
+// export function searchDocumentsSuccess(documents)
 
 export function passSuccessMessage(successMessage) {
   return { type: types.SUCCESS_MESSAGE, successMessage };
@@ -20,8 +13,8 @@ export function passSuccessMessage(successMessage) {
 export function passFailureMessage(errorMessage) {
   return { type: types.ERROR_MESSAGE, errorMessage };
 }
-export function searchUsersSuccess(documents) {
-  return { type: types.SEARCH_USERS_SUCCESS, documents };
+export function searchUsersSuccess(users) {
+  return { type: types.SEARCH_USERS_SUCCESS, users };
 }
 export function getUserSuccess(users) {
   return { type: types.GET_ALL_USERS_SUCCESS, users };
@@ -40,10 +33,12 @@ export function signoutUser(user) {
 export function search(queryString) {
   return dispatch => axios.get(`/api/search/users/?search=${queryString}`)
   .then((response) => {
+    console.log(response.data);
     dispatch(passSuccessMessage(response.data.message));
-    dispatch(searchUsersSuccess(response.data));
+    dispatch(searchUsersSuccess(response.data.users));
   })
   .catch((error) => {
+    console.log(error.response);
     dispatch(passFailureMessage(error.response.data.message));
   });
 }

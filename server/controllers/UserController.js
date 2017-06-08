@@ -200,15 +200,16 @@ const UserController = {
         if (users.length <= 0) {
           return response.status(404)
           .send({
-            message: 'Users Not Found',
+            message: 'No users found matching your search criteria',
           });
         }
         return response.status(200).send({
-          users
+          users,
+          message: 'Users found'
         });
       })
       .catch((error) => {
-        response.status(412).send({
+        response.status(500).send({
           error,
           message: 'Error occurred while retrieving Users'
         });

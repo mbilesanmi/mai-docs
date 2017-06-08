@@ -26,7 +26,7 @@ export function search(queryString) {
   return dispatch => axios.get(`/api/search/documents/?search=${queryString}`)
   .then((response) => {
     dispatch(passSuccessMessage(response.data.message));
-    dispatch(searchDocumentsSuccess(response.data));
+    dispatch(searchDocumentsSuccess(response.data.documents));
   })
   .catch((error) => {
     dispatch(passFailureMessage(error.response.data.message));
