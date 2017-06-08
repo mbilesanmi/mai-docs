@@ -64,13 +64,16 @@ class Signup extends Component {
         <p>Mai Document manager</p>
         <div className="container">
           <div className="row">
-            <SignupForm
-              user={this.state.user}
-              onChange={this.updateUserState}
-              onSubmit={this.onSubmit}
-              loading={this.state.isLoading}
-              errors={this.state.errors}
-            />
+            <div className="col s12 z-depth-5 card-panel">
+
+              <h2 className="margin center">SIGNUP</h2>
+              <SignupForm
+                user={this.state.user}
+                onChange={this.updateUserState}
+                onSubmit={this.onSubmit}
+                loading={this.state.isLoading}
+                errors={this.state.errors} />
+            </div>
           </div>
         </div>
       </div>

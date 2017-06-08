@@ -45,11 +45,6 @@ class UserTasks extends Component {
           className="waves-effect waves-light btn blue">View
         </Link>
         &nbsp;&nbsp;
-        <Link
-          to={`/user/${this.props.userId}`}
-          className="waves-effect waves-light btn green">Edit
-        </Link>
-        &nbsp;&nbsp;
         <a className="waves-effect waves-light btn red"
           onClick={this.deleteUser}>Delete
         </a>
