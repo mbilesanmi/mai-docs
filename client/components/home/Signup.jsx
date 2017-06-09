@@ -59,13 +59,16 @@ class Signup extends Component {
   render() {
     return (
       <div>
-        <h1>Mai Docs</h1>
-        <p>Mai Document manager</p>
+        <h1 className="center">Mai Docs</h1>
+        <p className="center">Mai Document manager</p>
         <div className="container">
           <div className="row">
-            <div className="col s12 z-depth-5 card-panel">
+            {/*<div className="col s12 z-depth-5 card-panel">*/}
+            <div className="col s12 z-depth-5 card">
+              <div className="card-image">
+                <h2 className="center">SIGNUP</h2>
+              </div>
 
-              <h2 className="margin center">SIGNUP</h2>
               <SignupForm
                 user={this.state.user}
                 onChange={this.updateUserState}

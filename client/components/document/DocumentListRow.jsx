@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import DocumentTasks from './DocumentTasks.jsx';
 
-const DocumentListRow = ({ document, loggedInUserID }) => (
+const DocumentListRow = ({ document, loggedInUserID, users }) => (
   <div className="col s12 m6 l4">
       <div className="card medium hoverable z-depth-5">
         <div className="card-content">
@@ -13,6 +14,15 @@ const DocumentListRow = ({ document, loggedInUserID }) => (
           </div>
           <div className="col s12 light">
             <b>Accessibility:</b> {document.viewAccess}
+          </div>
+          <div className="col s12 light">
+            <b>Author:</b> {users.filter(user =>
+              user.id === document.ownerId
+            ).map(user =>
+              <span key={user.id}>
+                {user.firstname} {user.lastname}
+              </span>
+            )}
           </div>
           <div className="col s12 light">
             {document.content.slice(0, 200)}...
@@ -38,7 +48,12 @@ const DocumentListRow = ({ document, loggedInUserID }) => (
 
 DocumentListRow.propTypes = {
   document: PropTypes.object.isRequired,
-  loggedInUserID: PropTypes.number
+  loggedInUserID: PropTypes.number,
+  users: PropTypes.users
 };
 
-export default DocumentListRow;
+const mapStateToProps = state => ({
+  users: state.users
+});
+
+export default connect(mapStateToProps)(DocumentListRow);

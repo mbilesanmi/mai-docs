@@ -12,6 +12,10 @@ class Header extends Component {
     this.logout = this.logout.bind(this);
   }
 
+  static componentWillMount() {
+    $('.dropdown-button').dropdown();
+  }
+
   logout(event) {
     event.preventDefault();
     this.props.logout();
