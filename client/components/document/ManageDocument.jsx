@@ -6,6 +6,10 @@ import * as documentActions from '../../actions/documentActions';
 import DocumentForm from '../document/DocumentForm.jsx';
 
 class ManageDocument extends Component {
+  static componentDidMount() {
+    $('select').material_select();
+  }
+
   constructor(props, context) {
     super(props, context);
 
@@ -25,9 +29,6 @@ class ManageDocument extends Component {
     this.props.actions.getAllDocuments();
   }
 
-  componentDidMount() {
-    $('select').material_select();
-  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.document.id !== nextProps.document.id) {
@@ -40,7 +41,6 @@ class ManageDocument extends Component {
     const document = this.state.document;
     document.content = event.target.getContent();
     return ({ document });
-// ;    event.target.getContent();
   }
 
   updateDocumentState(event) {

@@ -36,7 +36,7 @@ const UserListRow = ({ user, roles }) => (
 
 UserListRow.propTypes = {
   user: PropTypes.object.isRequired,
-  roles: PropTypes.object
+  roles: PropTypes.array
 };
 
 const mapStateToProps = state => ({

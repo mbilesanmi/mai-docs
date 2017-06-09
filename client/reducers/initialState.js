@@ -1,5 +1,4 @@
 export default {
-  // users: { allUsers: [], userDetails: false, authUser: {} },
   users: [],
   isAuth: {
     isAuthenticated: false,
