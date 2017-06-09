@@ -35,8 +35,7 @@ class Signup extends Component {
     this.props.userActions.createUser(this.state.user)
     .then(() => {
       this.setState({ isLoading: false });
-      toastr.success(
-        `Signup Successfully! Welcome ${this.state.user.username}`);
+      toastr.success(this.props.message);
       this.context.router.push('/dashboard');
     })
     .catch(() => {
@@ -83,6 +82,7 @@ class Signup extends Component {
 
 Signup.propTypes = {
   user: PropTypes.object,
+  message: PropTypes.string,
   isAuthenticated: PropTypes.bool.isRequired,
   userActions: PropTypes.object.isRequired
 };
@@ -101,6 +101,7 @@ Signup.contextTypes = {
  */
 function mapStateToProps(state) {
   return {
+    message: state.message,
     user: state.isAuth.loggedInUser,
     isAuthenticated: state.isAuth.isAuthenticated
   };

@@ -5,7 +5,7 @@ import TextInput from '../common/TextInput.jsx';
 const SignupForm = ({ onChange, onSubmit, loading, errors }) => (
   <form className="login-form">
     <div className="row">
-      <div className="col s8 offset-s2">
+      <div className="col s4 offset-s2">
         <TextInput
           type="text"
           label="Firstname"
@@ -16,9 +16,7 @@ const SignupForm = ({ onChange, onSubmit, loading, errors }) => (
           clearError=""
           error={errors.firstname}/>
       </div>
-    </div>
-    <div className="row">
-      <div className="col s8 offset-s2">
+      <div className="col s4">
         <TextInput
           type="text"
           label="Lastname"
@@ -31,7 +29,7 @@ const SignupForm = ({ onChange, onSubmit, loading, errors }) => (
       </div>
     </div>
     <div className="row">
-      <div className="col s8 offset-s2">
+      <div className="col s4 offset-s2">
         <TextInput
           type="text"
           label="Username"
@@ -42,9 +40,7 @@ const SignupForm = ({ onChange, onSubmit, loading, errors }) => (
           clearError=""
           error={errors.username}/>
       </div>
-    </div>
-    <div className="row">
-      <div className="col s8 offset-s2">
+      <div className="col s4">
         <TextInput
           type="email"
           label="Email"
@@ -57,7 +53,7 @@ const SignupForm = ({ onChange, onSubmit, loading, errors }) => (
       </div>
     </div>
     <div className="row">
-      <div className="col s8 offset-s2">
+      <div className="col s4 offset-s2">
         <TextInput
           type="password"
           label="Password"
@@ -67,6 +63,17 @@ const SignupForm = ({ onChange, onSubmit, loading, errors }) => (
           onBlur=""
           clearError=""
           error={errors.password}/>
+      </div>
+      <div className="col s4">
+        <TextInput
+          type="password"
+          label="Confirm Password"
+          name="confirmPassword"
+          icon="lock"
+          onChange={onChange}
+          onBlur=""
+          clearError=""
+          error={errors.confirmPassword}/>
       </div>
     </div>
 

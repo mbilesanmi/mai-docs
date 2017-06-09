@@ -12,7 +12,7 @@ class ViewDocument extends Component {
           <span key="document.id">
             <h1>Title: {document.title}</h1>
             <div>
-              Date Created: {document.createdAt}<br />
+              Date Created: {document.createdAt.slice(0, 10)}<br />
               Owner ID: {document.ownerId}
             </div>
             <span>

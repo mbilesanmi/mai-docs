@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-const DocumentActionBar = ({ onRoleChange, onSearchChange }) => (
+const DocumentActionBar = ({ onRoleChange, onSearchChange, clearSearch }) => (
   <div className="row">
 
     <div className="col l8 m8 s12">
@@ -14,7 +14,7 @@ const DocumentActionBar = ({ onRoleChange, onSearchChange }) => (
           <label className="label-icon" htmlFor="search">
             <i className="material-icons">search</i>
           </label>
-          <i className="material-icons">close</i>
+          <i className="material-icons" onClick={clearSearch}>close</i>
         </div>
       </form>
     </div>
@@ -57,6 +57,7 @@ const DocumentActionBar = ({ onRoleChange, onSearchChange }) => (
 
 DocumentActionBar.propTypes = {
   onRoleChange: PropTypes.func,
+  clearSearch: PropTypes.func,
   onSearchChange: PropTypes.func
 };
 

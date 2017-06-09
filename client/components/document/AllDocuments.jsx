@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import toastr from 'toastr';
 import DocumentListRow from './DocumentListRow.jsx';
 import DocumentActionBar from './DocumentActionBar.jsx';
 import * as actions from '../../actions/documentActions';
@@ -31,7 +32,12 @@ class AllDocuments extends Component {
 
   onSearchChange(event) {
     this.setState({ search: event.target.value });
-    this.props.actions.search(event.target.value);
+    this.props.actions.search(event.target.value)
+    .then(() => {
+      if (this.props.message !== 'Documents found') {
+        toastr.error(this.props.message);
+      }
+    });
   }
 
   render() {
@@ -56,8 +62,10 @@ class AllDocuments extends Component {
       <div className="section">
         <div className="container">
           <div className="row">
-            <div className="col l6 m6 s12">
-              <h1>Sitewide Documents</h1>
+            <div className="col l12 m12 s12">
+              <hr />
+                <h1 className="center">Sitewide Documents</h1>
+              <hr />
             </div>
           </div>
 
@@ -88,6 +96,7 @@ AllDocuments.propTypes = {
   searchResults: PropTypes.array,
   loggedInUserID: PropTypes.number,
   search: PropTypes.string,
+  message: PropTypes.string,
   actions: PropTypes.object
 };
 
@@ -98,6 +107,7 @@ AllDocuments.contextTypes = {
 };
 
 const mapStateToProps = state => ({
+  message: state.message,
   searchResults: state.searchResults.documents || [],
   documents: state.documents || {},
   loggedInUserID: state.isAuth.loggedInUser.id

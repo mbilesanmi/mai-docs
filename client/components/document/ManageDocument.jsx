@@ -12,6 +12,7 @@ class ManageDocument extends Component {
     this.updateDocumentState = this.updateDocumentState.bind(this);
     this.createDocument = this.createDocument.bind(this);
     this.updateDocument = this.updateDocument.bind(this);
+    this.onEditorChange = this.onEditorChange.bind(this);
 
     this.state = {
       document: Object.assign({}, props.document),
@@ -33,6 +34,13 @@ class ManageDocument extends Component {
       // Necessary to repopulate the form when document is loaded directly
       this.setState({ document: Object.assign({}, nextProps.document) });
     }
+  }
+
+  onEditorChange(event) {
+    const document = this.state.document;
+    document.content = event.target.getContent();
+    return ({ document });
+// ;    event.target.getContent();
   }
 
   updateDocumentState(event) {
@@ -85,6 +93,7 @@ class ManageDocument extends Component {
           <DocumentForm
             document={this.state.document}
             onChange={this.updateDocumentState}
+            onEditorChange={this.onEditorChange}
             onSave={isUpdate ? this.updateDocument : this.createDocument}
             errors={this.state.errors}
             saving={this.state.saving}

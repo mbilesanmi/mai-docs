@@ -20,6 +20,13 @@ class Header extends Component {
   }
 
   render() {
+    const loggedIn = this.props.loggedIn;
+    let isAdmin;
+    if (loggedIn) {
+      isAdmin = this.props.isAdmin.roleId;
+    } else {
+      isAdmin = 0;
+    }
     return (
       <nav className="nav-wrapper teal" role="navigation">
         <IndexLink
@@ -28,14 +35,19 @@ class Header extends Component {
           className="brand-logo">
           Mai Docs
         </IndexLink>
-        <MainMenu logout={this.logout} />
+        <MainMenu
+          loggedIn={loggedIn}
+          isAdmin={isAdmin}
+          logout={this.logout} />
       </nav>
     );
   }
 }
 
 Header.propTypes = {
-  logout: PropTypes.func.isRequired
+  logout: PropTypes.func.isRequired,
+  loggedIn: PropTypes.bool,
+  isAdmin: PropTypes.object
 };
 
 // Pull in the React Router context
@@ -44,4 +56,9 @@ Header.contextTypes = {
   router: PropTypes.object
 };
 
-export default connect(null, { logout })(Header);
+const mapStateToProps = state => ({
+  loggedIn: state.isAuth.isAuthenticated,
+  isAdmin: state.isAuth.loggedInUser
+});
+
+export default connect(mapStateToProps, { logout })(Header);

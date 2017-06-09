@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import toastr from 'toastr';
 import DocumentListRow from '../document/DocumentListRow.jsx';
 import DocumentActionBar from '../document/DocumentActionBar.jsx';
 import * as actions from '../../actions/documentActions';
@@ -56,8 +57,10 @@ class Dashboard extends Component {
       <div className="section">
         <div className="container">
           <div className="row">
-            <div className="col l6 m6 s12">
-              <h1>My Documents</h1>
+            <div className="col l12 m12 s12">
+              <hr />
+                <h1 className="center">My Documents</h1>
+              <hr />
             </div>
           </div>
 
@@ -87,6 +90,7 @@ Dashboard.propTypes = {
   searchResults: PropTypes.array,
   loggedInUserID: PropTypes.number,
   search: PropTypes.string,
+  message: PropTypes.string,
   actions: PropTypes.object
 };
 
@@ -97,6 +101,7 @@ Dashboard.contextTypes = {
 };
 
 const mapStateToProps = state => ({
+  message: state.message,
   searchResults: state.searchResults.documents || [],
   documents: state.documents || [],
   loggedInUserID: state.isAuth.loggedInUser.id

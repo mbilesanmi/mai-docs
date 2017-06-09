@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import toastr from 'toastr';
 import UserListRow from './UserListRow.jsx';
 import UserActionBar from './UserActionBar.jsx';
 import * as actions from '../../actions/userActions';
@@ -11,6 +12,7 @@ class AllUsers extends Component {
 
     this.redirectToManageUser = this.redirectToManageUser.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
+    this.clearSearch = this.clearSearch.bind(this);
     this.onRoleChange = this.onRoleChange.bind(this);
 
     this.state = {
@@ -29,9 +31,19 @@ class AllUsers extends Component {
     this.setState({ roleType: event.target.value });
   }
 
+  clearSearch(event) {
+    event.target.value = '';
+    this.setState({ search: '' });
+  }
+
   onSearchChange(event) {
     this.setState({ search: event.target.value });
-    this.props.actions.search(event.target.value);
+    this.props.actions.search(event.target.value)
+    .then(() => {
+      if (this.props.message !== 'Users found') {
+        toastr.error(this.props.message);
+      }
+    });
   }
 
   render() {
@@ -61,6 +73,7 @@ class AllUsers extends Component {
           </div>
 
           <UserActionBar
+            clearSearch={this.clearSearch}
             onRoleChange ={this.onRoleChange}
             onSearchChange={this.onSearchChange} />
           <br /><br />
@@ -86,6 +99,7 @@ AllUsers.propTypes = {
   searchResults: PropTypes.array,
   loggedInUserID: PropTypes.number,
   search: PropTypes.string,
+  message: PropTypes.string,
   actions: PropTypes.object
 };
 
@@ -96,6 +110,7 @@ AllUsers.contextTypes = {
 };
 
 const mapStateToProps = state => ({
+  message: state.message,
   searchResults: state.searchResults.users || [],
   users: state.users || {},
   loggedInUserID: state.isAuth.loggedInUser.id

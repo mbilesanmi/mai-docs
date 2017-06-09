@@ -35,7 +35,7 @@ class Signin extends Component {
     this.props.userActions.login(this.state.user)
     .then(() => {
       this.setState({ isLoading: false });
-      toastr.success(this.props.user.message);
+      toastr.success(this.props.message);
       this.context.router.push('/dashboard');
     })
     .catch(() => {
@@ -74,6 +74,7 @@ class Signin extends Component {
 
 Signin.propTypes = {
   user: PropTypes.object,
+  message: PropTypes.string,
   isAuthenticated: PropTypes.bool.isRequired,
   userActions: PropTypes.object.isRequired
 };
@@ -90,12 +91,11 @@ Signin.contextTypes = {
  * @param {state} state
  * @returns {object}
  */
-function mapStateToProps(state) {
-  return {
-    user: state.isAuth.loggedInUser,
-    isAuthenticated: state.isAuth.isAuthenticated
-  };
-}
+const mapStateToProps = state => ({
+  message: state.message,
+  user: state.isAuth.loggedInUser,
+  isAuthenticated: state.isAuth.isAuthenticated
+});
 
 const mapDispatchToProps = dispatch => ({
   userActions: bindActionCreators(userActions, dispatch)

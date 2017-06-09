@@ -33,12 +33,12 @@ export function signoutUser(user) {
 export function search(queryString) {
   return dispatch => axios.get(`/api/search/users/?search=${queryString}`)
   .then((response) => {
-    console.log(response.data);
+    // console.log(response.data);
     dispatch(passSuccessMessage(response.data.message));
     dispatch(searchUsersSuccess(response.data.users));
   })
   .catch((error) => {
-    console.log(error.response);
+    // console.log(error.response);
     dispatch(passFailureMessage(error.response.data.message));
   });
 }
@@ -59,10 +59,10 @@ export function createUser(user) {
     .then((response) => {
       const token = response.data.token;
       localStorage.setItem('maiDocsJwtToken', token);
-      dispatch(createUserSuccess(response.data.userData));
+      dispatch(passSuccessMessage(response.data.message));
       setAuthorizationToken(token);
       axios.defaults.headers.common.Authorization = token;
-      dispatch(setCurrentUser(response.data));
+      dispatch(setCurrentUser(response.data.userData));
     })
     .catch((error) => {
       throw (error);
@@ -74,10 +74,10 @@ export function login(user) {
     .then((response) => {
       const token = response.data.token;
       localStorage.setItem('maiDocsJwtToken', token);
-      dispatch(createUserSuccess(response.data.userData));
+      dispatch(passSuccessMessage(response.data.message));
       setAuthorizationToken(token);
       axios.defaults.headers.common.Authorization = token;
-      dispatch(setCurrentUser(response.data));
+      dispatch(setCurrentUser(response.data.userData));
     })
     .catch((error) => {
       throw (error);
