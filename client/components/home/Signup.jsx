@@ -35,8 +35,7 @@ class Signup extends Component {
     this.props.userActions.createUser(this.state.user)
     .then(() => {
       this.setState({ isLoading: false });
-      toastr.success(
-        `Signup Successfully! Welcome ${this.state.user.username}`);
+      toastr.success(this.props.message);
       this.context.router.push('/dashboard');
     })
     .catch(() => {
@@ -60,17 +59,23 @@ class Signup extends Component {
   render() {
     return (
       <div>
-        <h1>Mai Docs</h1>
-        <p>Mai Document manager</p>
+        <h1 className="center">Mai Docs</h1>
+        <p className="center">Mai Document manager</p>
         <div className="container">
           <div className="row">
-            <SignupForm
-              user={this.state.user}
-              onChange={this.updateUserState}
-              onSubmit={this.onSubmit}
-              loading={this.state.isLoading}
-              errors={this.state.errors}
-            />
+            {/*<div className="col s12 z-depth-5 card-panel">*/}
+            <div className="col s12 z-depth-5 card">
+              <div className="card-image">
+                <h2 className="center">SIGNUP</h2>
+              </div>
+
+              <SignupForm
+                user={this.state.user}
+                onChange={this.updateUserState}
+                onSubmit={this.onSubmit}
+                loading={this.state.isLoading}
+                errors={this.state.errors} />
+            </div>
           </div>
         </div>
       </div>
@@ -80,6 +85,7 @@ class Signup extends Component {
 
 Signup.propTypes = {
   user: PropTypes.object,
+  message: PropTypes.string,
   isAuthenticated: PropTypes.bool.isRequired,
   userActions: PropTypes.object.isRequired
 };
@@ -97,9 +103,8 @@ Signup.contextTypes = {
  * @returns {object}
  */
 function mapStateToProps(state) {
-  console.log('isAuth state before Signup', state.isAuth);
-  console.log('isAuth state after Signup in signup', state.isAuth);
   return {
+    message: state.message,
     user: state.isAuth.loggedInUser,
     isAuthenticated: state.isAuth.isAuthenticated
   };
@@ -110,4 +115,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);
-// export default Signup;

@@ -2,9 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 class ViewDocument extends Component {
-
   render() {
-    const documents = this.props.documents;
+    const { users, documents } = this.props;
+
     return (
       <div className="container">
         {documents.filter(document => document.id === this.props.documentId)
@@ -12,8 +12,14 @@ class ViewDocument extends Component {
           <span key="document.id">
             <h1>Title: {document.title}</h1>
             <div>
-              Date Created: {document.createdAt}<br />
-              Owner ID: {document.ownerId}
+              Date Created: {document.createdAt.slice(0, 10)}<br />
+              Owner ID: {users.filter(user =>
+                user.id === document.ownerId
+              ).map(user =>
+                <span key={user.id}>
+                  {user.firstname} {user.lastname}
+                </span>
+              )}
             </div>
             <span>
               {document.content}
@@ -29,6 +35,7 @@ ViewDocument.propTypes = {
   documents: PropTypes.array.isRequired,
   documentId: PropTypes.number,
   message: PropTypes.string,
+  users: PropTypes.object
 };
 
 // Pull in the React Router context
@@ -37,11 +44,10 @@ ViewDocument.contextTypes = {
   router: PropTypes.object
 };
 
-function mapStateToProps(state, ownProps) {
-  return {
-    documentId: parseInt(ownProps.params.id, 10),
-    documents: state.documents
-  };
-}
+const mapStateToProps = (state, ownProps) => ({
+  users: state.users,
+  documentId: parseInt(ownProps.params.id, 10),
+  documents: state.documents
+});
 
 export default connect(mapStateToProps)(ViewDocument);

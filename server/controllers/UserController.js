@@ -3,7 +3,6 @@ import model from '../models';
 
 const User = model.User;
 const Documents = model.Document;
-// const Documents = model.Document;
 const secret = 'secret';
 
 
@@ -80,7 +79,6 @@ const UserController = {
         }
       })
       .then((foundUser) => {
-        console.log('resp', foundUser);
         if (foundUser) {
           return response.status(409).send({ message: 'User already exists' });
         }
@@ -183,7 +181,6 @@ const UserController = {
       .catch(error => response.status(400).send(error));
   },
   search(request, response) {
-    console.log('search req', request);
     const search = request.query.search;
     return User
       .findAll({
@@ -203,15 +200,16 @@ const UserController = {
         if (users.length <= 0) {
           return response.status(404)
           .send({
-            message: 'Users Not Found',
+            message: 'No users found matching your search criteria',
           });
         }
         return response.status(200).send({
-          users
+          users,
+          message: 'Users found'
         });
       })
       .catch((error) => {
-        response.status(412).send({
+        response.status(500).send({
           error,
           message: 'Error occurred while retrieving Users'
         });
