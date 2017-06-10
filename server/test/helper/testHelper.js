@@ -17,7 +17,7 @@ export const role = {
   newRole: {
     title: 'User'
   },
-  
+
   emptyRole: {
     title: 'User'
   }
