@@ -1,9 +1,9 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import DocumentTasks from './DocumentTasks.jsx';
 
-const DocumentListRow = ({ document, loggedInUserID, users }) => (
+const DocumentListRow = ({ document, loggedInUserID, users }) =>
   <div className="col s12 m6 l4">
       <div className="card medium hoverable z-depth-5">
         <div className="card-content">
@@ -43,13 +43,12 @@ const DocumentListRow = ({ document, loggedInUserID, users }) => (
             documentId={document.id} />
         </div>
       </div>
-    </div>
-  );
+    </div>;
 
 DocumentListRow.propTypes = {
-  document: PropTypes.object.isRequired,
-  loggedInUserID: PropTypes.number,
-  users: PropTypes.array
+  document: React.PropTypes.object.isRequired,
+  loggedInUserID: React.PropTypes.number,
+  users: React.PropTypes.array
 };
 
 const mapStateToProps = state => ({

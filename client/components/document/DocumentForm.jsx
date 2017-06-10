@@ -1,8 +1,8 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import TinyMCE from 'react-tinymce';
 
 const DocumentForm = ({ document, onSave,
-  onChange, onEditorChange, saving }) => (
+  onChange, onEditorChange, saving }) =>
   <form>
     <div className="row">
       <h5 className="col l1 m1 s12">Title:</h5>
@@ -34,7 +34,6 @@ const DocumentForm = ({ document, onSave,
           content={document.content}
           config={{
             height: '160',
-            forced_root_block: false,
             plugins: 'link image code',
             toolbar: `undo redo 
               | bold italic | alignleft 
@@ -59,16 +58,15 @@ const DocumentForm = ({ document, onSave,
       value={saving ? 'Saving...' : 'Save'}
       className="btn btn-primary"
       onClick={onSave}/>
-  </form>
-);
+  </form>;
 
 DocumentForm.propTypes = {
-  document: PropTypes.object.isRequired,
-  onSave: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onEditorChange: PropTypes.func.isRequired,
-  saving: PropTypes.bool,
-  errors: PropTypes.object
+  document: React.PropTypes.object.isRequired,
+  onSave: React.PropTypes.func.isRequired,
+  onChange: React.PropTypes.func.isRequired,
+  onEditorChange: React.PropTypes.func.isRequired,
+  saving: React.PropTypes.bool,
+  errors: React.PropTypes.object
 };
 
 export default DocumentForm;

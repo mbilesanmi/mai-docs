@@ -1,11 +1,11 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 
-const MainMenu = ({ loggedIn, logout, isAdmin }) => (
+const MainMenu = ({ loggedIn, logout, isAdmin }) =>
   <div>
       {
-        loggedIn ?
-          <ul className="right hide-on-med-and-down">
+        loggedIn
+          ? <ul className="right hide-on-med-and-down">
             <li>
               <Link activeClassName="active" to="/dashboard">Dashboard</Link>
             </li>
@@ -13,8 +13,8 @@ const MainMenu = ({ loggedIn, logout, isAdmin }) => (
               <Link activeClassName="active" to="/documents">Documents</Link>
             </li>
             {
-              isAdmin === 1 ?
-              <li>
+              isAdmin === 1
+              ? <li>
                 <Link activeClassName="active" to="/users">Manage Users</Link>
               </li> : ''
             }
@@ -23,8 +23,7 @@ const MainMenu = ({ loggedIn, logout, isAdmin }) => (
                 Logout</Link>
             </li>
           </ul>
-        :
-          <ul className="right hide-on-med-and-down">
+        : <ul className="right hide-on-med-and-down">
             <li>
               <Link activeClassName="active" to="/">Login</Link>
             </li>
@@ -35,8 +34,8 @@ const MainMenu = ({ loggedIn, logout, isAdmin }) => (
       }
 
     {
-      loggedIn ?
-        <ul id="nav-mobile" className="side-nav">
+      loggedIn
+        ? <ul id="nav-mobile" className="side-nav">
           <li>
             <Link activeClassName="active" to="/dashboard">Dashboard</Link>
           </li>
@@ -51,8 +50,7 @@ const MainMenu = ({ loggedIn, logout, isAdmin }) => (
               Logout</Link>
           </li>
         </ul>
-      :
-        <ul id="nav-mobile" className="side-nav">
+      : <ul id="nav-mobile" className="side-nav">
           <li>
             <Link activeClassName="active" to="/">Login</Link>
           </li>
@@ -65,12 +63,12 @@ const MainMenu = ({ loggedIn, logout, isAdmin }) => (
       <i className="material-icons">Menu</i>
     </a>
   </div>
-);
+;
 
 MainMenu.propTypes = {
-  logout: PropTypes.func,
-  isAdmin: PropTypes.number,
-  loggedIn: PropTypes.bool
+  logout: React.PropTypes.func,
+  isAdmin: React.PropTypes.number,
+  loggedIn: React.PropTypes.bool
 };
 
 export default MainMenu;
