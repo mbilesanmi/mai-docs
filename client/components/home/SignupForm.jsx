@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import TextInput from '../common/TextInput.jsx';
 
-const SignupForm = ({ onChange, onSubmit, loading, errors }) => (
+const SignupForm = ({ onChange, onSubmit, loading, errors }) =>
   <form className="login-form">
     <div className="card-content">
       <div className="row">
@@ -90,7 +90,7 @@ const SignupForm = ({ onChange, onSubmit, loading, errors }) => (
               "btn waves-effect waves-light col s2 offset-s5 teal darken-1"
             onClick={onSubmit}/>
         </div>
-        
+
         <div className="input-field col s12">
           <p className="center medium-small sign-up">
             Already have an account?
@@ -100,7 +100,7 @@ const SignupForm = ({ onChange, onSubmit, loading, errors }) => (
       </div>
     </div>
   </form>
-);
+;
 
 SignupForm.propTypes = {
   user: PropTypes.object.isRequired,

@@ -32,7 +32,6 @@ class AllUsers extends Component {
   }
 
   clearSearch(event) {
-    event.target.value = '';
     this.setState({ search: '' });
   }
 

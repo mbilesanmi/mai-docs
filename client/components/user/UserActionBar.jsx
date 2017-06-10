@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-const DocumentActionBar = ({ onRoleChange, onSearchChange, clearSearch }) => (
+const DocumentActionBar = ({ onRoleChange, onSearchChange, clearSearch }) =>
   <div className="row">
 
     <div className="col l8 m8 s12">
@@ -53,7 +53,7 @@ const DocumentActionBar = ({ onRoleChange, onSearchChange, clearSearch }) => (
       </form>
     </div>
   </div>
-);
+;
 
 DocumentActionBar.propTypes = {
   onRoleChange: PropTypes.func,

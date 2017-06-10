@@ -6,7 +6,7 @@ export default (state = initialState.isAuth, action) => {
     case types.SET_LOGGEDIN_USER:
       return Object.assign({}, state, {
         isAuthenticated: true,
-        loggedInUser: action.user,
+        loggedInUser: action.user
       });
     case types.GET_MY_DOCUMENTS_SUCCESS:
       return Object.assign({}, state, {
