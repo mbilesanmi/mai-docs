@@ -1,7 +1,7 @@
 import supertest from 'supertest';
 import expect from 'expect';
 import server from '../../tools/appServer';
-import { role, user, document } from './helper/testHelper';
+import { user } from './helper/testHelper';
 
 process.env.NODE_ENV = 'test';
 
