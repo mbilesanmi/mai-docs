@@ -4,12 +4,13 @@ import path from 'path';
 import open from 'open';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
+import serverRoutes from '../server/routes/index';
 import config from '../webpack.config';
-import routes from '../server/routes/index';
+
 
 /* eslint-disable no-console */
 
-const port = process.env.PORT || 3001;
+const port = 3002;
 const app = express();
 const compiler = webpack(config);
 
@@ -25,20 +26,21 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(require('webpack-hot-middleware')(compiler));
 
-app.use(require('webpack-hot-middleware')(compiler, {
-  publicPath: config.output.publicPath
-}));
-routes(app);
+serverRoutes(app);
 
-if (process.env.NODE_ENV === 'test') {
-  app.listen(port, (err) => {
-    if (err) {
-    } else if (process.env.NODE_ENV !== 'test') {
-      open(`http://localhost:${port}`);
-      console.log(`Express server is up on port ${port}`);
-    }
-  });
-}
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/index.html'));
+});
+
+app.listen(port, 'localhost', (err) => {
+  if (err) {
+    console.log(err);
+  } else {
+    open(`http://localhost:${port}`);
+    console.log(`Express server is up on port ${port}`);
+  }
+});
 
 export default app;

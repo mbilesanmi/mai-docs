@@ -1,9 +1,11 @@
 import jwt from 'jsonwebtoken';
 import model from '../models';
 
-const Users = model.Users;
-const Documents = model.Documents;
+const User = model.User;
+const Documents = model.Document;
+// const Documents = model.Document;
 const secret = 'secret';
+
 
 const UserController = {
   login(request, response) {
@@ -13,7 +15,7 @@ const UserController = {
         message: 'Fields cannot be empty'
       });
     }
-    return Users
+    User
       .findOne({
         where: {
           $or: [{
@@ -31,7 +33,7 @@ const UserController = {
           });
         } else if (user.validPassword(request.body.password)) {
           const userData = {
-            Id: user.id,
+            id: user.id,
             name: `${user.firstname} ${user.lastname}`,
             username: user.username,
             email: user.email,
@@ -39,7 +41,7 @@ const UserController = {
             roleId: user.roleId
           };
           const token = jwt.sign({
-            Id: user.id,
+            id: user.id,
             roleId: user.roleId,
             expiresIn: '1hr'
           }, secret);
@@ -63,52 +65,71 @@ const UserController = {
     response.status(200)
       .json({
         success: true,
-        message: 'User logged out',
+        message: 'User logged out'
       });
   },
   create(request, response) {
-    Users.findAll({
-      where: {
-        username: request.body.username
-      }
-    })
-    .then((user) => {
-      if (user) {
-        return response.status(409).send({ message: 'User already exist' });
-      }
-      Users.create(request.body)
-        .then((newUser) => {
-          const token = jwt.sign({
-            userData: {
-              id: newUser.id,
-              name: `${newUser.firstname} ${newUser.lastname}`,
-              username: newUser.username,
-              email: newUser.email,
-              roleId: newUser.roleId
-            }
-          }, secret, { expiresIn: '1h' });
-          return response.status(201).send({
-            newUser,
-            message: 'User signup completed successfully',
-            token
-          });
-        })
-        .catch(error => response.status(400).send(error));
-    })
-    .catch(error => response.status(400).send(error));
+    console.log('body request', request.body);
+    User
+      .findOne({
+        where: {
+          $or: [{
+            username: request.body.username
+          }, {
+            email: request.body.email
+          }]
+        }
+      })
+      .then((foundUser) => {
+        console.log('resp', foundUser);
+        if (foundUser) {
+          return response.status(409).send({ message: 'User already exists' });
+        }
+        return User
+          .create(request.body)
+            .then((newUser) => {
+              const token = jwt.sign({
+                userData: {
+                  id: newUser.id,
+                  name: `${newUser.firstname} ${newUser.lastname}`,
+                  username: newUser.username,
+                  email: newUser.email,
+                  roleId: newUser.roleId
+                }
+              }, secret, { expiresIn: '1h' });
+              return response.status(201).send({
+                newUser,
+                message: 'User signup completed successfully',
+                token
+              });
+            })
+            .catch((error) => {
+              response.status(403).send({
+                error,
+                message: 'User signup failed'
+              });
+            });
+      })
+      .catch(error => response.status(400).send(error));
   },
   getAll(request, response) {
-    return Users
-      .findAll()
+    User
+      .findAll({
+        include: [{
+          model: Documents,
+          as: 'documents'
+        }],
+      })
       .then(users => response.status(200).send(users))
       .catch(error => response.status(400).send(error));
   },
   getOne(request, response) {
-    return Users
+    User
       .findById(request.params.id, {
         include: [{
-          model: Documents
-        }]
+          model: Documents,
+          as: 'documents'
+        }],
       })
       .then((user) => {
         if (!user) {
@@ -121,7 +142,7 @@ const UserController = {
       .catch(error => response.status(400).send(error));
   },
   update(request, response) {
-    return Users
+    User
       .findById(request.params.id, {})
       .then((user) => {
         if (!user) {
@@ -129,7 +150,7 @@ const UserController = {
             message: 'User Not Found',
           });
         }
-        return user
+        user
           .update(request.body)
           .then(() =>
             // Send back the updated user data.
@@ -138,13 +159,13 @@ const UserController = {
       })
       .catch(error => response.status(400).send(error));
   },
-  deleteUser(request, response) {
-    return Users
+  delete(request, response) {
+    User
       .findById(request.params.id)
       .then((user) => {
         if (!user) {
           return response.status(400).send({
-            message: 'User not found',
+            message: 'User not found'
           });
         }
         return user
@@ -156,7 +177,7 @@ const UserController = {
           .catch(error => response.status(400).send(error));
       })
       .catch(error => response.status(400).send(error));
-  },
+  }
 };
 
 export default UserController;

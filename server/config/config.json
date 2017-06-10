@@ -19,7 +19,7 @@
   "production": {
     "username": "mai",
     "password": "Adetomiwa1234",
-    "database": "maidocs-production",
+    "database": "maidocs-prod",
     "host": "127.0.0.1",
     "port": 5432,
     "dialect": "postgres"

@@ -9,7 +9,7 @@ const Routes = (app) => {
   });
 
   app.get('/api', (req, res) => res.status(200).send({
-    message: 'Welcome to the Todos API!',
+    message: 'Welcome to the Todos API!'
   }));
 
   app.post(
@@ -25,7 +25,7 @@ const Routes = (app) => {
     '/api/roles/:id', RoleController.update
   );
   app.delete(
-    '/api/roles/:id', RoleController.deleteRole
+    '/api/roles/:id', RoleController.delete
   );
 
   app.post(
@@ -44,7 +44,7 @@ const Routes = (app) => {
     '/api/users/:id', UserController.update
   );
   app.delete(
-    '/api/users/:id', UserController.deleteUser
+    '/api/users/:id', UserController.delete
   );
 
   app.post(
@@ -56,11 +56,14 @@ const Routes = (app) => {
   app.get(
     '/api/documents/:id', DocumentController.getOne
   );
+  app.get(
+    '/api/documents/:id', DocumentController.getOne
+  );
   app.put(
     '/api/documents/:id', DocumentController.update
   );
   app.delete(
-    '/api/documents/:id', DocumentController.deleteDoc
+    '/api/documents/:id', DocumentController.delete
   );
 };
 

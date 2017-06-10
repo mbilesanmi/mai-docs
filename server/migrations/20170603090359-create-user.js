@@ -8,16 +8,26 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       firstname: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       lastname: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       username: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false,
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false,
+        validate: {
+          isEmail: true,
+          notEmpty: true,
+        }
       },
       password: {
         type: Sequelize.STRING
@@ -43,6 +53,6 @@ module.exports = {
       }
     });
   },
-  down: queryInterface /*  , Sequelize*/ =>
-    queryInterface.dropTable('Users'),
+  down: queryInterface /* , Sequelize*/ =>
+    queryInterface.dropTable('Users')
 };

@@ -8,12 +8,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       title: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
       },
       content: {
         type: Sequelize.TEXT
       },
-      access: {
+      viewAccess: {
         type: Sequelize.ENUM('Public', 'Private', 'Role'),
         defaultValue: 'Public'
       },
@@ -35,6 +36,6 @@ module.exports = {
       }
     });
   },
-  down: queryInterface /*  , Sequelize*/ =>
-    queryInterface.dropTable('Documents'),
+  down: queryInterface /* , Sequelize*/ =>
+    queryInterface.dropTable('Documents')
 };

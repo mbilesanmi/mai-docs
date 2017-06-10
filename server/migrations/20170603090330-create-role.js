@@ -8,7 +8,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       title: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
       },
       createdAt: {
         allowNull: false,
@@ -21,5 +22,5 @@ module.exports = {
     });
   },
   down: queryInterface /* , Sequelize*/ =>
-    queryInterface.dropTable('Roles'),
+    queryInterface.dropTable('Roles')
 };
