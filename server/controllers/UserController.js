@@ -14,7 +14,7 @@ const UserController = {
         message: 'Fields cannot be empty'
       });
     }
-    User
+    return User
       .findOne({
         where: {
           $or: [{
@@ -44,18 +44,17 @@ const UserController = {
             roleId: user.roleId,
             expiresIn: '1hr'
           }, secret);
-          response.status(200).send({
+          return response.status(200).send({
             status: 200,
             userData,
             message: `Welcome ${userData.name}`,
             token
           });
-        } else {
-          response.status(400).json({
-            status: 400,
-            message: 'Could not sign you in. Kindly check your login details'
-          });
         }
+        return response.status(400).json({
+          status: 400,
+          message: 'Could not sign you in. Kindly check your login details'
+        });
       })
       .catch(error => response.status(400).send(error));
   },

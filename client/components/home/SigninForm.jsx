@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import TextInput from '../common/TextInput.jsx';
 
-const SigninForm = ({ onChange, onSubmit, loading, errors }) => (
+const SigninForm = ({ onChange, onSubmit, loading, errors }) =>
     <div className="col s6 offset-s3 z-depth-5 card">
       <div className="card-image">
         <span className="card-title">Card Title</span>
@@ -57,7 +57,7 @@ const SigninForm = ({ onChange, onSubmit, loading, errors }) => (
         </div>
       </form>
     </div>
-  );
+  ;
 
 SigninForm.propTypes = {
   user: PropTypes.object.isRequired,
