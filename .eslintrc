@@ -1,11 +1,42 @@
 {
+  "root": true,
+  "extends": "airbnb-base",
   "env": {
       "browser": true,
       "es6": true,
       "node": true,
       "mocha": true
   },
-  "extends": "airbnb",
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "import"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "allowImportExportEverywhere": true,
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "ecmaFeatures": {
+    "arrowFunctions": true,
+    "blockBindings": true,
+    "classes": true,
+    "defaultParams": true,
+    "destructuring": true,
+    "forOf": true,
+    "generators": false,
+    "modules": true,
+    "objectLiteralComputedProperties": true,
+    "objectLiteralDuplicateProperties": false,
+    "objectLiteralShorthandMethods": true,
+    "objectLiteralShorthandProperties": true,
+    "spread": true,
+    "superInFunctions": true,
+    "templateStrings": true
+  },
   "rules": {
     "import/no-extraneous-dependencies" : ["error", {"devDependencies": true}],
     "react/jsx-filename-extension": [0, { "extensions": [".js", ".jsx"] }],
