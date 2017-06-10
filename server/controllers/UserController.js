@@ -120,7 +120,7 @@ const UserController = {
         include: [{
           model: Documents,
           as: 'documents'
-        }],
+        }]
       })
       .then(users => response.status(200).send(users))
       .catch(error => response.status(400).send(error));
@@ -131,7 +131,7 @@ const UserController = {
         include: [{
           model: Documents,
           as: 'documents'
-        }],
+        }]
       })
       .then((user) => {
         if (!user) {
@@ -149,10 +149,10 @@ const UserController = {
       .then((user) => {
         if (!user) {
           return response.status(404).send({
-            message: 'User Not Found',
+            message: 'User Not Found'
           });
         }
-        user
+        return user
           .update(request.body)
           .then(() =>
             // Send back the updated user data.
@@ -187,7 +187,7 @@ const UserController = {
         where: {
           $or: [{
             username: {
-              $iLike: `%${search}%`,
+              $iLike: `%${search}%`
             }
           }, {
             email: {
@@ -200,7 +200,7 @@ const UserController = {
         if (users.length <= 0) {
           return response.status(404)
           .send({
-            message: 'No users found matching your search criteria',
+            message: 'No users found matching your search criteria'
           });
         }
         return response.status(200).send({
@@ -214,7 +214,7 @@ const UserController = {
           message: 'Error occurred while retrieving Users'
         });
       });
-  },
+  }
 
 };
 

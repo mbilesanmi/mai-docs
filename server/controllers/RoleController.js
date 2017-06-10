@@ -9,7 +9,7 @@ const RoleController = {
         message: 'Title field cannot be empty'
       });
     }
-    Role
+    return Role
       .findOne({
         where: { title: request.body.title }
       })

@@ -114,7 +114,7 @@ const DocumentController = {
     .then((document) => {
       if (!document) {
         return res.status(404).send({
-          message: 'Document Not Found',
+          message: 'Document Not Found'
         });
       }
       return res.status(200).send(document);
@@ -150,7 +150,7 @@ const DocumentController = {
         where: {
           $or: [{
             title: {
-              $iLike: `%${search}%`,
+              $iLike: `%${search}%`
             }
           }, {
             content: {
@@ -163,7 +163,7 @@ const DocumentController = {
         if (documents.length <= 0) {
           return response.status(404)
           .send({
-            message: 'No documents found matching search criteria',
+            message: 'No documents found matching search criteria'
           });
         }
         return response.status(200).send({
@@ -177,7 +177,7 @@ const DocumentController = {
           message: 'Error occurred while retrieving documents'
         });
       });
-  },
+  }
 };
 
 export default DocumentController;
