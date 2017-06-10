@@ -1,8 +1,8 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 
 const DocumentActionBar = ({
     redirectToManageDocument, onViewAccessChange,
-    sitewide, onSearchChange }) => (
+    sitewide, onSearchChange }) =>
   <div className="row">
     <div className="col l3 m3 s1">
       <a
@@ -49,8 +49,8 @@ const DocumentActionBar = ({
           id="public" />
         <label htmlFor="public">Public</label>
 
-        {sitewide ? '' :
-        <span>
+        {sitewide ? ''
+        : <span>
           <input
             onClick={onViewAccessChange}
             className="with-gap"
@@ -72,14 +72,13 @@ const DocumentActionBar = ({
         <label htmlFor="role">Role</label>
       </form>
     </div>
-  </div>
-);
+  </div>;
 
 DocumentActionBar.propTypes = {
-  redirectToManageDocument: PropTypes.func,
-  onViewAccessChange: PropTypes.func,
-  sitewide: PropTypes.string,
-  onSearchChange: PropTypes.func
+  redirectToManageDocument: React.PropTypes.func,
+  onViewAccessChange: React.PropTypes.func,
+  sitewide: React.PropTypes.string,
+  onSearchChange: React.PropTypes.func
 };
 
 export default DocumentActionBar;

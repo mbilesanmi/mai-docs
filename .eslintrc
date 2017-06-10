@@ -1,17 +1,18 @@
 {
   "root": true,
   "extends": "airbnb-base",
-  "env": {
-      "browser": true,
-      "es6": true,
-      "node": true,
-      "mocha": true
-  },
   "plugins": [
     "react",
     "jsx-a11y",
     "import"
   ],
+  "env": {
+      "browser": true,
+      "jquery": true,
+      "es6": true,
+      "node": true,
+      "mocha": true
+  },
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
@@ -38,7 +39,6 @@
     "templateStrings": true
   },
   "rules": {
-    "import/no-extraneous-dependencies" : ["error", {"devDependencies": true}],
     "react/jsx-filename-extension": [0, { "extensions": [".js", ".jsx"] }],
     "import/no-dynamic-require" : [0],
     "import/newline-after-import" : [0],
@@ -129,8 +129,7 @@
     "radix"                 : [2],
     "vars-on-top"           : [0],
     "wrap-iife"             : [2, "outside"],
-    "yoda"                  : [2, "never"],
-
+    
     "strict"    : [2, "global"],
 
     "no-catch-shadow"            : [0],
@@ -208,12 +207,10 @@
     "no-nested-ternary"    : [2],
     "no-new-object"        : [2],
     "no-spaced-func"       : [2],
-    "no-ternary"           : [0],
     "no-trailing-spaces"   : [2],
     "no-underscore-dangle" : [0],
     "no-extra-parens"      : [2],
     "one-var"              : [0],
-    "react/forbid-prop-types": [0],
     "operator-assignment"  : [0],
     "operator-linebreak"   : [2, "before"],
     "padded-blocks"        : [0],
@@ -251,6 +248,14 @@
     "wrap-regex" : [2],
     "arrow-parens": [0],
     "import/no-unresolved": [0],
+    "import/no-extraneous-dependencies": [
+      2,
+      {
+        "devDependencies": true,
+        "optionalDependencies": false,
+        "peerDependencies": false
+      }
+    ],
     "import/extensions": [0]
   }
 }

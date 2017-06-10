@@ -1,11 +1,11 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import toastr from 'toastr';
 import * as documentActions from '../../actions/documentActions';
 import DocumentForm from '../document/DocumentForm.jsx';
 
-class ManageDocument extends Component {
+class ManageDocument extends React.Component {
   static componentDidMount() {
     $('select').material_select();
   }
@@ -29,7 +29,6 @@ class ManageDocument extends Component {
     this.props.actions.getAllDocuments();
   }
 
-
   componentWillReceiveProps(nextProps) {
     if (this.props.document.id !== nextProps.document.id) {
       // Necessary to repopulate the form when document is loaded directly
@@ -40,7 +39,7 @@ class ManageDocument extends Component {
   onEditorChange(event) {
     const document = this.state.document;
     document.content = event.target.getContent();
-    return ({ document });
+    return { document };
   }
 
   updateDocumentState(event) {
@@ -105,22 +104,22 @@ class ManageDocument extends Component {
 }
 
 ManageDocument.propTypes = {
-  actions: PropTypes.object.isRequired,
-  document: PropTypes.object.isRequired,
-  authorId: PropTypes.number.isRequired,
-  message: PropTypes.string
+  actions: React.PropTypes.object.isRequired,
+  document: React.PropTypes.object.isRequired,
+  authorId: React.PropTypes.number.isRequired,
+  message: React.PropTypes.string
 };
 
 // Pull in the React Router context
 // so router is available on this.context.router.
 ManageDocument.contextTypes = {
-  router: PropTypes.object
+  router: React.PropTypes.object
 };
 
 function getDocumentById(documents, id) {
-  const document = documents.filter(document => document.id === id);
+  const doc = documents.filter(document => document.id === id);
   // Filter returns an array, have to grab the first.
-  if (document) return document[0];
+  if (doc) { return document[0]; }
   return null;
 }
 
