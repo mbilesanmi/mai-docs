@@ -5,3 +5,7 @@
 
 # Mai Docs
 Mai Docs is a full stack document management system.
+
+
+[![Code Climate](https://codeclimate.com/github/andela-milesanmi/mai-headlines/badges/gpa.svg)](https://codeclimate.com/github/andela-milesanmi/mai-headlines)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()

@@ -6,6 +6,12 @@
     "jsx-a11y",
     "import"
   ],
+  "env": {
+    "node": true,
+    "es6": true,
+    "mocha": true,
+    "jquery": true
+  },
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
@@ -13,13 +19,6 @@
     "ecmaFeatures": {
       "jsx": true
     }
-  },
-  "env": {
-    "es6": true,
-    "browser": true,
-    "node": true,
-    "jquery": true,
-    "mocha": true
   },
   "ecmaFeatures": {
     "arrowFunctions": true,
@@ -101,9 +100,9 @@
     "react/prefer-es6-class": 1,
     "react/prop-types": 1,
     "react/react-in-jsx-scope": 1,
-    "react/require-extension": 0,
+    "react/require-extension": 1,
     "react/self-closing-comp": 1,
     "react/sort-comp": 1,
-    "react/jsx-wrap-multilines": 1
+    "react/wrap-multilines": 1
   }
 }
