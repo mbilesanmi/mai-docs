@@ -65,7 +65,7 @@ const RoleController = {
         return role
           .update(request.body)
           .then(() =>
-            // Send back the updated todo.
+            // Send back the updated role.
             response.status(200).send(role))
           .catch(error => response.status(400).send(error));
       })

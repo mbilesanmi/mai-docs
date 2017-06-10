@@ -48,7 +48,7 @@ const UserController = {
           response.status(200).send({
             status: 200,
             userData,
-            message: 'User logged in successfully',
+            message: `Welcome ${userData.name}`,
             token
           });
         } else {
@@ -87,19 +87,24 @@ const UserController = {
         }
         return User
           .create(request.body)
-            .then((newUser) => {
+            .then((user) => {
+              const userData = {
+                id: user.id,
+                name: `${user.firstname} ${user.lastname}`,
+                username: user.username,
+                email: user.email,
+                phone: user.phone,
+                roleId: user.roleId
+              };
               const token = jwt.sign({
-                userData: {
-                  id: newUser.id,
-                  name: `${newUser.firstname} ${newUser.lastname}`,
-                  username: newUser.username,
-                  email: newUser.email,
-                  roleId: newUser.roleId
-                }
-              }, secret, { expiresIn: '1h' });
+                id: user.id,
+                roleId: user.roleId,
+                expiresIn: '1hr'
+              }, secret);
               return response.status(201).send({
-                newUser,
-                message: 'User signup completed successfully',
+                status: 200,
+                userData,
+                message: `Signup successful. Welcome ${userData.name}`,
                 token
               });
             })

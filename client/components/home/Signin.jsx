@@ -35,7 +35,7 @@ class Signin extends Component {
     this.props.userActions.login(this.state.user)
     .then(() => {
       this.setState({ isLoading: false });
-      toastr.success('Logged in Successfully');
+      toastr.success(this.props.user.message);
       this.context.router.push('/dashboard');
     })
     .catch(() => {

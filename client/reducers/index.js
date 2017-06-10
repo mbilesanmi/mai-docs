@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
 import users from './userReducer';
 import isAuth from './authUserReducer';
-// import manageDocuments from './documentReducer';
+import documents from './documentReducer';
+import message from './messageReducer';
 // import manageRoles from './roleReducer';
 // import manageSearch from './searchReducer';
 // import currentlySelected from './currentlySelectedReducers';
@@ -9,7 +10,8 @@ import isAuth from './authUserReducer';
 const rootReducer = combineReducers({
   users,
   isAuth,
-  // manageDocuments,
+  documents,
+  message
   // manageRoles,
   // manageSearch,
   // currentlySelected

@@ -4,8 +4,11 @@ import App from './components/App.jsx';
 import Login from './components/home/Signin.jsx';
 import Dashboard from './components/home/Dashboard.jsx';
 import SignupPage from './components/home/Signup.jsx';
+import AllDocuments from './components/document/AllDocuments.jsx';
+import ManageDocument from './components/document/ManageDocument.jsx';
+import ViewDocument from './components/document/ViewDocument.jsx';
+import FourOFour from './components/common/FourOFour.jsx';
 // import AboutPage from './components/about/AboutPage.jsx';
-// import DocumentsPage from './components/document/DocumentsPage.jsx';
 // import UsersPage from './components/user/UsersPage.jsx';
 // import ManageUserPage from './components/user/ManageUserPage.jsx';
 // import RolesPage from './components/role/RolesPage.jsx';
@@ -19,14 +22,20 @@ export default (
   <Route path="/" component={App}>
     <IndexRoute component={Login} />
     <Route path="dashboard" component={requireAuth(Dashboard)} />
+    <Route path="documents" component={requireAuth(AllDocuments)} />
+    <Route path="document" component={requireAuth(ManageDocument)} />
+    <Route path="document/view/:id" component={requireAuth(ViewDocument)} />
+    <Route path="document/:id" component={requireAuth(ManageDocument)} />
     <Route path="signup" component={SignupPage} />
+    <Route path="404" component={FourOFour} />
+    {/* Require admin auth */}
+    {/*<Route path="documents" component={requireAuth(AllDocuments)} />*/}
+    {/* Require owner auth */}
     {/*<Route path="about" component={AboutPage} />
     <Route path="login" component={SigninPage} />
     <Route path="documents" component={requireAuth(DocumentsPage)} />
-    <Route path="users" component={requireAuth(UsersPage)} />
-    <Route path="user" component={requireAuth(ManageUserPage)} />
-    <Route path="user/:id" component={requireAuth(ManageUserPage)} />
-    <Route path="roles" component={requireAuth(RolesPage)} />
+    {/*<Route path="users" component={requireAuth(UsersPage)} />*/}
+    {/*<Route path="roles" component={requireAuth(RolesPage)} />
     <Route path="role" component={requireAuth(ManageRolePage)} />
     <Route path="role/:id" component={requireAuth(ManageRolePage)} />
     <Route path="courses" component={CoursesPage} />

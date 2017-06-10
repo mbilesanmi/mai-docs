@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import DocumentListRow from '../document/DocumentListRow.jsx';
-import DocumentActionBar from '../document/DocumentActionBar.jsx';
+import DocumentListRow from './DocumentListRow.jsx';
+import DocumentActionBar from './DocumentActionBar.jsx';
 
-class Dashboard extends Component {
+class AllDocuments extends Component {
   constructor(props, context) {
     super(props, context);
 
@@ -24,20 +24,15 @@ class Dashboard extends Component {
     this.setState({ accessType: event.target.value });
   }
 
-  onSearchChange(event) {
-    console.log('seaching', event.target.value);
-  }
-
   render() {
     const { documents } = this.props;
-
     let filteredDocuments;
     if (this.state.accessType === null || this.state.accessType === 'All') {
       filteredDocuments = documents.filter(document =>
-        document.ownerId === this.props.loggedInUserID);
+        document.viewAccess !== 'Private');
     } else {
       filteredDocuments = documents.filter(document =>
-        document.ownerId === this.props.loggedInUserID).filter(document =>
+        document.viewAccess !== 'Private').filter(document =>
           document.viewAccess === this.state.accessType
         );
     }
@@ -46,13 +41,14 @@ class Dashboard extends Component {
         <div className="container">
           <div className="row">
             <div className="col l6 m6 s12">
-              <h1>My Documents</h1>
+              <h1>Sitewide Documents</h1>
             </div>
           </div>
 
           <DocumentActionBar
             redirectToManageDocument={this.redirectToManageDocument}
-            onViewAccessChange={this.onViewAccessChange} />
+            onViewAccessChange={this.onViewAccessChange}
+            sitewide="sitewide" />
 
           <div className="row">
             <div className="col s12">
@@ -70,14 +66,14 @@ class Dashboard extends Component {
   }
 }
 
-Dashboard.propTypes = {
+AllDocuments.propTypes = {
   documents: PropTypes.array,
   loggedInUserID: PropTypes.number
 };
 
 // Pull in the React Router context
 // so router is available on this.context.router.
-Dashboard.contextTypes = {
+AllDocuments.contextTypes = {
   router: PropTypes.object
 };
 
@@ -88,4 +84,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps)(AllDocuments);
