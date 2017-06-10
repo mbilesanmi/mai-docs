@@ -11,7 +11,7 @@ after_success:
 
 addons:
   code_climate:
-    repo_token: dc04021b14ac1ef9fa36443fa7b441098bbf5cd4d7a18b2af9499016b1b98edf
+    repo_token: fb0c96c098728987e16e1077ccf5298a0fa79fd0198ecb147894b6cdf5f45d1e
 
 after_failure:
   - npm run coverage
