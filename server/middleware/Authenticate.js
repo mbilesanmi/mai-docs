@@ -4,8 +4,8 @@ const secret = 'secret';
 
 const Authenticate = {
   validateToken(request, response, next) {
-    const token = request.headers.authorization ||
-      request.body.token || request.headers['x-access-token'];
+    const token = request.headers.authorization
+    || request.body.token || request.headers['x-access-token'];
 
     if (token) {
       jwt.verify(token, secret, (error, decoded) => {
