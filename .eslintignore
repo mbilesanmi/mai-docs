@@ -1,4 +1,3 @@
 dist/bundle.js
-webpack.config.js
 client/index.test.js
 tools/

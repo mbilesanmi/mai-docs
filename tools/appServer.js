@@ -38,7 +38,9 @@ app.listen(port, 'localhost', (err) => {
   if (err) {
     console.log(err);
   } else {
-    open(`http://localhost:${port}`);
+    if (process.env.NODE_ENV !== 'test') {
+      open(`http://localhost:${port}`);
+    }
     console.log(`Express server is up on port ${port}`);
   }
 });

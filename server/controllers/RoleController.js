@@ -29,7 +29,7 @@ const RoleController = {
             }));
         }
       })
-      .catch(error => response.status(400).send({
+      .catch(error => response.status(409).send({
         error,
         message: 'Role must be unique'
       }));
@@ -51,44 +51,10 @@ const RoleController = {
         }
         return response.status(200).send(role);
       })
-      .catch(error => response.status(400).send(error));
-  },
-  update(request, response) {
-    Role
-      .findById(request.params.id, {})
-      .then((role) => {
-        if (!role) {
-          return response.status(404).send({
-            message: 'Role Not Found'
-          });
-        }
-        return role
-          .update(request.body)
-          .then(() =>
-            // Send back the updated role.
-            response.status(200).send(role))
-          .catch(error => response.status(400).send(error));
-      })
-      .catch(error => response.status(400).send(error));
-  },
-  delete(request, response) {
-    return Role
-      .findById(request.params.id)
-      .then((role) => {
-        if (!role) {
-          return response.status(400).send({
-            message: 'Role Not Found'
-          });
-        }
-        return role
-          .destroy()
-          .then(() =>
-            response.status(200).send({
-              message: 'Role deleted successfully.'
-            }))
-          .catch(error => response.status(400).send(error));
-      })
-      .catch(error => response.status(400).send(error));
+      .catch(error => response.status(400).send({
+        error,
+        message: 'Invalid roleID'
+      }));
   }
 };
 

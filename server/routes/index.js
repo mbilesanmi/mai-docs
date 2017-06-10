@@ -9,7 +9,7 @@ const Routes = (app) => {
   });
 
   app.get('/api', (req, res) => res.status(200).send({
-    message: 'Welcome to the Todos API!'
+    message: 'Welcome to the Mai Docs API!'
   }));
 
   // ROLES API ENDPOINT ROUTES

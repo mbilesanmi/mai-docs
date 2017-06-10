@@ -98,7 +98,7 @@ const UserController = {
                 expiresIn: '1hr'
               }, secret);
               return response.status(201).send({
-                status: 200,
+                status: 201,
                 userData,
                 message: `Signup successful. Welcome ${userData.name}`,
                 token
