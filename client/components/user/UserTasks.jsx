@@ -27,16 +27,16 @@ class UserTasks extends Component {
       if (isConfirm) {
         this.props.actions.deleteUser(this.props.userId)
         .then(() =>
-          swal('Deleted!', 'The selected profile has been deleted.', 'success')
-        )
-        .catch(() =>
-          swal('Cancelled', 'Unable to delete user profile', 'error')
+          swal('Deleted!', this.props.message, 'success')
+        , () =>
+          swal('Cancelled', this.props.message, 'error')
         );
       } else {
-        swal('Cancelled', 'The user profile is safe :)', 'error');
+        swal('Cancelled', 'The user profile is safe :)', 'info');
       }
     });
   }
+
   render() {
     return (
       <span>
@@ -55,6 +55,7 @@ class UserTasks extends Component {
 
 UserTasks.propTypes = {
   userId: PropTypes.number,
+  message: PropTypes.string,
   actions: PropTypes.object.isRequired
 };
 
@@ -64,10 +65,14 @@ UserTasks.contextTypes = {
   router: PropTypes.object
 };
 
+const mapStateToProps = state => ({
+  message: state.message
+});
+
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(userActions, dispatch)
   };
 }
 
-export default connect(null, mapDispatchToProps)(UserTasks);
+export default connect(mapStateToProps, mapDispatchToProps)(UserTasks);

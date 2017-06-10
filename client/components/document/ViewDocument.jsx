@@ -35,7 +35,7 @@ ViewDocument.propTypes = {
   documents: PropTypes.array.isRequired,
   documentId: PropTypes.number,
   message: PropTypes.string,
-  users: PropTypes.object
+  users: PropTypes.array
 };
 
 // Pull in the React Router context

@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import toastr from 'toastr';
+import ReactPaginate from 'react-paginate';
 import DocumentListRow from './DocumentListRow.jsx';
 import DocumentActionBar from './DocumentActionBar.jsx';
 import * as actions from '../../actions/documentActions';
@@ -18,7 +19,8 @@ class AllDocuments extends Component {
       documents: [],
       searchResults: [],
       accessType: null,
-      search: ''
+      search: '',
+      offset: 0
     };
   }
 
@@ -76,6 +78,17 @@ class AllDocuments extends Component {
             sitewide="sitewide" />
 
           <div className="row">
+            <ReactPaginate previousLabel={'previous'}
+              nextLabel={'next'}
+              breakLabel={<a href="">...</a>}
+              breakClassName={'break-me'}
+              pageCount={this.state.pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={''}
+              containerClassName={'pagination'}
+              subContainerClassName={'pages pagination'}
+              activeClassName={'active'} />
             <div className="col s12">
               {filteredDocuments.map(document =>
                 <DocumentListRow

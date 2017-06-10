@@ -49,7 +49,7 @@ const DocumentListRow = ({ document, loggedInUserID, users }) => (
 DocumentListRow.propTypes = {
   document: PropTypes.object.isRequired,
   loggedInUserID: PropTypes.number,
-  users: PropTypes.users
+  users: PropTypes.array
 };
 
 const mapStateToProps = state => ({

@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react';
 
 const DocumentActionBar = ({
-    redirectToManageDocument, onViewAccessChange, sitewide, onSearchChange }) => (
+    redirectToManageDocument, onViewAccessChange,
+    sitewide, onSearchChange }) => (
   <div className="row">
     <div className="col l3 m3 s1">
       <a

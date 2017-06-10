@@ -25,12 +25,8 @@ class Header extends Component {
 
   render() {
     const loggedIn = this.props.loggedIn;
-    let isAdmin;
-    if (loggedIn) {
-      isAdmin = this.props.isAdmin.roleId;
-    } else {
-      isAdmin = 0;
-    }
+    const isAdmin = loggedIn ? this.props.isAdmin.roleId : 0;
+
     return (
       <nav className="nav-wrapper teal" role="navigation">
         <IndexLink

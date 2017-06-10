@@ -7,15 +7,12 @@ export default (state = initialState.documents, action) => {
       return action.documents;
 
     case types.CREATE_DOCUMENT_SUCCESS:
-      return [
-        ...state,
-        Object.assign({}, action.document)
-      ];
+      return [...state, action.document];
 
     case types.UPDATE_DOCUMENT_SUCCESS:
       return [
-        ...state.filter(document => document.id !== action.document.id),
-        Object.assign({}, action.document)
+        ...state.filter(document =>
+          document.id !== action.document.id), action.document
       ];
 
     default:

@@ -6,6 +6,14 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
+        is: {
+          args: ['^[a-z\'-]+$', 'i'],
+          message: 'firstname can only contain letters and/or - and \''
+        },
+        len: {
+          args: [2, 20],
+          message: 'firstname must be between 2 and 20 characters long'
+        },
         notEmpty: {
           message: 'Enter your firstname'
         }
@@ -15,6 +23,14 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
+        is: {
+          args: ['^[a-z\'-]+$', 'i'],
+          message: 'lastname can only contain letters and/or - and \''
+        },
+        len: {
+          args: [2, 20],
+          message: 'lastname must be between 2 and 20 characters long'
+        },
         notEmpty: {
           message: 'Enter your lastname'
         }
@@ -25,6 +41,14 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
       validate: {
+        is: {
+          args: ['^[a-z0-9_.]+$', 'i'],
+          message: 'username must contains only letters, numbers, "." and "_"'
+        },
+        len: {
+          args: [4, 16],
+          message: 'username cannot be less than 4 or greater than 16 characters'
+        },
         notEmpty: {
           message: 'You must choose a unique Username'
         }
@@ -33,9 +57,13 @@ export default (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: {
+        args: true,
+        message: 'This email is already in use'
+      },
       validate: {
         isEmail: {
+          args: true,
           message: 'Please enter a valid email address!'
         }
       }
@@ -68,11 +96,13 @@ export default (sequelize, DataTypes) => {
       associate: (models) => {
         // associations can be defined here
         User.belongsTo(models.Role, {
-          foreignKey: 'roleId'
+          foreignKey: 'roleId',
+          onDelete: 'CASCADE'
         });
         User.hasMany(models.Document, {
           foreignKey: 'ownerId',
           as: 'documents',
+          onDelete: 'CASCADE'
         });
       }
     },
