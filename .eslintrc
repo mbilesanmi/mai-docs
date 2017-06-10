@@ -219,7 +219,6 @@
 
     "wrap-regex" : [2],
     "arrow-parens": [0],
-    "import/no-unresolved": [0],
-    "import/extensions": [0]
+    "import/no-unresolved": [0]
   }
 }
