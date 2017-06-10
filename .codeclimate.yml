@@ -1,19 +1,17 @@
 engines:
+  rubocop:
+    enabled: false
+  eslint:
+    enabled: true
+    checks:
+      comma-dangle:
+        enabled: false
   duplications:
     enabled: false
     config:
       languages:
         #mass_threshold: 30
         - javascript
-  eslint:
-    enabled: true
-    checks:
-      comma-dangle:
-        enabled: false
-  fixme:
-    enabled: true
-languages:
-  JavaScript: true
 exclude_paths:
 - "coverage"
 - "helpers/"
