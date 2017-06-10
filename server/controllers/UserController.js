@@ -9,8 +9,8 @@ const secret = 'secret';
 const UserController = {
   login(request, response) {
     if (request.body.loginId === '' || request.body.password === '') {
-      return response.status(400).json({
-        status: 'Bad Request',
+      return response.status(400).send({
+        status: 400,
         message: 'Fields cannot be empty'
       });
     }
@@ -140,7 +140,10 @@ const UserController = {
         }
         return response.status(200).send(user);
       })
-      .catch(error => response.status(400).send(error));
+      .catch(error => response.status(400).send({
+        error,
+        message: 'Invalid userID'
+      }));
   },
   update(request, response) {
     User
@@ -155,8 +158,13 @@ const UserController = {
           .update(request.body)
           .then(() =>
             // Send back the updated user data.
-            response.status(200).send(user))
-          .catch(error => response.status(400).send(error));
+            response.status(200).send({
+              user,
+              message: 'Profile successfully updated'
+            }))
+          .catch(error => response.status(400).send({
+            error
+          }));
       })
       .catch(error => response.status(400).send(error));
   },
@@ -165,7 +173,7 @@ const UserController = {
       .findById(request.params.id)
       .then((user) => {
         if (!user) {
-          return response.status(400).send({
+          return response.status(404).send({
             message: 'User not found'
           });
         }
@@ -214,7 +222,6 @@ const UserController = {
         });
       });
   }
-
 };
 
 export default UserController;

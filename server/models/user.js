@@ -72,7 +72,7 @@ export default (sequelize, DataTypes) => {
         });
         User.hasMany(models.Document, {
           foreignKey: 'ownerId',
-          as: 'documents',
+          as: 'documents'
         });
       }
     },

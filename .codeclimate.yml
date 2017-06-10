@@ -10,7 +10,6 @@ engines:
     enabled: false
     config:
       languages:
-        #mass_threshold: 30
         - javascript
 exclude_paths:
 - "coverage"

@@ -1,26 +1,33 @@
 import supertest from 'supertest';
 import expect from 'expect';
 import server from '../../tools/appServer';
-import { role } from './helper/testHelper';
-import db from '../models';
+import { role, newData } from './helper/testHelper';
+import { roles, users, documents } from './helper/seeders';
+import models from '../models';
 
 process.env.NODE_ENV = 'test';
 
 const app = supertest.agent(server);
 
 describe('Mai Docs Roles Endpoints ', () => {
-  // before((done) => {
-  //   app
-  //     .post('/users')
-  //     .send(adminUser)
-  //     .end((err, res) => {
-  //       userDetails = res.body;
-  //       done();
-  //     });
-  // });
+  before((done) => {
+    console.log('message :  ', 'reseting Database.......');
+    models.sequelize.sync({ force: true }).then(() => {
+      models.Role.bulkCreate(roles).then(() => {
+        console.log('message :  ', 'seeding roles done.......');
+        models.Role.bulkCreate(users).then(() => {
+          console.log('message :  ', 'seeding users done.......');
+          models.Role.bulkCreate(users).then(() => {
+            console.log('message :  ', 'seeding documents done.......');
+          }).catch(() => {});
+        }).catch(() => {});
+      }).catch(() => {});
+    }).catch(() => {});
+    done();
+  });
   after((done) => {
-    console.log('message :  ', 'resseting Database.......');
-    db.sequelize.sync({ force: true }).then(() => {
+    console.log('message :  ', 'reseting Database.......');
+    models.sequelize.sync({ force: true }).then(() => {
       console.log('message :  ', 'Database reset succesful');
       done();
     });
@@ -30,7 +37,7 @@ describe('Mai Docs Roles Endpoints ', () => {
     it('should return a status of 201 when successful', (done) => {
       app
         .post('/api/roles')
-        .send(role.newRole)
+        .send(newData.newRole)
         .end((error, response) => {
           expect(response.status).toEqual(201);
           if (error) { done(error); }
@@ -40,7 +47,7 @@ describe('Mai Docs Roles Endpoints ', () => {
     it('should return a Role created successfully message if successful', (done) => {
       app
         .post('/api/roles')
-        .send(role.newRole)
+        .send(newData.newRole)
         .end((error, response) => {
           expect(response.body.message).toEqual('Role created successfully');
           if (error) { done(error); }
@@ -50,7 +57,7 @@ describe('Mai Docs Roles Endpoints ', () => {
     it('should return a json object of the created role if successful', (done) => {
       app
         .get('/api/roles/')
-        .send(role.newRole)
+        .send(newData.newRole)
         .end((error, response) => {
           expect(typeof response.body).toBe('object');
           if (error) { done(error); }
@@ -60,7 +67,7 @@ describe('Mai Docs Roles Endpoints ', () => {
     it('should have a json response if successful', (done) => {
       app
         .post('/api/roles')
-        .send(role.newRole)
+        .send(newData.newRole)
         .end((error, response) => {
           expect('Content-Type', /json/);
           if (error) { done(error); }
@@ -87,7 +94,7 @@ describe('Mai Docs Roles Endpoints ', () => {
         });
       done();
     });
-    it('should return a json object of the created role when the fields are empty', (done) => {
+    it('should return a json object of the error message when the fields are empty', (done) => {
       app
         .get('/api/roles/')
         .send(role.emptyRole)
@@ -110,10 +117,10 @@ describe('Mai Docs Roles Endpoints ', () => {
     it('should return a status of 409 when the title isnt unique', (done) => {
       app
         .post('/api/roles')
-        .send(role.newRole)
+        .send(newData.newRole)
         .end(() => {
           app.post('/api/roles')
-          .send(role.newRole)
+          .send(newData.newRole)
           .end((error, response) => {
             expect(response.status).toEqual(409);
             if (error) { done(error); }
@@ -124,10 +131,10 @@ describe('Mai Docs Roles Endpoints ', () => {
     it('should return a Role must be unique message the title isnt unique', (done) => {
       app
         .post('/api/roles')
-        .send(role.newRole)
+        .send(newData.newRole)
         .end(() => {
           app.post('/api/roles')
-          .send(role.newRole)
+          .send(newData.newRole)
           .end((error, response) => {
             expect(response.body.message).toEqual('Role must be unique');
             if (error) { done(error); }
@@ -135,13 +142,13 @@ describe('Mai Docs Roles Endpoints ', () => {
         });
       done();
     });
-    it('should return a json object of the created role the title isnt unique', (done) => {
+    it('should return a json object of the error message if the title isnt unique', (done) => {
       app
         .post('/api/roles')
-        .send(role.newRole)
+        .send(newData.newRole)
         .end(() => {
           app.post('/api/roles')
-          .send(role.newRole)
+          .send(newData.newRole)
           .end((error, response) => {
             expect(typeof response.body).toBe('object');
             if (error) { done(error); }
@@ -149,13 +156,13 @@ describe('Mai Docs Roles Endpoints ', () => {
         });
       done();
     });
-    it('should have a json response the title isnt unique', (done) => {
+    it('should have a json response if the title isnt unique', (done) => {
       app
         .post('/api/roles')
-        .send(role.newRole)
+        .send(newData.newRole)
         .end(() => {
           app.post('/api/roles')
-          .send(role.newRole)
+          .send(newData.newRole)
           .end((error, response) => {
             expect('Content-Type', /json/);
             if (error) { done(error); }
@@ -181,8 +188,8 @@ describe('Mai Docs Roles Endpoints ', () => {
         .end((error, response) => {
           expect(typeof response.body).toEqual('object');
           if (error) { done(error); }
-          done();
         });
+      done();
     });
   });
 
@@ -193,8 +200,8 @@ describe('Mai Docs Roles Endpoints ', () => {
         .end((error, response) => {
           expect(response.status).toEqual(200);
           if (error) { done(error); }
-          done();
         });
+      done();
     });
     it('should fetch a json object for the selected role', (done) => {
       app
@@ -202,8 +209,8 @@ describe('Mai Docs Roles Endpoints ', () => {
         .end((error, response) => {
           expect(typeof response.body).toEqual('object');
           if (error) { done(error); }
-          done();
         });
+      done();
     });
     it('should return a status of 400 for an invalid roleId', (done) => {
       app
@@ -216,7 +223,7 @@ describe('Mai Docs Roles Endpoints ', () => {
     });
     it('should fetch a json object for the invalid roleId', (done) => {
       app
-        .get('/api/roles/1')
+        .get('/api/roles/190290jks')
         .end((error, response) => {
           expect(typeof response.body).toEqual('object');
           if (error) { done(error); }

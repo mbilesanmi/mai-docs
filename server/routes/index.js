@@ -22,12 +22,6 @@ const Routes = (app) => {
   app.get(
     '/api/roles/:id', RoleController.getOne
   );
-  app.put(
-    '/api/roles/:id', RoleController.update
-  );
-  app.delete(
-    '/api/roles/:id', RoleController.delete
-  );
 
   // USERS API ENDPOINT ROUTES
   app.post(
