@@ -5,6 +5,7 @@ export default {
     loggedInUser: null
   },
   documents: [],
+  searchResults: [],
   roles: [],
   message: null
 };

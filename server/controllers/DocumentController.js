@@ -154,7 +154,43 @@ const DocumentController = {
         error,
         message: 'Something went wrong! The document could not be opened.'
       }));
-  }
+  },
+  search(request, response) {
+    // console.log('search req', request);
+    const search = request.query.search;
+    return Documents
+      .findAll({
+        where: {
+          $or: [{
+            title: {
+              $iLike: `%${search}%`,
+            }
+          }, {
+            content: {
+              $iLike: `%${search}%`
+            }
+          }]
+        }
+      })
+      .then((documents) => {
+        if (documents.length <= 0) {
+          return response.status(404)
+          .send({
+            message: 'No documents found matching search criteria',
+          });
+        }
+        return response.status(200).send({
+          documents,
+          message: 'Documents found'
+        });
+      })
+      .catch((error) => {
+        response.status(500).send({
+          error,
+          message: 'Error occurred while retrieving documents'
+        });
+      });
+  },
 };
 
 export default DocumentController;

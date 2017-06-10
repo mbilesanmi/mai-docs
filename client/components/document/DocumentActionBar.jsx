@@ -18,7 +18,6 @@ const DocumentActionBar = ({
             id="search"
             type="search"
             onKeyUp={onSearchChange}
-            value=""s
             placeholder="Search within your own documents" />
           <label className="label-icon" htmlFor="search">
             <i className="material-icons">search</i>

@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import DocumentListRow from './DocumentListRow.jsx';
 import DocumentActionBar from './DocumentActionBar.jsx';
+import * as actions from '../../actions/documentActions';
 
 class AllDocuments extends Component {
   constructor(props, context) {
@@ -9,10 +11,13 @@ class AllDocuments extends Component {
 
     this.redirectToManageDocument = this.redirectToManageDocument.bind(this);
     this.onViewAccessChange = this.onViewAccessChange.bind(this);
+    this.onSearchChange = this.onSearchChange.bind(this);
 
     this.state = {
       documents: [],
-      accessType: null
+      searchResults: [],
+      accessType: null,
+      search: ''
     };
   }
 
@@ -24,10 +29,21 @@ class AllDocuments extends Component {
     this.setState({ accessType: event.target.value });
   }
 
+  onSearchChange(event) {
+    this.setState({ search: event.target.value });
+    this.props.actions.search(event.target.value);
+  }
+
   render() {
     const { documents } = this.props;
+    const { searchResults } = this.props;
+
     let filteredDocuments;
-    if (this.state.accessType === null || this.state.accessType === 'All') {
+    if (this.state.search !== '') {
+      filteredDocuments = searchResults.filter(document =>
+        document.viewAccess !== 'Private');
+    } else if (this.state.accessType === null
+      || this.state.accessType === 'All') {
       filteredDocuments = documents.filter(document =>
         document.viewAccess !== 'Private');
     } else {
@@ -48,6 +64,7 @@ class AllDocuments extends Component {
           <DocumentActionBar
             redirectToManageDocument={this.redirectToManageDocument}
             onViewAccessChange={this.onViewAccessChange}
+            onSearchChange={this.onSearchChange}
             sitewide="sitewide" />
 
           <div className="row">
@@ -68,7 +85,10 @@ class AllDocuments extends Component {
 
 AllDocuments.propTypes = {
   documents: PropTypes.array,
-  loggedInUserID: PropTypes.number
+  searchResults: PropTypes.array,
+  loggedInUserID: PropTypes.number,
+  search: PropTypes.string,
+  actions: PropTypes.object
 };
 
 // Pull in the React Router context
@@ -77,11 +97,14 @@ AllDocuments.contextTypes = {
   router: PropTypes.object
 };
 
-function mapStateToProps(state) {
-  return {
-    documents: state.documents || {},
-    loggedInUserID: state.isAuth.loggedInUser.id
-  };
-}
+const mapStateToProps = state => ({
+  searchResults: state.searchResults.documents || [],
+  documents: state.documents || {},
+  loggedInUserID: state.isAuth.loggedInUser.id
+});
 
-export default connect(mapStateToProps)(AllDocuments);
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actions, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllDocuments);
