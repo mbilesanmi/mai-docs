@@ -37,7 +37,7 @@ export function getAllDocuments() {
   })
   .catch((error) => {
     dispatch(passFailureMessage(error.response.data.message));
-    throw (error);
+    throw error;
   });
 }
 export function getOneDocument(id) {
@@ -48,7 +48,7 @@ export function getOneDocument(id) {
   })
   .catch((error) => {
     dispatch(passFailureMessage(error.response.data.message));
-    throw (error);
+    throw error;
   });
 }
 
@@ -60,7 +60,7 @@ export function createDocument(document) {
   })
   .catch((error) => {
     dispatch(passFailureMessage(error.response.data.message));
-    throw (error);
+    throw error;
   });
 }
 
@@ -72,7 +72,7 @@ export function updateDocument(id, document) {
   })
   .catch((error) => {
     dispatch(passFailureMessage(error.response.data.message));
-    throw (error);
+    throw error;
   });
 }
 

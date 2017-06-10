@@ -50,7 +50,7 @@ export function getAllUsers() {
   })
   .catch((error) => {
     dispatch(passFailureMessage(error.response.data.message));
-    throw (error);
+    throw error;
   });
 }
 
@@ -65,7 +65,7 @@ export function createUser(user) {
       dispatch(setCurrentUser(response.data.userData));
     })
     .catch((error) => {
-      throw (error);
+      throw error;
     });
 }
 
@@ -80,7 +80,7 @@ export function login(user) {
       dispatch(setCurrentUser(response.data.userData));
     })
     .catch((error) => {
-      throw (error);
+      throw error;
     });
 }
 

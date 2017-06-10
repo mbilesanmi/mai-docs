@@ -15,6 +15,6 @@ export function getAllRoles() {
   })
   .catch((error) => {
     dispatch(passFailureMessage(error.response.data.message));
-    throw (error);
+    throw error;
   });
 }
