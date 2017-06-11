@@ -7,7 +7,7 @@ function setup(saving) {
   const props = {
     document: {},
     saving,
-    onSubmit: () => {},
+    onSave: () => {},
     onChange: () => {},
     onEditorChange: () => {}
   };
