@@ -7,7 +7,7 @@ engines:
       comma-dangle:
         enabled: false
   duplications:
-    enabled: false
+    enabled: true
     config:
       languages:
         - javascript
