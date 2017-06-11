@@ -14,8 +14,7 @@ const SignupForm = ({ onChange, onSubmit, loading, errors }) =>
             icon="person"
             onChange={onChange}
             onBlur=""
-            clearError=""
-            error={errors.firstname}/>
+            clearError="" />
         </div>
         <div className="col s4">
           <TextInput
@@ -25,8 +24,7 @@ const SignupForm = ({ onChange, onSubmit, loading, errors }) =>
             icon="person"
             onChange={onChange}
             onBlur=""
-            clearError=""
-            error={errors.lastname}/>
+            clearError="" />
         </div>
       </div>
       <div className="row">
@@ -38,8 +36,7 @@ const SignupForm = ({ onChange, onSubmit, loading, errors }) =>
             icon="person"
             onChange={onChange}
             onBlur=""
-            clearError=""
-            error={errors.username}/>
+            clearError="" />
         </div>
         <div className="col s4">
           <TextInput
@@ -49,8 +46,7 @@ const SignupForm = ({ onChange, onSubmit, loading, errors }) =>
             icon="email"
             onChange={onChange}
             onBlur=""
-            clearError=""
-            error={errors.email}/>
+            clearError="" />
         </div>
       </div>
       <div className="row">
@@ -62,8 +58,7 @@ const SignupForm = ({ onChange, onSubmit, loading, errors }) =>
             icon="lock"
             onChange={onChange}
             onBlur=""
-            clearError=""
-            error={errors.password}/>
+            clearError="" />
         </div>
         <div className="col s4">
           <TextInput
@@ -73,8 +68,7 @@ const SignupForm = ({ onChange, onSubmit, loading, errors }) =>
             icon="lock"
             onChange={onChange}
             onBlur=""
-            clearError=""
-            error={errors.confirmPassword}/>
+            clearError="" />
         </div>
       </div>
     </div>

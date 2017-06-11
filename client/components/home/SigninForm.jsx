@@ -19,8 +19,7 @@ const SigninForm = ({ onChange, onSubmit, loading, errors }) =>
                 icon="person"
                 onChange={onChange}
                 onBlur=""
-                clearError=""
-                error={errors.loginId}/>
+                clearError="" />
             </div>
           </div>
           <div className="row">
@@ -31,8 +30,7 @@ const SigninForm = ({ onChange, onSubmit, loading, errors }) =>
                 name="password"
                 icon="lock"
                 onChange={onChange}
-                clearError=""
-                error={errors.password}/>
+                clearError="" />
             </div>
           </div>
         </div>

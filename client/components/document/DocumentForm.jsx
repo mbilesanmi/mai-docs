@@ -53,6 +53,7 @@ const DocumentForm = ({ document, onSave,
     </div>
 
     <input
+      id="saveDocument"
       type="submit"
       disabled={saving}
       value={saving ? 'Saving...' : 'Save'}

@@ -13,7 +13,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-  children: PropTypes.object
+  children: PropTypes.element
 };
 
 export default App;

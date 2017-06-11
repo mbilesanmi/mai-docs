@@ -10,7 +10,7 @@
     "lint:watch": "npm run lint -- --watch",
     "test": "npm run db:test:seed && npm run test:mocha",
     "test:mocha": "npm run test:mocha:client && npm run test:mocha:server",
-    "test:mocha:client": "cross-env NODE_ENV=test nyc mocha ./client/tests/**/*.test.js --compilers js:babel-register",
+    "test:mocha:client": "cross-env NODE_ENV=test mocha --reporter spec ./client/test/**/*.test.js --compilers js:babel-register",
     "test:mocha:server": "cross-env NODE_ENV=test nyc mocha --reporter progress ./server/test/**/*.test.js --timeout 60000 --compilers js:babel-register",
     "test:watch": "npm run test -- --watch",
     "db:test:seed": "cross-env NODE_ENV=test babel-node ./server/test/helper/testHelper.js"
@@ -97,6 +97,7 @@
     "rimraf": "2.5.2",
     "sass-loader": "^3.1.2",
     "script-loader": "^0.6.1",
+    "sinon": "^2.3.4",
     "style-loader": "0.13.1",
     "supertest": "^3.0.0",
     "url-loader": "0.5.7",
