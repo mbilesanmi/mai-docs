@@ -21,6 +21,6 @@ module.exports = {
       }
     });
   },
-  down: queryInterface /* , Sequelize*/ =>
+  down: queryInterface =>
     queryInterface.dropTable('Roles')
 };

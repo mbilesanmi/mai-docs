@@ -4,7 +4,7 @@ import Dotenv from 'dotenv-webpack';
 import path from 'path';
 
 const dotEnvPlugin = new Dotenv({
-  path: './.env',
+  path: './.env'
 });
 
 export default {
@@ -16,7 +16,7 @@ export default {
     'eventsource-polyfill',
     // note that it reloads the page if hot module reloading fails.
     'webpack-hot-middleware/client?reload=true',
-    './client/index',
+    './client/index'
   ],
   target: 'web',
   output: {
@@ -24,18 +24,18 @@ export default {
     // Use `npm run build`
     path: `${__dirname}/dist`,
     publicPath: '/',
-    filename: 'bundle.js',
+    filename: 'bundle.js'
   },
   resolve: {
     root: __dirname,
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['', '.js', '.jsx']
   },
   devServer: {
-    contentBase: './client',
+    contentBase: './client'
   },
   plugins: [
     new ExtractTextPlugin('./client/styles/styles.css', {
-      allChunks: true,
+      allChunks: true
     }),
     new webpack.ProvidePlugin({
       $: 'jquery',
@@ -65,7 +65,7 @@ export default {
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('css!sass'),
+        loader: ExtractTextPlugin.extract('css!sass')
       },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
       {
