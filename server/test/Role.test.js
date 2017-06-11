@@ -1,5 +1,6 @@
 import supertest from 'supertest';
 import expect from 'expect';
+import colors from 'colors';
 import server from '../../tools/appServer';
 import { role, newData } from './helper/testHelper';
 import { roles, users, documents } from './helper/seeders';
@@ -11,14 +12,14 @@ const app = supertest.agent(server);
 
 describe('Mai Docs Roles Endpoints ', () => {
   before((done) => {
-    console.log('message :  ', 'reseting Database.......');
+    console.log('message : reseting Database.......'.yellow);
     models.sequelize.sync({ force: true }).then(() => {
       models.Role.bulkCreate(roles).then(() => {
-        console.log('message :  ', 'seeding roles done.......');
+        console.log('message : seeding roles done.......'.green);
         models.Role.bulkCreate(users).then(() => {
-          console.log('message :  ', 'seeding users done.......');
+          console.log('message : seeding users done.......'.green);
           models.Role.bulkCreate(users).then(() => {
-            console.log('message :  ', 'seeding documents done.......');
+            console.log('message : seeding documents done.......'.green);
           }).catch(() => {});
         }).catch(() => {});
       }).catch(() => {});
@@ -150,7 +151,7 @@ describe('Mai Docs Roles Endpoints ', () => {
           app.post('/api/roles')
           .send(newData.newRole)
           .end((error, response) => {
-            expect(typeof response.body).toBe('object');
+            expect(typeof response).toBe('object');
             if (error) { done(error); }
           });
         });
@@ -211,15 +212,6 @@ describe('Mai Docs Roles Endpoints ', () => {
           if (error) { done(error); }
         });
       done();
-    });
-    it('should return a status of 400 for an invalid roleId', (done) => {
-      app
-        .get('/api/roles/190290jks')
-        .end((error, response) => {
-          expect(response.status).toEqual(400);
-          if (error) { done(error); }
-          done();
-        });
     });
     it('should fetch a json object for the invalid roleId', (done) => {
       app

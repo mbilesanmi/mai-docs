@@ -110,6 +110,25 @@ export const document = {
     content: faker.lorem.paragraph(),
     viewAccess: 'Public',
     ownerId: 1
+  },
+
+  newDocument1: {
+    title: 'New Doc 1',
+    content: faker.lorem.paragraph(2),
+    viewAccess: 'Private',
+    ownerId: 1
+  },
+  newDocument2: {
+    title: 'New Doc 2',
+    content: faker.lorem.paragraph(2),
+    viewAccess: 'Private',
+    ownerId: 1
+  },
+  emptyDocument: {
+    title: '',
+    content: faker.lorem.paragraph(2),
+    viewAccess: 'Private',
+    ownerId: 1
   }
 };
 

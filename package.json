@@ -4,7 +4,7 @@
   "description": "Mai Document Management System",
   "scripts": {
     "perstart": "babel-node ./tools/startMessage.js",
-    "start": "npm-run-all --parallel open:client lint:watch test:watch",
+    "start": "npm-run-all --parallel open:client lint:watch",
     "open:client": "babel-node ./tools/appServer.js",
     "lint": "node_modules/.bin/esw webpack.config.* client tools",
     "lint:watch": "npm run lint -- --watch",
@@ -31,6 +31,7 @@
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.2",
     "cheerio": "^1.0.0-rc.1",
+    "colors": "^1.1.2",
     "dotenv": "^4.0.0",
     "dotenv-webpack": "^1.4.5",
     "express": "^4.13.4",

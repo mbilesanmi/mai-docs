@@ -9,16 +9,16 @@ module.exports = {
       },
       firstname: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       lastname: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       username: {
         type: Sequelize.STRING,
         unique: true,
-        allowNull: false,
+        allowNull: false
       },
       email: {
         type: Sequelize.STRING,
@@ -26,7 +26,7 @@ module.exports = {
         allowNull: false,
         validate: {
           isEmail: true,
-          notEmpty: true,
+          notEmpty: true
         }
       },
       password: {
@@ -53,6 +53,6 @@ module.exports = {
       }
     });
   },
-  down: queryInterface /* , Sequelize*/ =>
+  down: queryInterface =>
     queryInterface.dropTable('Users')
 };

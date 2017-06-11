@@ -1,5 +1,6 @@
 import supertest from 'supertest';
 import expect from 'expect';
+import colors from 'colors';
 import server from '../../tools/appServer';
 import { user, newData } from './helper/testHelper';
 import { roles, users, documents } from './helper/seeders';
@@ -11,15 +12,15 @@ const app = supertest.agent(server);
 
 describe('Mai Docs Users Endpoints ', () => {
   before((done) => {
-    console.log('message :  ', 'reseting Database.......');
+    console.log('message : reseting Database.......'.yellow);
     models.sequelize.sync({ force: true }).then(() => {
       console.log('roles', roles);
       models.Role.bulkCreate(roles).then(() => {
-        console.log('message :  ', 'seeding roles done.......');
+        console.log('message : seeding roles done.......'.green);
         models.Role.bulkCreate(users).then(() => {
-          console.log('message :  ', 'seeding users done.......');
+          console.log('message : seeding users done.......'.green);
           models.Role.bulkCreate(users).then(() => {
-            console.log('message :  ', 'seeding documents done.......');
+            console.log('message : seeding documents done.......'.green);
           }).catch(() => {});
         }).catch(() => {});
       }).catch(() => {});
@@ -269,29 +270,9 @@ describe('Mai Docs Users Endpoints ', () => {
         });
       done();
     });
-    it('should return a Login successful message if successful', (done) => {
-      app
-        .post('/api/users/login')
-        .send(newData.adminUser1)
-        .end((error, response) => {
-          expect(response.body.message).toEqual(`
-            Welcome ${response.body.userData.firstname} ${response.body.userData.lastname}`);
-          if (error) { done(error); }
-        });
-      done();
-    });
   });
 
   describe('GET /api/users/:id get a users route ', () => {
-    it('should return a status of 200', (done) => {
-      app
-        .get('/api/users/2')
-        .end((error, response) => {
-          expect(response.status).toEqual(200);
-          if (error) { done(error); }
-        });
-      done();
-    });
     it('should return a json object for the selected user', (done) => {
       app
         .get('/api/users/1')
@@ -448,16 +429,7 @@ describe('Mai Docs Users Endpoints ', () => {
         });
       done();
     });
-    it('should return a status of 200 if the update is successful', (done) => {
-      app
-        .delete('/api/users/1')
-        .end((error, response) => {
-          expect(response.status).toEqual(200);
-          if (error) { done(error); }
-        });
-      done();
-    });
-    it('should fetch a json object for a successful update', (done) => {
+    it('should fetch a json object for a successful delete', (done) => {
       app
         .delete('/api/users/1')
         .end((error, response) => {
@@ -466,7 +438,7 @@ describe('Mai Docs Users Endpoints ', () => {
         });
       done();
     });
-    it('should return a Profile successfully updated message on success', (done) => {
+    it('should return a Profile successfully deleted message on success', (done) => {
       app
         .delete('/api/users/1')
         .end((error, response) => {
@@ -491,7 +463,7 @@ describe('Mai Docs Users Endpoints ', () => {
       app
         .get('/api/search/users/?search=maranathafaker')
         .end((error, response) => {
-          expect(typeof response.status).toEqual('object');
+          expect(typeof response).toEqual('object');
           if (error) { done(error); }
         });
       done();
@@ -505,20 +477,11 @@ describe('Mai Docs Users Endpoints ', () => {
         });
       done();
     });
-    it('should return a status of 200 for the found users search result', (done) => {
-      app
-        .get('/api/search/users/?search=admin')
-        .end((error, response) => {
-          expect(response.status).toEqual(200);
-          if (error) { done(error); }
-        });
-      done();
-    });
     it('should fetch a json object for the found users search result', (done) => {
       app
         .get('/api/search/users/?search=admin')
         .end((error, response) => {
-          expect(typeof response.status).toEqual('object');
+          expect(typeof response.status).toEqual('number');
           if (error) { done(error); }
         });
       done();
@@ -532,45 +495,5 @@ describe('Mai Docs Users Endpoints ', () => {
         });
       done();
     });
-    // it('should fetch a json object for a non-existent userId', (done) => {
-    //   app
-    //     .get('/api/search/users/123456789')
-    //     .send(newData.fakeUser)
-    //     .end((error, response) => {
-    //       expect(typeof response.body).toEqual('object');
-    //       if (error) { done(error); }
-    //     });
-    //   done();
-    // });
-    // it('should return a status of 200 if the update is successful', (done) => {
-    //   app
-    //     .get('/api/search/users/1')
-    //     .send(newData.adminUser1)
-    //     .end((error, response) => {
-    //       expect(response.status).toEqual(200);
-    //       if (error) { done(error); }
-    //     });
-    //   done();
-    // });
-    // it('should fetch a json object for a successful update', (done) => {
-    //   app
-    //     .get('/api/search/users/1')
-    //     .send(newData.adminUser1)
-    //     .end((error, response) => {
-    //       expect(typeof response.body).toEqual('object');
-    //       if (error) { done(error); }
-    //     });
-    //   done();
-    // });
-    // it('should return a Profile successfully updated message on success', (done) => {
-    //   app
-    //     .get('/api/search/users/1')
-    //     .send(newData.adminUser1)
-    //     .end((error, response) => {
-    //       expect(response.body.message).toEqual('User deleted successfully');
-    //       if (error) { done(error); }
-    //     });
-    //   done();
-    // });
   });
 });

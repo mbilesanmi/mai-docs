@@ -94,36 +94,6 @@ const DocumentController = {
       .then(documents => response.status(200).send(documents))
       .catch(error => response.status(400).send(error));
   },
-  getMyDocuments(req, res) {
-    return Documents
-    .findAll({
-      where: {
-        $or: [
-          { viewAccess: 'public' },
-          {
-            role: String(req.decoded.data.roleId)
-          },
-          {
-            userId: req.params.id
-          }
-        ]
-      },
-      include: [Users],
-      order: [['updatedAt', 'DESC']]
-    })
-    .then((document) => {
-      if (!document) {
-        return res.status(404).send({
-          message: 'Document Not Found'
-        });
-      }
-      return res.status(200).send(document);
-    })
-    .catch(error => res.status(400).send({
-      error,
-      message: 'Error occurred while retrieving documents'
-    }));
-  },
   getOne(request, response) {
     return Documents
       .findById(parseInt(request.params.id, 10), {})
@@ -181,3 +151,34 @@ const DocumentController = {
 };
 
 export default DocumentController;
+
+// getMyDocuments(req, res) {
+//     return Documents
+//     .findAll({
+//       where: {
+//         $or: [
+//           { viewAccess: 'public' },
+//           {
+//             role: String(req.decoded.data.roleId)
+//           },
+//           {
+//             userId: req.params.id
+//           }
+//         ]
+//       },
+//       include: [Users],
+//       order: [['updatedAt', 'DESC']]
+//     })
+//     .then((document) => {
+//       if (!document) {
+//         return res.status(404).send({
+//           message: 'Document Not Found'
+//         });
+//       }
+//       return res.status(200).send(document);
+//     })
+//     .catch(error => res.status(400).send({
+//       error,
+//       message: 'Error occurred while retrieving documents'
+//     }));
+//   },

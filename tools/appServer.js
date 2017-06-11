@@ -2,17 +2,22 @@ import express from 'express';
 import webpack from 'webpack';
 import path from 'path';
 import open from 'open';
+import colors from 'colors';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import serverRoutes from '../server/routes/index';
 import config from '../webpack.config';
 
-
 /* eslint-disable no-console */
 
-const port = 3002;
 const app = express();
 const compiler = webpack(config);
+let port;
+if (process.env.NODE_ENV === 'test') {
+  port = 3003;
+} else {
+  port = 3002;
+}
 
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
@@ -41,7 +46,7 @@ app.listen(port, 'localhost', (err) => {
     if (process.env.NODE_ENV !== 'test') {
       open(`http://localhost:${port}`);
     }
-    console.log(`Express server is up on port ${port}`);
+    console.log(`Express server is up on port ${port}`.blue);
   }
 });
 

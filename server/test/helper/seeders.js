@@ -1,11 +1,13 @@
 import faker from 'faker';
 import models from '../../models';
 
+// export function roles() {
 export const roles = [{
   title: 'Admin' },
   { title: 'Author' },
-  { title: 'Guest' }
-];
+  { title: 'Guest' }];
+  // return models.Role.bulkCreate(role);
+// }
 
 export function users() {
   const user = [{
