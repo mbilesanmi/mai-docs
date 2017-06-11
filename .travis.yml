@@ -1,18 +1,11 @@
-sudo: required
 dist: trusty
 language: node_js
 node_js:
- - 6
+  - "7"
 services:
- - postgresql
-postgres:
- adapter: postgresql
- database: myapp_test
- username: postgres
+  - postgresql
+
 before_script:
-  - psql -c 'create database travis;' -U postgres
-  - dropdb --if-exists travis && createdb travis
-  - npm install
-  - sequelize db:migrate
+  - psql -c 'create database docman_test;' -U postgres
 script:
-  - npm test
+- npm test
