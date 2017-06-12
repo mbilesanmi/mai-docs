@@ -4,7 +4,7 @@ const DocumentActionBar = ({
     redirectToManageDocument, onViewAccessChange,
     sitewide, onSearchChange }) =>
   <div className="row">
-    <div className="col l3 m3 s1">
+    <div className="col l3 m3 s1 offset-l1">
       <a
         onClick={redirectToManageDocument}
         className="waves-effect waves-light btn-large green">
@@ -12,7 +12,11 @@ const DocumentActionBar = ({
       </a>
     </div>
 
-    <div className="col l5 m5 s12">
+    <div className="col l1 m1 s1">
+      <h5>Search:</h5>
+    </div>
+
+    <div className="col l6 m5 s12">
       <form>
         <div className="input-field">
           <input
@@ -20,58 +24,10 @@ const DocumentActionBar = ({
             type="search"
             onKeyUp={onSearchChange}
             placeholder="Search within your own documents" />
-          <label className="label-icon" htmlFor="search">
-            <i className="material-icons">search</i>
-          </label>
           <i className="material-icons">close</i>
         </div>
       </form>
     </div>
-
-    {/*<div className="input-field col l4 m4 s12">
-      <form action="#">
-        <h6>Filter by Accessibility:</h6>
-        <input
-          onClick={onViewAccessChange}
-          className="with-gap"
-          name="viewAccess"
-          value="All"
-          type="radio"
-          id="all" />
-        <label htmlFor="all">All</label>
-
-        <input
-          onClick={onViewAccessChange}
-          className="with-gap"
-          name="viewAccess"
-          value="Public"
-          type="radio"
-          id="public" />
-        <label htmlFor="public">Public</label>
-
-        {sitewide ? ''
-        : <span>
-          <input
-            onClick={onViewAccessChange}
-            className="with-gap"
-            name="viewAccess"
-            value="Private"
-            type="radio"
-            id="private" />
-          <label htmlFor="private">Private</label>
-        </span>
-        }
-
-        <input
-          onClick={onViewAccessChange}
-          className="with-gap"
-          name="viewAccess"
-          value="Role"
-          type="radio"
-          id="role" />&nbsp;
-        <label htmlFor="role">Role</label>
-      </form>
-    </div>*/}
   </div>;
 
 DocumentActionBar.propTypes = {

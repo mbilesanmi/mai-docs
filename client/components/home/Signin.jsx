@@ -55,7 +55,6 @@ class Signin extends Component {
     return (
       <div>
         <h1 className="center">Mai Docs</h1>
-        <p className="center">Mai Document manager</p>
         <div className="container">
           <div className="row">
             <SigninForm

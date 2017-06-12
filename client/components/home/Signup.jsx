@@ -62,8 +62,7 @@ class Signup extends Component {
         <p className="center">Mai Document manager</p>
         <div className="container">
           <div className="row">
-            {/*<div className="col s12 z-depth-5 card-panel">*/}
-            <div className="col s12 z-depth-5 card">
+            <div className="grey lighten-3 col s12 z-depth-5 card">
               <div className="card-image">
                 <h2 className="center">SIGNUP</h2>
               </div>

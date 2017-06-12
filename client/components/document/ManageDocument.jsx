@@ -6,7 +6,7 @@ import * as documentActions from '../../actions/documentActions';
 import DocumentForm from '../document/DocumentForm.jsx';
 
 export class ManageDocument extends React.Component {
-  componentDidMount() {
+  static componentDidMount() {
     $('select').material_select();
   }
 
@@ -26,7 +26,9 @@ export class ManageDocument extends React.Component {
   }
 
   componentWillMount() {
-    this.props.actions.getAllDocuments();
+    if (this.props.documentId) {
+      this.props.actions.getOneDocument(this.props.documentId);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -82,11 +84,12 @@ export class ManageDocument extends React.Component {
 
   render() {
     const isUpdate = this.props.document.id;
+    const documentTitle = this.props.document.title;
     return (
       <div className="section">
         <div className="container">
           <h1>
-            {isUpdate ? `Edit ${this.state.document.title}`
+            {isUpdate ? `Edit: ${documentTitle}`
               : 'Add new document'}
           </h1>
           <DocumentForm
@@ -116,15 +119,6 @@ ManageDocument.contextTypes = {
   router: React.PropTypes.object
 };
 
-const getDocumentById = (documents, id) => {
-  const doc = documents.filter(document => document.id === id);
-  // Filter returns an array, have to grab the first.
-  if (doc) {
-    return doc[0];
-  }
-  return null;
-};
-
 const mapStateToProps = (state, ownProps) => {
   const documentId = parseInt(ownProps.params.id, 10);
   const authorId = state.isAuth.loggedInUser.id;
@@ -132,11 +126,12 @@ const mapStateToProps = (state, ownProps) => {
 
   let document = { id: '', title: '', content: '', viewAccess: '' };
 
-  if (documentId && state.documents.length > 0) {
-    document = getDocumentById(state.documents, documentId);
+  if (documentId && (state.documents.id === documentId)) {
+    document = state.documents;
   }
 
   return {
+    documentId,
     document,
     authorId,
     message

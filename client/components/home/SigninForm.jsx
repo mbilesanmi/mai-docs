@@ -3,18 +3,18 @@ import { Link } from 'react-router';
 import TextInput from '../common/TextInput.jsx';
 
 const SigninForm = ({ onChange, onSubmit, loading, errors }) =>
-    <div className="col s6 offset-s3 z-depth-5 card">
+    <div className="grey lighten-3 col s6 offset-s3 z-depth-5 card">
       <div className="card-image">
-        <span className="card-title">Card Title</span>
         <h2 className="center">LOGIN</h2>
       </div>
       <form className="login-form">
         <div className="card-content">
           <div className="row">
             <div className="col s6 offset-s3">
+              <h6>Username/Email</h6>
               <TextInput
                 type="text"
-                label="Username/Email"
+                label=""
                 name="loginId"
                 icon="person"
                 onChange={onChange}
@@ -24,9 +24,10 @@ const SigninForm = ({ onChange, onSubmit, loading, errors }) =>
           </div>
           <div className="row">
             <div className="col s6 offset-s3">
+              <h6>Password</h6>
               <TextInput
                 type="password"
-                label="Password"
+                label=""
                 name="password"
                 icon="lock"
                 onChange={onChange}

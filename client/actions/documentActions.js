@@ -31,8 +31,8 @@ export function search(queryString) {
   });
 }
 
-export function getAllDocuments(offset, viewAccess) {
-  return dispatch => axios.get(`/api/documents/?offset=${offset}&?viewAccess=${viewAccess}`)
+export function getAllDocuments(offset) {
+  return dispatch => axios.get(`/api/documents/?offset=${offset}`)
   .then((response) => {
     dispatch(getDocumentSuccess(response.data));
   })
@@ -44,7 +44,6 @@ export function getAllDocuments(offset, viewAccess) {
 export function getUserDocuments(id, offset) {
   return dispatch => axios.get(`api/users/${id}/documents/?offset=${offset}`)
   .then((response) => {
-    console.log('actiondocs');
     dispatch(getDocumentSuccess(response.data));
   })
   .catch((error) => {
@@ -92,11 +91,11 @@ export function updateDocument(id, document) {
  * @param {any} id - The ID of the document to be deleted
  * @returns {object} documents
  */
-export function deleteDocument(id) {
+export function deleteDocument(id, ownerId) {
   return dispatch => axios.delete(`/api/documents/${id}`)
   .then((response) => {
     dispatch(passSuccessMessage(response.data.message));
-    dispatch(getAllDocuments());
+    dispatch(getUserDocuments(ownerId, 0));
   })
   .catch((error) => {
     throw dispatch(passFailureMessage(error.response.data.message));
