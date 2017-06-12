@@ -1,12 +1,12 @@
-import express from 'express';
-import webpack from 'webpack';
-import path from 'path';
-import open from 'open';
-import colors from 'colors';
-import logger from 'morgan';
-import bodyParser from 'body-parser';
-import serverRoutes from '../server/routes/index';
-import config from '../webpack.config';
+const express = require('express');
+const webpack = require('webpack');
+const path = require('path');
+const open = require('open');
+const colors = require('colors');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const serverRoutes = require('../server/routes/index');
+const config = require('../webpack.config');
 
 /* eslint-disable no-console */
 
