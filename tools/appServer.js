@@ -19,10 +19,12 @@ if (process.env.NODE_ENV === 'test') {
   port = 3002;
 }
 
-app.use(require('webpack-dev-middleware')(compiler, {
-  noInfo: true,
-  publicPath: config.output.publicPath
-}));
+if (process.env.NODE_ENV !== 'production') {
+  app.use(require('webpack-dev-middleware')(compiler, {
+    noInfo: true,
+    publicPath: config.output.publicPath
+  }));
+}
 
 // Log requests to the console.
 app.use(logger('dev'));
