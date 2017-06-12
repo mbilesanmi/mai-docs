@@ -4,7 +4,7 @@ import Dotenv from 'dotenv-webpack';
 import path from 'path';
 
 const dotEnvPlugin = new Dotenv({
-  path: './.env'
+  path: '.env'
 });
 
 export default {

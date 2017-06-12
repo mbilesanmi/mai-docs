@@ -282,15 +282,6 @@ describe('Mai Docs Users Endpoints ', () => {
         });
       done();
     });
-    it('should return a status of 400 for an invalid userId', (done) => {
-      app
-        .get('/api/users/190290jks')
-        .end((error, response) => {
-          expect(response.status).toEqual(400);
-          if (error) { done(error); }
-          done();
-        });
-    });
     it('should fetch a json object for the invalid userId', (done) => {
       app
         .get('/api/users/190290jks')
