@@ -3,17 +3,13 @@
   "version": "1.0.0",
   "description": "Mai Document Management System",
   "scripts": {
-    "perstart": "babel-node ./tools/startMessage.js",
-    "start": "npm-run-all --parallel open:client lint:watch",
-    "open:client": "babel-node ./tools/appServer.js",
-    "lint": "node_modules/.bin/esw webpack.config.* client tools",
-    "lint:watch": "npm run lint -- --watch",
-    "test": "npm run db:test:seed && npm run test:mocha",
-    "test:mocha": "npm run test:mocha:client && npm run test:mocha:server",
-    "test:mocha:client": "cross-env NODE_ENV=test nyc mocha --reporter spec ./client/test/**/*.test.js --compilers js:babel-register",
-    "test:mocha:server": "cross-env NODE_ENV=test nyc mocha --reporter progress ./server/test/**/*.test.js --timeout 60000 --compilers js:babel-register",
-    "test:watch": "npm run test -- --watch",
-    "db:test:seed": "cross-env NODE_ENV=test babel-node ./server/test/helper/testHelper.js"
+    "deploy": "npm build && npm start",
+    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha ./client/test/**/*.test.js ./server/test/**/*.test.js --require babel-register",
+    "start:dev": "nodemon ./tools/appServer.js --exec babel-node",
+    "db:migrate": "NODE_ENV=development sequelize db:migrate:undo:all && sequelize db:migrate",
+    "build": "rm -rf dist/ && babel server -d dist/server && npm run build:app",
+    "build:client": "webpack --config webpack.config.js && cat ./client/index.html > ./dist/index.html",
+    "start": "node ./tools/appServer.js"
   },
   "repository": {
     "type": "git",
@@ -43,6 +39,7 @@
     "lodash": "^4.17.4",
     "materialize-css": "^0.98.2",
     "morgan": "^1.8.2",
+    "nodemon": "^1.11.0",
     "pg": "^6.2.3",
     "pg-hstore": "^2.3.2",
     "react": "15.0.2",
