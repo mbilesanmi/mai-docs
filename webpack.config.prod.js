@@ -6,7 +6,7 @@ const path = require('path');
 const BUILD_PATH = path.resolve(__dirname, 'dist');
 const APP_DIR = `${path.resolve(__dirname)}/app`;
 
-export default {
+module.exports = {
   debug: true,
   devtool: 'cheap-eval-source-map',
   noInfo: false,
