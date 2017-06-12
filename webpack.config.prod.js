@@ -1,32 +1,26 @@
-const webpack = require('webpack');
-const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+import webpack from 'webpack';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import BabiliPlugin from 'babili-webpack-plugin';
+import path from 'path';
 
-// process.env.NODE_ENV = 'production';
-const GLOBALS = {
-  'process.env.NODE_ENV': JSON.stringify('production')
-};
+const BUILD_PATH = path.resolve(__dirname, 'dist');
+const APP_DIR = `${path.resolve(__dirname)}/app`;
 
-module.exports = {
+export default {
   debug: true,
-  devtool: 'source-map',
+  devtool: 'cheap-eval-source-map',
   noInfo: false,
-  entry: path.resolve(__dirname, 'client/index'),
+  entry: `${__dirname}/client/index.js`,
   target: 'web',
   output: {
     path: `${__dirname}/dist/client`,
     publicPath: '/',
     filename: 'bundle.js'
   },
-  devServer: {
-    contentBase: path.resolve(__dirname, './lib/client')
-  },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.DefinePlugin(GLOBALS),
     new ExtractTextPlugin('style.css'),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } })
+    new BabiliPlugin()
   ],
   module: {
     loaders: [
@@ -55,9 +49,5 @@ module.exports = {
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
-  },
-  node: {
-    net: 'empty',
-    dns: 'empty'
   }
 };
