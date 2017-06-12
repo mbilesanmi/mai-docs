@@ -1,72 +1,43 @@
-import webpack from 'webpack';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import Dotenv from 'dotenv-webpack';
-import path from 'path';
+const webpack = require('webpack');
+const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const dotEnvPlugin = new Dotenv({
-  path: './.env'
-});
+process.env.NODE_ENV = 'production';
+const GLOBALS = {
+  'process.env.NODE_ENV': JSON.stringify('production')
+};
 
-export default {
+module.exports = {
   debug: true,
-  devtool: 'cheap-module-eval-source-map',
-  noInfo: true,
-  entry: [
-    // necessary for hot reloading with IE
-    'eventsource-polyfill',
-    // note that it reloads the page if hot module reloading fails.
-    'webpack-hot-middleware/client?reload=true',
-    './client/index'
-  ],
+  devtool: 'source-map',
+  noInfo: false,
+  entry: path.resolve(__dirname, 'client/index'),
   target: 'web',
   output: {
-    // Note: Physical files are only output by the production build task.
-    // Use `npm run build`
-    path: `${__dirname}/dist`,
+    path: `${__dirname}/dist/client`,
     publicPath: '/',
     filename: 'bundle.js'
   },
-  resolve: {
-    root: __dirname,
-    extensions: ['', '.js', '.jsx']
-  },
   devServer: {
-    contentBase: './client'
+    contentBase: path.resolve(__dirname, './lib/client')
   },
   plugins: [
-    new ExtractTextPlugin('./client/styles/styles.css', {
-      allChunks: true
-    }),
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.jQuery': 'jquery'
-    }),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
-    dotEnvPlugin
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.DefinePlugin(GLOBALS),
+    new ExtractTextPlugin('style.css'),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } })
   ],
   module: {
     loaders: [
-      {
-        test: /\.jsx?$/,
-        loader: 'babel-loader',
-        query: { presets: ['react', 'es2015'] },
-        exclude: /(node_modules)/
-      },
-      {
-        test: /\.js$/,
-        include: path.join(__dirname, 'client'),
-        loaders: ['babel-loader']
-      },
+      { test: /\.(js|jsx)$/, exclude: /node_modules/, include: path.join(__dirname, 'client'), loaders: ['babel'] },
+      { test: /\.scss$/i, loader: ExtractTextPlugin.extract(['css', 'autoprefixer', 'sass']) },
+      { test: /\.json$/, loader: 'json' },
       {
         test: /(\.css)$/,
         loaders: ['style', 'css']
       },
-      {
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('css!sass')
-      },
+      { test: /\.(jpg|png|svg)$/, loader: 'url' },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
       {
         test: /\.(woff|woff2)$/,
@@ -81,5 +52,12 @@ export default {
         loader: 'url?limit=10000&mimetype=image/svg+xml'
       }
     ]
+  },
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
+  node: {
+    net: 'empty',
+    dns: 'empty'
   }
 };
