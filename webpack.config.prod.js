@@ -10,7 +10,7 @@ module.exports = {
   debug: true,
   devtool: 'cheap-eval-source-map',
   noInfo: false,
-  entry: `${__dirname}/client/index.js`,
+  entry: `${__dirname}/client/index.jsx`,
   target: 'web',
   output: {
     path: `${__dirname}/dist/client`,

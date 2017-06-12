@@ -1,11 +1,12 @@
-const express = require('express');
-const webpack = require('webpack');
-const path = require('path');
-const open = require('open');
-const colors = require('colors');
-const logger = require('morgan');
-const bodyParser = require('body-parser');
-const serverRoutes = require('../server/routes/index');
+import express from 'express';
+import webpack from 'webpack';
+import path from 'path';
+import open from 'open';
+import colors from 'colors';
+import logger from 'morgan';
+import bodyParser from 'body-parser';
+// const serverRoutes = require('../server/routes');
+import serverRoutes from '../server/routes';
 const config = require('../webpack.config');
 
 /* eslint-disable no-console */
@@ -16,7 +17,7 @@ let port;
 if (process.env.NODE_ENV === 'test') {
   port = 3003;
 } else {
-  port = 3002;
+  port = process.env.PORT || 3002;
 }
 
 if (process.env.NODE_ENV !== 'production') {
@@ -35,13 +36,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(require('webpack-hot-middleware')(compiler));
 
+
+// console.log(typeof serverRoutes, serverRoutes);
 serverRoutes(app);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
-app.listen(port, 'localhost', (err) => {
+app.listen(port, (err) => {
   if (err) {
     console.log(err);
   } else {
