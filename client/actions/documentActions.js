@@ -24,22 +24,34 @@ export function search(queryString) {
   return dispatch => axios.get(`/api/search/documents/?search=${queryString}`)
   .then((response) => {
     dispatch(passSuccessMessage(response.data.message));
-    dispatch(searchDocumentsSuccess(response.data.documents));
+    dispatch(getDocumentSuccess(response.data));
   })
   .catch((error) => {
-    dispatch(passFailureMessage(error.response.data.message));
+    throw dispatch(passFailureMessage(error.response.data.message));
   });
 }
-export function getAllDocuments() {
-  return dispatch => axios.get('/api/documents')
+
+export function getAllDocuments(offset, viewAccess) {
+  return dispatch => axios.get(`/api/documents/?offset=${offset}&?viewAccess=${viewAccess}`)
   .then((response) => {
     dispatch(getDocumentSuccess(response.data));
   })
   .catch((error) => {
-    dispatch(passFailureMessage(error.response.data.message));
-    throw error;
+    throw dispatch(passFailureMessage(error.response.data.message));
   });
 }
+
+export function getUserDocuments(id, offset) {
+  return dispatch => axios.get(`api/users/${id}/documents/?offset=${offset}`)
+  .then((response) => {
+    console.log('actiondocs');
+    dispatch(getDocumentSuccess(response.data));
+  })
+  .catch((error) => {
+    throw dispatch(passFailureMessage(error.response.data.message));
+  });
+}
+
 export function getOneDocument(id) {
   return dispatch => axios.get(`/api/documents/${id}`)
   .then((response) => {
@@ -47,8 +59,7 @@ export function getOneDocument(id) {
     dispatch(passSuccessMessage(response.data.message));
   })
   .catch((error) => {
-    dispatch(passFailureMessage(error.response.data.message));
-    throw error;
+    throw dispatch(passFailureMessage(error.response.data.message));
   });
 }
 
@@ -59,8 +70,7 @@ export function createDocument(document) {
     dispatch(passSuccessMessage(response.data.message));
   })
   .catch((error) => {
-    dispatch(passFailureMessage(error.response.data.message));
-    throw error;
+    throw dispatch(passFailureMessage(error.response.data.message));
   });
 }
 
@@ -71,8 +81,7 @@ export function updateDocument(id, document) {
     dispatch(passSuccessMessage(response.data.message));
   })
   .catch((error) => {
-    dispatch(passFailureMessage(error.response.data.message));
-    throw error;
+    throw dispatch(passFailureMessage(error.response.data.message));
   });
 }
 
@@ -90,6 +99,6 @@ export function deleteDocument(id) {
     dispatch(getAllDocuments());
   })
   .catch((error) => {
-    dispatch(passFailureMessage(error.response.data.message));
+    throw dispatch(passFailureMessage(error.response.data.message));
   });
 }

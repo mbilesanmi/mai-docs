@@ -30,25 +30,25 @@ const DocumentForm = ({ document, onSave,
     <div className="row">
       <h5 className="col l1 m1 s12">Content:</h5>
       <div className="input-field">
-        <TinyMCE
+        {/*<TinyMCE
           content={document.content}
           config={{
             height: '160',
             plugins: 'link image code',
-            toolbar: `undo redo 
-              | bold italic | alignleft 
+            toolbar: `undo redo
+              | bold italic | alignleft
               aligncenter alignright | code`
           }}
           onChange={onEditorChange}
-        />
-        {/*<textarea
+        />*/}
+        <textarea
           rows="100"
           name="content"
           id="content"
           value={document.content}
           onChange={onChange}
           className="materialize-textarea"
-          placeholder="Enter your document content here" />*/}
+          placeholder="Enter your document content here" />
       </div>
     </div>
 
@@ -58,7 +58,7 @@ const DocumentForm = ({ document, onSave,
       disabled={saving}
       value={saving ? 'Saving...' : 'Save'}
       className="btn btn-primary"
-      onClick={onSave}/>
+      onClick={onSave} />
   </form>;
 
 DocumentForm.propTypes = {

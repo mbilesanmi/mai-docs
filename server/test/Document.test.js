@@ -160,12 +160,12 @@ describe('Mai Docs Users Endpoints ', () => {
         });
       done();
     });
-    it('should return a status of 201 if document update is successful', (done) => {
+    it('should return a status of 200 if document update is successful', (done) => {
       app
         .put('/api/documents/1')
         .send(newData.document1)
         .end((error, response) => {
-          expect(response.status).toEqual(201);
+          expect(response.status).toEqual(200);
           if (error) { done(error); }
         });
       done();
@@ -206,6 +206,84 @@ describe('Mai Docs Users Endpoints ', () => {
         .send(newData.newDocument1)
         .end((error, response) => {
           expect(typeof response).toBe('object');
+          if (error) { done(error); }
+        });
+      done();
+    });
+  });
+
+  describe('GET /api/documents/ get all documents route', () => {
+    it('should return a status of 200 if the documents are found', (done) => {
+      app
+        .get('/api/documents')
+        .end((error, response) => {
+          expect(response.status).toEqual(200);
+          if (error) { done(error); }
+        });
+      done();
+    });
+    it('should return json oebject of the response if the documents are found', (done) => {
+      app
+        .get('/api/documents')
+        .end((error, response) => {
+          expect(typeof response).toEqual('object');
+          if (error) { done(error); }
+        });
+      done();
+    });
+  });
+
+  describe('GET /api/search/documents/ search users route ', () => {
+    it('should return a status of 404 for the not found search result', (done) => {
+      app
+        .get('/api/search/documents/?search=maranathafakerfolder')
+        .end((error, response) => {
+          expect(response.status).toEqual(404);
+          if (error) { done(error); }
+        });
+      done();
+    });
+    it('should fetch a json object for the not found search result', (done) => {
+      app
+        .get('/api/search/documents/?search=maranathafakerfolder')
+        .end((error, response) => {
+          expect(typeof response).toEqual('object');
+          if (error) { done(error); }
+        });
+      done();
+    });
+    it('should return a document not found message', (done) => {
+      app
+        .get('/api/search/documents/?search=maranathafakerfolder')
+        .end((error, response) => {
+          expect(response.body.message).toEqual('No documents found matching search criteria');
+          if (error) { done(error); }
+        });
+      done();
+    });
+    it('should return a status of 200 for the found search result', (done) => {
+      app
+        .get('/api/search/documents/?search=document')
+        .end((error, response) => {
+          expect(response.status).toEqual(200);
+          if (error) { done(error); }
+        });
+      done();
+    });
+    it('should fetch a json object for the found documents search result', (done) => {
+      app
+        .get('/api/search/documents/?search=document')
+        .end((error, response) => {
+          expect(typeof response.status).toEqual('number');
+          if (error) { done(error); }
+        });
+      done();
+    });
+    it('should return a documents found message', (done) => {
+      app
+        .get('/api/search/documents/?search=document')
+        .end((error, response) => {
+          expect(response.body.message).toEqual('Dcuments found');
           if (error) { done(error); }
         });
       done();
@@ -267,98 +345,20 @@ describe('Mai Docs Users Endpoints ', () => {
         });
       done();
     });
+    it('should return a status of 400 if the document delete fails', (done) => {
+      app
+        .delete('/api/documents/2dsd1e112e3e23')
+        .end((error, response) => {
+          expect(response.status).toEqual(400);
+          if (error) { done(error); }
+        });
+      done();
+    });
     it('should return a status of 500 if the document delete fails', (done) => {
       app
         .delete('/api/documents/2dsd1e112e3e23')
         .end((error, response) => {
-          expect(response.status).toEqual(500);
-          if (error) { done(error); }
-        });
-      done();
-    });
-    it('should return a status of 500 if the document delete fails', (done) => {
-      app
-        .delete('/api/documents/2dsd1e112e3e23')
-        .end((error, response) => {
           expect(typeof response).toEqual('object');
-          if (error) { done(error); }
-        });
-      done();
-    });
-  });
-
-  describe('GET /api/documents/ get all documents route', () => {
-    it('should return a status of 200 if the documents are found', (done) => {
-      app
-        .get('/api/documents')
-        .end((error, response) => {
-          expect(response.status).toEqual(200);
-          if (error) { done(error); }
-        });
-      done();
-    });
-    it('should return json oebject of the response if the documents are found', (done) => {
-      app
-        .get('/api/documents')
-        .end((error, response) => {
-          expect(typeof response).toEqual('object');
-          if (error) { done(error); }
-        });
-      done();
-    });
-  });
-
-  describe('GET /api/search/documents/ search users route ', () => {
-    it('should return a status of 404 for the not found search result', (done) => {
-      app
-        .get('/api/search/documents/?search=maranathafakerfolder')
-        .end((error, response) => {
-          expect(response.status).toEqual(404);
-          if (error) { done(error); }
-        });
-      done();
-    });
-    it('should fetch a json object for the not found search result', (done) => {
-      app
-        .get('/api/search/documents/?search=maranathafakerfolder')
-        .end((error, response) => {
-          expect(typeof response).toEqual('object');
-          if (error) { done(error); }
-        });
-      done();
-    });
-    it('should return a document not found message', (done) => {
-      app
-        .get('/api/search/documents/?search=maranathafakerfolder')
-        .end((error, response) => {
-          expect(response.body.message).toEqual('No documents found matching search criteria');
-          if (error) { done(error); }
-        });
-      done();
-    });
-    it('should return a status of 200 for the found search result', (done) => {
-      app
-        .get('/api/search/documents/?search=document test')
-        .end((error, response) => {
-          expect(response.status).toEqual(200);
-          if (error) { done(error); }
-        });
-      done();
-    });
-    it('should fetch a json object for the found documents search result', (done) => {
-      app
-        .get('/api/search/documents/?search=document test')
-        .end((error, response) => {
-          expect(typeof response.status).toEqual('number');
-          if (error) { done(error); }
-        });
-      done();
-    });
-    it('should return a documents found message', (done) => {
-      app
-        .get('/api/search/documents/?search=document test')
-        .end((error, response) => {
-          expect(response.body.message).toEqual('Dcuments found');
           if (error) { done(error); }
         });
       done();

@@ -31,7 +31,7 @@ const Routes = (app) => {
     '/api/users', UserController.create
   );
   app.get(
-    '/api/users', UserController.getAll
+    '/api/users/', UserController.getAll
   );
   app.get(
     '/api/users/:id', UserController.getOne
@@ -48,7 +48,7 @@ const Routes = (app) => {
     '/api/documents', DocumentController.create
   );
   app.get(
-    '/api/documents', DocumentController.getAll
+    '/api/documents/', DocumentController.getAll
   );
   app.get(
     '/api/documents/:id', DocumentController.getOne
@@ -61,6 +61,9 @@ const Routes = (app) => {
   );
   app.delete(
     '/api/documents/:id', DocumentController.delete
+  );
+  app.get(
+    '/api/users/:id/documents', DocumentController.getUserDocuments
   );
 
   // SEARCH API ENDPOINT ROUTES

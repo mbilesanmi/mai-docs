@@ -16,13 +16,14 @@ const DocumentListRow = ({ document, loggedInUserID, users }) =>
           <b>Accessibility:</b> {document.viewAccess}
         </div>
         <div className="col s12 light">
-          <b>Author:</b> {users.filter(user =>
+          <b>Author:</b> {document.User.firstname} {document.User.lastname}
+          {/*{users.filter(user =>
             user.id === document.ownerId
           ).map(user =>
             <span key={user.id}>
               {user.firstname} {user.lastname}
             </span>
-          )}
+          )}*/}
         </div>
         <div className="col s12 light">
           {document.content.slice(0, 200)}...
@@ -47,8 +48,8 @@ const DocumentListRow = ({ document, loggedInUserID, users }) =>
 
 DocumentListRow.propTypes = {
   document: React.PropTypes.object.isRequired,
-  loggedInUserID: React.PropTypes.number,
-  users: React.PropTypes.array
+  loggedInUserID: React.PropTypes.number
+  // users: React.PropTypes.array
 };
 
 const mapStateToProps = state => ({

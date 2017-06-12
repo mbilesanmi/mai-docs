@@ -5,8 +5,8 @@ import toastr from 'toastr';
 import * as documentActions from '../../actions/documentActions';
 import DocumentForm from '../document/DocumentForm.jsx';
 
-class ManageDocument extends React.Component {
-  static componentDidMount() {
+export class ManageDocument extends React.Component {
+  componentDidMount() {
     $('select').material_select();
   }
 
@@ -116,14 +116,16 @@ ManageDocument.contextTypes = {
   router: React.PropTypes.object
 };
 
-function getDocumentById(documents, id) {
+const getDocumentById = (documents, id) => {
   const doc = documents.filter(document => document.id === id);
   // Filter returns an array, have to grab the first.
-  if (doc) { return document[0]; }
+  if (doc) {
+    return doc[0];
+  }
   return null;
-}
+};
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
   const documentId = parseInt(ownProps.params.id, 10);
   const authorId = state.isAuth.loggedInUser.id;
   const message = state.message;
@@ -139,12 +141,11 @@ function mapStateToProps(state, ownProps) {
     authorId,
     message
   };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(documentActions, dispatch)
-  };
-}
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(documentActions, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageDocument);
+

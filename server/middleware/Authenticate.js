@@ -10,7 +10,7 @@ const Authenticate = {
     if (token) {
       jwt.verify(token, secret, (error, decoded) => {
         if (error) {
-          response.status(400).send({
+          response.status(401).send({
             status: 'Invalid token',
             message: 'Token authentication failed.'
           });

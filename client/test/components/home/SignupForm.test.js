@@ -20,18 +20,18 @@ describe('SignupForm via Enzyme', () => {
     expect(wrapper.find('form').length).toBe(1);
   });
 
-  it('renders an Textinput tags', () => {
+  it('renders input tags', () => {
     const wrapper = setup(false);
-    expect(wrapper.find('TextInput').length).toBe(6);
+    expect(wrapper.find('input').length).toBe(7);
   });
 
-  it('Signup button is labeled "Login" when not saving', () => {
+  it('Signup button is labeled "Signup" when not saving', () => {
     const wrapper = setup(false);
-    expect(wrapper.find('input').props().value).toBe('Signup');
+    expect(wrapper.find('#saveProfile').props().value).toBe('Signup');
   });
 
   it('Signup button is labeled "Creating user profile..." when saving', () => {
     const wrapper = setup(true);
-    expect(wrapper.find('input').props().value).toBe('Creating user profile...');
+    expect(wrapper.find('#saveProfile').props().value).toBe('Creating user profile...');
   });
 });

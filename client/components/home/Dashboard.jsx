@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import toastr from 'toastr';
+import ReactPaginate from 'react-paginate';
 import DocumentListRow from '../document/DocumentListRow.jsx';
 import DocumentActionBar from '../document/DocumentActionBar.jsx';
 import * as actions from '../../actions/documentActions';
@@ -11,82 +12,99 @@ class Dashboard extends Component {
     super(props, context);
 
     this.redirectToManageDocument = this.redirectToManageDocument.bind(this);
-    this.onViewAccessChange = this.onViewAccessChange.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
 
     this.state = {
       documents: [],
       searchResults: [],
-      accessType: null,
-      search: ''
+      search: '',
+      offset: 0
     };
+  }
+
+  componentWillMount() {
+    if (this.props.isAuth.isAuthenticated) {
+      this.props.actions.getUserDocuments(this.props.loggedInUserID, this.state.offset);
+    }
   }
 
   redirectToManageDocument() {
     this.context.router.push('/document');
   }
 
-  onViewAccessChange(event) {
-    this.setState({ accessType: event.target.value });
-  }
-
   onSearchChange(event) {
     this.setState({ search: event.target.value });
-    this.props.actions.search(event.target.value);
+    this.props.actions.search(event.target.value)
+    .catch(() => {
+      toastr.error(this.props.message);
+    });
+  }
+
+  handlePageClick(data) {
+    const selected = data.selected;
+    const offset = Math.ceil(selected * this.props.metaData.pageSize);
+
+    console.log('selected', selected, 'offset', offset);
+    this.setState({ offset }, () => {
+      this.props.actions.getUserDocuments(this.props.loggedInUserID, offset);
+    });
   }
 
   render() {
-    const { documents } = this.props;
-    const { searchResults } = this.props;
+    const { documents, searchResults, metaData } = this.props;
 
-    let filteredDocuments;
-    if (this.state.search !== '') {
-      filteredDocuments = searchResults.filter(document =>
-        document.ownerId === this.props.loggedInUserID);
-    } else if (this.state.accessType === null
-      || this.state.accessType === 'All') {
-      filteredDocuments = documents.filter(document =>
-        document.ownerId === this.props.loggedInUserID);
-    } else {
-      filteredDocuments = documents.filter(document =>
-        document.ownerId === this.props.loggedInUserID).filter(document =>
-          document.viewAccess === this.state.accessType
-        );
-    }
-    return (
-      <div className="section">
-        <div className="container">
-          <div className="row">
-            <div className="col l12 m12 s12">
-              <hr />
-                <h1 className="center">My Documents</h1>
-              <hr />
+    if (this.props.message === 'no document found') {}
+
+    if (documents) {
+      return (
+        <div className="section">
+          <div className="container">
+            <div className="row">
+              <div className="col l12 m12 s12">
+                <hr />
+                  <h1 className="center">My Documents</h1>
+                <hr />
+              </div>
             </div>
-          </div>
 
-          <DocumentActionBar
-            redirectToManageDocument={this.redirectToManageDocument}
-            onSearchChange={this.onSearchChange}
-            onViewAccessChange={this.onViewAccessChange} />
+            <DocumentActionBar
+              redirectToManageDocument={this.redirectToManageDocument}
+              onSearchChange={this.onSearchChange}
+              onViewAccessChange={this.onViewAccessChange} />
 
-          <div className="row">
-            <div className="col s12">
-              {filteredDocuments.map(document =>
-                <DocumentListRow
-                  loggedInUserID={this.props.loggedInUserID}
-                  key={document.id}
-                  document={document} />
-              )}
+            <ReactPaginate previousLabel={'previous'}
+              nextLabel={'next'}
+              breakLabel={<a href="">...</a>}
+              breakClassName={'break-me'}
+              pageCount={metaData.pages}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={this.handlePageClick}
+              containerClassName={'pagination'}
+              subContainerClassName={'pages pagination'}
+              activeClassName={'active'} />
+
+            <div className="row">
+              <div className="col s12">
+                {documents.map(document =>
+                  <DocumentListRow
+                    loggedInUserID={this.props.loggedInUserID}
+                    key={document.id}
+                    document={document} />
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
+    return null;
   }
 }
 
 Dashboard.propTypes = {
-  documents: PropTypes.array,
+  // documents: PropTypes.object,
   searchResults: PropTypes.array,
   loggedInUserID: PropTypes.number,
   search: PropTypes.string,
@@ -101,9 +119,10 @@ Dashboard.contextTypes = {
 };
 
 const mapStateToProps = state => ({
+  isAuth: state.isAuth,
   message: state.message,
-  searchResults: state.searchResults.documents || [],
-  documents: state.documents || [],
+  documents: state.documents.documents,
+  metaData: state.documents.metaData,
   loggedInUserID: state.isAuth.loggedInUser.id
 });
 

@@ -28,7 +28,7 @@ const DocumentActionBar = ({
       </form>
     </div>
 
-    <div className="input-field col l4 m4 s12">
+    {/*<div className="input-field col l4 m4 s12">
       <form action="#">
         <h6>Filter by Accessibility:</h6>
         <input
@@ -71,7 +71,7 @@ const DocumentActionBar = ({
           id="role" />&nbsp;
         <label htmlFor="role">Role</label>
       </form>
-    </div>
+    </div>*/}
   </div>;
 
 DocumentActionBar.propTypes = {

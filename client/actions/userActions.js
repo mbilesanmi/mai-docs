@@ -1,11 +1,6 @@
 import axios from 'axios';
-// import jwtDecode from 'jwt-decode';
 import * as types from './actionTypes';
 import setAuthorizationToken from '../utils/authenticate';
-
-// export function updateDocumentSuccess(document)
-
-// export function searchDocumentsSuccess(documents)
 
 export function passSuccessMessage(successMessage) {
   return { type: types.SUCCESS_MESSAGE, successMessage };
@@ -33,24 +28,21 @@ export function signoutUser(user) {
 export function search(queryString) {
   return dispatch => axios.get(`/api/search/users/?search=${queryString}`)
   .then((response) => {
-    // console.log(response.data);
     dispatch(passSuccessMessage(response.data.message));
     dispatch(searchUsersSuccess(response.data.users));
   })
   .catch((error) => {
-    // console.log(error.response);
-    dispatch(passFailureMessage(error.response.data.message));
+    throw dispatch(passFailureMessage(error.response.data.message));
   });
 }
 
-export function getAllUsers() {
-  return dispatch => axios.get('/api/users')
+export function getAllUsers(offset) {
+  return dispatch => axios.get(`/api/users/?offset=${offset}`)
   .then((response) => {
     dispatch(getUserSuccess(response.data));
   })
   .catch((error) => {
-    dispatch(passFailureMessage(error.response.data.message));
-    throw error;
+    throw dispatch(passFailureMessage(error.response.data.message));
   });
 }
 
@@ -65,7 +57,7 @@ export function createUser(user) {
       dispatch(setCurrentUser(response.data.userData));
     })
     .catch((error) => {
-      throw error;
+      throw dispatch(passFailureMessage(error.response.data.message));
     });
 }
 
@@ -80,7 +72,7 @@ export function login(user) {
       dispatch(setCurrentUser(response.data.userData));
     })
     .catch((error) => {
-      throw error;
+      throw dispatch(passFailureMessage(error.response.data.message));
     });
 }
 
@@ -106,6 +98,6 @@ export function deleteUser(id) {
     dispatch(getAllUsers());
   })
   .catch((error) => {
-    dispatch(passFailureMessage(error.response.data.message));
+    throw dispatch(passFailureMessage(error.response.data.message));
   });
 }

@@ -40,8 +40,7 @@ class Signup extends Component {
     })
     .catch(() => {
       this.setState({ isLoading: false });
-      toastr.error(
-        'Account creation failed. Please check your details and try again.');
+      toastr.error(this.props.message);
     });
   }
 

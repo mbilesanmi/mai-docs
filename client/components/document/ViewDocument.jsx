@@ -1,41 +1,44 @@
-import { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import toastr from 'toastr';
+import * as actions from '../../actions/documentActions';
 
 class ViewDocument extends Component {
-  render() {
-    const { users, documents } = this.props;
+  componentWillMount() {
+    this.props.actions.getOneDocument(this.props.documentId);
+  }
 
-    return (
-      <div className="container">
-        {documents.filter(document => document.id === this.props.documentId)
-        .map(document =>
-          <span key="document.id">
-            <h1>Title: {document.title}</h1>
+  render() {
+    const { documents } = this.props;
+    let createdAt;
+    if (documents.id) {
+      createdAt = documents.createdAt.slice(0, 10);
+    }
+    if (documents.id) {
+      return (
+        <div className="container">
+          <span>
+            <h1>Title: {documents.title}</h1>
             <div>
-              Date Created: {document.createdAt.slice(0, 10)}<br />
-              Owner ID: {users.filter(user =>
-                user.id === document.ownerId
-              ).map(user =>
-                <span key={user.id}>
-                  {user.firstname} {user.lastname}
-                </span>
-              )}
+              Date Created: {createdAt}<br />
+              Owner ID: {documents.User.firstname} {documents.User.lastname}
             </div>
             <span>
-              {document.content}
+              <div dangerouslySetInnerHTML={ { __html: documents.content } } />
             </span>
           </span>
-        )}
-      </div>
-    );
+        </div>
+      );
+    }
+    return null;
   }
 }
 
 ViewDocument.propTypes = {
-  documents: PropTypes.array.isRequired,
+  document: PropTypes.array,
   documentId: PropTypes.number,
-  message: PropTypes.string,
-  users: PropTypes.object
+  message: PropTypes.string
 };
 
 // Pull in the React Router context
@@ -45,9 +48,14 @@ ViewDocument.contextTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  users: state.users,
+  isAuth: state.isAuth,
+  loggedInUserID: state.isAuth.loggedInUser.id,
   documentId: parseInt(ownProps.params.id, 10),
   documents: state.documents
 });
 
-export default connect(mapStateToProps)(ViewDocument);
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actions, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ViewDocument);

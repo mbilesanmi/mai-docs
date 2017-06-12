@@ -22,9 +22,9 @@ if (userToken) {
   setAuthorizationToken(userToken);
   axios.defaults.headers.common.Authorization = userToken;
   store.dispatch(setCurrentUser(jwtDecode(userToken)));
-  store.dispatch(getAllDocuments());
+  // store.dispatch(getAllDocuments());
   store.dispatch(getAllRoles());
-  store.dispatch(getAllUsers());
+  // store.dispatch(getAllUsers());
 }
 
 const app = document.getElementById('app');
