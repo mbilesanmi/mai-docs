@@ -1,6 +1,6 @@
-dist
-
 bin
+dist
+.env
 
 # Logs
 logs
@@ -38,6 +38,5 @@ node_modules
 
 .DS_Store
 .editorconfig
-.env
 old_files
 .codeclimate.yml

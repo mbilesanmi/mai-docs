@@ -16,13 +16,15 @@ let port;
 if (process.env.NODE_ENV === 'test') {
   port = 3003;
 } else {
-  port = 3002;
+  port = process.env.PORT || 3002;
 }
 
-app.use(require('webpack-dev-middleware')(compiler, {
-  noInfo: true,
-  publicPath: config.output.publicPath
-}));
+if (process.env.NODE_ENV === 'development') {
+  app.use(require('webpack-dev-middleware')(compiler, {
+    noInfo: true,
+    publicPath: config.output.publicPath
+  }));
+}
 
 // Log requests to the console.
 app.use(logger('dev'));
@@ -31,19 +33,25 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(require('webpack-hot-middleware')(compiler));
+if (process.env.NODE_ENV !== 'production') {
+  app.use(require('webpack-hot-middleware')(compiler));
+}
 
+// app.use(express.static(path.join(__dirname, '/../dist/client/')))
+// app.use('/bundle.js', )
+app.use(express.static(path.join(__dirname, '/../dist/client/')));
 serverRoutes(app);
+
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
-app.listen(port, 'localhost', (err) => {
+app.listen(port, (err) => {
   if (err) {
     console.log(err);
   } else {
-    if (process.env.NODE_ENV !== 'test') {
+    if (process.env.NODE_ENV === 'development') {
       open(`http://localhost:${port}`);
     }
     console.log(`Express server is up on port ${port}`.blue);

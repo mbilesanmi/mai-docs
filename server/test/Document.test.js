@@ -100,12 +100,12 @@ describe('Mai Docs Users Endpoints ', () => {
   });
 
   describe('PUT /api/documents/:id update document route', () => {
-    it('should return a status of 400 if the title field is empty', (done) => {
+    it('should return a status of 500 if the title field is empty', (done) => {
       app
         .put('/api/documents/1')
         .send(newData.emptyDocument)
         .end((error, response) => {
-          expect(response.status).toEqual(400);
+          expect(response.status).toEqual(500);
           if (error) { done(error); }
         });
       done();

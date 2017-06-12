@@ -231,11 +231,11 @@ describe('Mai Docs Roles Endpoints ', () => {
           done();
         });
     });
-    it('should return a status of 404 for a non-existent roleId', (done) => {
+    it('should return a status of 400 for a non-existent roleId', (done) => {
       app
         .get('/api/roles/123456789')
         .end((error, response) => {
-          expect(response.status).toEqual(404);
+          expect(response.status).toEqual(400);
           if (error) { done(error); }
           done();
         });
@@ -249,11 +249,11 @@ describe('Mai Docs Roles Endpoints ', () => {
           done();
         });
     });
-    it('should return a Role does not exist message', (done) => {
+    it('should return a Invalid roleID message', (done) => {
       app
         .get('/api/roles/123456789')
         .end((error, response) => {
-          expect(response.body.message).toEqual('Role does not exist');
+          expect(response.body.message).toEqual('Invalid roleID');
           if (error) { done(error); }
           done();
         });

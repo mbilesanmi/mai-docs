@@ -282,15 +282,6 @@ describe('Mai Docs Users Endpoints ', () => {
         });
       done();
     });
-    it('should return a status of 400 for an invalid userId', (done) => {
-      app
-        .get('/api/users/190290jks')
-        .end((error, response) => {
-          expect(response.status).toEqual(400);
-          if (error) { done(error); }
-          done();
-        });
-    });
     it('should fetch a json object for the invalid userId', (done) => {
       app
         .get('/api/users/190290jks')
@@ -450,11 +441,11 @@ describe('Mai Docs Users Endpoints ', () => {
   });
 
   describe('DELETE /api/users/:id delete a user route ', () => {
-    it('should return a status of 404 for a non-existent userId', (done) => {
+    it('should return a status of 400 for a non-existent userId', (done) => {
       app
         .delete('/api/users/123456789')
         .end((error, response) => {
-          expect(response.status).toEqual(404);
+          expect(response.status).toEqual(400);
           if (error) { done(error); }
         });
       done();
