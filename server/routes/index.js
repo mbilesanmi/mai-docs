@@ -4,10 +4,6 @@ import UserController from '../controllers/UserController';
 import DocumentController from '../controllers/DocumentController';
 
 const Routes = (app) => {
-  app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../client/index.html'));
-  });
-
   app.get('/api', (req, res) => res.status(200).send({
     message: 'Welcome to the Mai Docs API!'
   }));
