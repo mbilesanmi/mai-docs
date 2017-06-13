@@ -5,14 +5,14 @@
   "scripts": {
     "deploy": "npm build && npm start",
     "deploy:special": "npm start",
-    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha ./client/test/**/*.test.js ./server/test/**/*.test.js --require babel-register",
+    "coverage": "NODE_ENV=test nyc report --reporter=text-lcov | coveralls > lcov.info",
+    "test": "cross-env NODE_ENV=test nyc --reporter=text mocha --require babel-register ./client/test/**/*.test.js ./server/test/**/*.test.js",
+    "codeclimate": "CODECLIMATE_REPO_TOKEN=process.env.CODECLIMATE_REPO_TOKEN codeclimate-test-reporter < lcov.info",
     "start:dev": "NODE_ENV=development nodemon ./tools/appServer.js --exec babel-node",
     "db:migrate": "NODE_ENV=development sequelize db:migrate:undo:all && sequelize db:migrate",
     "build": "rm -rf dist/ && babel server -d dist/server && npm run build:client",
     "build:client": "webpack --config webpack.config.js && cat ./client/index.html > ./dist/index.html",
-    "start": "babel-node ./tools/appServer.js",
-    "codeclimate": "CODECLIMATE_REPO_TOKEN=process.env.CODECLIMATE_REPO_TOKEN codeclimate-test-reporter < lcov.info",
-    "coverage": "nyc report --reporter=text-lcov | coveralls && npm run test"
+    "start": "babel-node ./tools/appServer.js"
   },
   "repository": {
     "type": "git",
