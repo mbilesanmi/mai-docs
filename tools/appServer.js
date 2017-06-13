@@ -6,7 +6,7 @@ import colors from 'colors';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import serverRoutes from '../server/routes/index';
-import config from '../webpack.config';
+import config from '../webpack.config.dev';
 
 /* eslint-disable no-console */
 
@@ -19,12 +19,11 @@ if (process.env.NODE_ENV === 'test') {
   port = process.env.PORT || 3002;
 }
 
-if (process.env.NODE_ENV === 'development') {
-  app.use(require('webpack-dev-middleware')(compiler, {
-    noInfo: true,
-    publicPath: config.output.publicPath
-  }));
-}
+app.use(require('webpack-dev-middleware')(compiler, {
+  publicPath: config.output.publicPath
+}));
+
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 // Log requests to the console.
 app.use(logger('dev'));
@@ -39,7 +38,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 // app.use(express.static(path.join(__dirname, '/../dist/client/')))
 // app.use('/bundle.js', )
-app.use(express.static(path.join(__dirname, '/../dist/client/')));
+app.use(express.static('dist'));
 serverRoutes(app);
 
 
@@ -54,7 +53,7 @@ app.listen(port, (err) => {
     if (process.env.NODE_ENV === 'development') {
       open(`http://localhost:${port}`);
     }
-    console.log(`Express server is up on port ${port}`.blue);
+    console.log(`Express dev server is up on port ${port}`.blue);
   }
 });
 

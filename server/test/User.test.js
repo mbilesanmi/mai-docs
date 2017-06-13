@@ -218,16 +218,6 @@ describe('Mai Docs Users Endpoints ', () => {
         });
       done();
     });
-    it('should return a Fields cannot be empty message when the user doesnt exist', (done) => {
-      app
-        .post('/api/users/login')
-        .send(newData.fakeUser)
-        .end((error, response) => {
-          expect(response.body.message).toBe('Invalid login details');
-          if (error) { done(error); }
-        });
-      done();
-    });
     it('should generate a token if successful', (done) => {
       app
         .post('/api/users/login')

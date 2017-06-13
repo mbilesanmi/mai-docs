@@ -51,9 +51,9 @@ const RoleController = {
         }
         return response.status(200).send(role);
       })
-      .catch(error => response.status(400).send({
+      .catch(error => response.status(404).send({
         error,
-        message: 'Invalid roleID'
+        message: 'Role does not exist'
       }));
   }
 };

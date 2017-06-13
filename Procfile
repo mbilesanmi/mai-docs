@@ -1,1 +1,1 @@
-web: npm run deploy:special
+web: npm run start

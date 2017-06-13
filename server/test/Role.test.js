@@ -181,11 +181,11 @@ describe('Mai Docs Roles Endpoints ', () => {
           done();
         });
     });
-    it('should return an Invalid roleID message', (done) => {
+    it('should return an Role does not exist message', (done) => {
       app
         .get('/api/roles/190290jks')
         .end((error, response) => {
-          expect(response.body.message).toEqual('Invalid roleID');
+          expect(response.body.message).toEqual('Role does not exist');
           if (error) { done(error); }
           done();
         });
