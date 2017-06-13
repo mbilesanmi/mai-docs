@@ -11,29 +11,7 @@ process.env.NODE_ENV = 'test';
 const app = supertest.agent(server);
 
 describe('Mai Docs Users Endpoints ', () => {
-  before((done) => {
-    console.log('message : reseting Database.......'.yellow);
-    models.sequelize.sync({ force: true }).then(() => {
-      console.log('roles', roles);
-      models.Role.bulkCreate(roles).then(() => {
-        console.log('message : seeding roles done.......'.green);
-        models.Role.bulkCreate(users).then(() => {
-          console.log('message : seeding users done.......'.green);
-          models.Role.bulkCreate(users).then(() => {
-            console.log('message : seeding documents done.......'.green);
-          }).catch(() => {});
-        }).catch(() => {});
-      }).catch(() => {});
-    }).catch(() => {});
-    done();
-  });
-  after((done) => {
-    console.log('message :  ', 'reseting Database.......');
-    models.sequelize.sync({ force: true }).then(() => {
-      console.log('message :  ', 'Database reset succesful');
-      done();
-    });
-  });
+
 
   describe('POST /api/users create/signup new user route', () => {
     it('should return a status of 201 when successful', (done) => {
@@ -256,16 +234,6 @@ describe('Mai Docs Users Endpoints ', () => {
         .send(newData.adminUser1)
         .end((error, response) => {
           expect(response.body.token).toExist();
-          if (error) { done(error); }
-        });
-      done();
-    });
-    it('should return a status of 200 when successful', (done) => {
-      app
-        .post('/api/users/login')
-        .send(newData.adminUser1)
-        .end((error, response) => {
-          expect(response.status).toEqual(200);
           if (error) { done(error); }
         });
       done();
