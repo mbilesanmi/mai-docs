@@ -10,9 +10,6 @@ postgres:
  database: myapp_test
  username: postgres
 
-script:
-  - npm run coverage
-
 after_success:
   - npm test
   - npm run coverage
