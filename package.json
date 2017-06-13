@@ -10,7 +10,9 @@
     "db:migrate": "NODE_ENV=development sequelize db:migrate:undo:all && sequelize db:migrate",
     "build": "rm -rf dist/ && babel server -d dist/server && npm run build:client",
     "build:client": "webpack --config webpack.config.js && cat ./client/index.html > ./dist/index.html",
-    "start": "babel-node ./tools/appServer.js"
+    "start": "babel-node ./tools/appServer.js",
+    "codeclimate": "CODECLIMATE_REPO_TOKEN=process.env.CODECLIMATE_REPO_TOKEN codeclimate-test-reporter < lcov.info",
+    "coverage": "nyc report --reporter=text-lcov | coveralls && npm run test"
   },
   "repository": {
     "type": "git",
