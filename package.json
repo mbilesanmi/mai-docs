@@ -6,8 +6,8 @@
   },
   "description": "Mai Document Management System",
   "scripts": {
-    "start": "NODE_ENV=production npm run build",
-    "open:client": "babel-node ./tools/appServer.js",
+    "start": "npm run build",
+    "open:client": "npm run lint && npm run test && babel-node ./tools/appServer.js",
     "lint": "node_modules/.bin/esw webpack.config.* client tools",
     "lint:watch": "npm run lint -- --watch",
     "test": "cross-env NODE_ENV=test nyc --reporter=text mocha ./client/test/**/*.test.js ./server/test/**/*.test.js --require babel-register",
@@ -15,7 +15,7 @@
     "clean-dist": "npm run remove-dist && mkdir dist",
     "remove-dist": "node_modules/.bin/rimraf ./dist",
     "build:html": "babel-node tools/buildHtml.js",
-    "prebuild": "npm-run-all clean-dist lint build:html",
+    "prebuild": "npm-run-all clean-dist build:html",
     "build": "babel-node tools/build.js",
     "postbuild": "babel-node ./tools/distServer.js"
   },
