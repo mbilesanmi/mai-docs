@@ -1,6 +1,9 @@
 {
   "name": "mai-docs",
   "version": "1.0.0",
+  "engines": {
+    "node": "7.9.0"
+  },
   "description": "Mai Document Management System",
   "scripts": {
     "start": "NODE_ENV=production npm run build",
