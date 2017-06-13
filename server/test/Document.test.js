@@ -11,30 +11,7 @@ process.env.NODE_ENV = 'test';
 const app = supertest.agent(server);
 
 describe('Mai Docs Users Endpoints ', () => {
-  before((done) => {
-    console.log('message : reseting Database.......'.yellow);
-    models.sequelize.sync({ force: true }).then(() => {
-      console.log('roles', roles);
-      models.Role.bulkCreate(roles).then(() => {
-        console.log('message : seeding roles done.......'.green);
-        models.Role.bulkCreate(users).then(() => {
-          console.log('message : seeding users done.......'.green);
-          models.Role.bulkCreate(users).then(() => {
-            console.log('message : seeding documents done.......'.green);
-          }).catch(() => {});
-        }).catch(() => {});
-      }).catch(() => {});
-    }).catch(() => {});
-    done();
-  });
-
-  after((done) => {
-    console.log('message : reseting Database.......'.red);
-    models.sequelize.sync({ force: true }).then(() => {
-      console.log('message : Database reset succesful'.cyan);
-      done();
-    });
-  });
+  
 
   describe('POST /api/documents create new document route', () => {
     it('should return a status of 201 when successful', (done) => {

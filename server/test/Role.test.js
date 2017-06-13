@@ -11,29 +11,6 @@ process.env.NODE_ENV = 'test';
 const app = supertest.agent(server);
 
 describe('Mai Docs Roles Endpoints ', () => {
-  before((done) => {
-    console.log('message : reseting Database.......'.yellow);
-    models.sequelize.sync({ force: true }).then(() => {
-      models.Role.bulkCreate(roles).then(() => {
-        console.log('message : seeding roles done.......'.green);
-        models.Role.bulkCreate(users).then(() => {
-          console.log('message : seeding users done.......'.green);
-          models.Role.bulkCreate(users).then(() => {
-            console.log('message : seeding documents done.......'.green);
-          }).catch(() => {});
-        }).catch(() => {});
-      }).catch(() => {});
-    }).catch(() => {});
-    done();
-  });
-  after((done) => {
-    console.log('message :  ', 'reseting Database.......');
-    models.sequelize.sync({ force: true }).then(() => {
-      console.log('message :  ', 'Database reset succesful');
-      done();
-    });
-  });
-
   describe('POST /api/roles create new role route', () => {
     it('should return a status of 201 when successful', (done) => {
       app
@@ -231,11 +208,11 @@ describe('Mai Docs Roles Endpoints ', () => {
           done();
         });
     });
-    it('should return a status of 400 for a non-existent roleId', (done) => {
+    it('should return a status of 404 for a non-existent roleId', (done) => {
       app
         .get('/api/roles/123456789')
         .end((error, response) => {
-          expect(response.status).toEqual(400);
+          expect(response.status).toEqual(404);
           if (error) { done(error); }
           done();
         });
@@ -249,11 +226,11 @@ describe('Mai Docs Roles Endpoints ', () => {
           done();
         });
     });
-    it('should return a Invalid roleID message', (done) => {
+    it('should return a Role does not exist message', (done) => {
       app
         .get('/api/roles/123456789')
         .end((error, response) => {
-          expect(response.body.message).toEqual('Invalid roleID');
+          expect(response.body.message).toEqual('Role does not exist');
           if (error) { done(error); }
           done();
         });
