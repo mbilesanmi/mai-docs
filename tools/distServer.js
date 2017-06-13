@@ -1,7 +1,6 @@
 const express = require('express');
 const webpack = require('webpack');
 const path = require('path');
-const open = require('open');
 const colors = require('colors');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
