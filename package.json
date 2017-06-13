@@ -6,8 +6,8 @@
   },
   "description": "Mai Document Management System",
   "scripts": {
-    "start": "npm run build",
-    "open:client": "npm run lint && npm run test && babel-node ./tools/appServer.js",
+    "start": "npm run postbuild",
+    "open§:client": "npm run lint && npm run test && babel-node ./tools/appServer.js",
     "lint": "node_modules/.bin/esw webpack.config.* client tools",
     "lint:watch": "npm run lint -- --watch",
     "test": "cross-env NODE_ENV=test nyc --reporter=text mocha ./client/test/**/*.test.js ./server/test/**/*.test.js --require babel-register",
