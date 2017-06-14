@@ -5,12 +5,44 @@ import open from 'open';
 import colors from 'colors';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
+import swaggerJSDoc from 'swagger-jsdoc';
 import serverRoutes from '../server/routes/index';
 import config from '../webpack.config.dev';
 
+const pathurl = path.join(__dirname + '/../server/routes/*.js');
+console.log(pathurl);
 /* eslint-disable no-console */
 
 const app = express();
+
+// swagger definition
+const swaggerDefinition = {
+  info: {
+    title: 'Mai Docs API Endpoints',
+    version: '1.0.0',
+    description: 'Describing the MaiDocs API Endpoints with Swagger',
+  },
+  host: 'localhost:3002',
+  basePath: '/',
+};
+
+// options for the swagger docs
+const options = {
+  // import swaggerDefinitions
+  swaggerDefinition: swaggerDefinition,
+  // path to the API docs
+  apis: [pathurl],
+};
+
+// initialize swagger-jsdoc
+const swaggerSpec = swaggerJSDoc(options);
+
+// serve swagger
+app.get('/swagger.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+
 const compiler = webpack(config);
 let port;
 if (process.env.NODE_ENV === 'test') {
