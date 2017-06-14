@@ -1,8 +1,9 @@
-import React from 'react';
-import TinyMCE from 'react-tinymce';
+import React, { PropTypes } from 'react';
 
-const DocumentForm = ({ document, onSave,
-  onChange, onEditorChange, saving }) =>
+/**
+ * @desc component used to display the document form
+ */
+const DocumentForm = ({ document, onSave, onChange, saving }) =>
   <form>
     <div className="row">
       <h5 className="col l1 m1 s12">Title:</h5>
@@ -30,17 +31,6 @@ const DocumentForm = ({ document, onSave,
     <div className="row">
       <h5 className="col l1 m1 s12">Content:</h5>
       <div className="input-field">
-        {/*<TinyMCE
-          content={document.content}
-          config={{
-            height: '160',
-            plugins: 'link image code',
-            toolbar: `undo redo
-              | bold italic | alignleft
-              aligncenter alignright | code`
-          }}
-          onChange={onEditorChange}
-        />*/}
         <textarea
           rows="100"
           name="content"
@@ -61,13 +51,15 @@ const DocumentForm = ({ document, onSave,
       onClick={onSave} />
   </form>;
 
+/**
+ * @desc Set the PropTypes
+ */
 DocumentForm.propTypes = {
-  document: React.PropTypes.object.isRequired,
-  onSave: React.PropTypes.func.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  onEditorChange: React.PropTypes.func.isRequired,
-  saving: React.PropTypes.bool,
-  errors: React.PropTypes.object
+  document: PropTypes.object.isRequired,
+  onSave: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  saving: PropTypes.bool,
+  errors: PropTypes.object
 };
 
 export default DocumentForm;

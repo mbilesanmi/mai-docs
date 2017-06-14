@@ -2,6 +2,9 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import TextInput from '../common/TextInput.jsx';
 
+/**
+ * @desc component used to display the document form
+ */
 const SigninForm = ({ onChange, onSubmit, loading, errors }) =>
     <div className="grey lighten-3 col s6 offset-s3 z-depth-5 card">
       <div className="card-image">
@@ -58,6 +61,9 @@ const SigninForm = ({ onChange, onSubmit, loading, errors }) =>
     </div>
   ;
 
+/**
+ * @desc Set the PropTypes
+ */
 SigninForm.propTypes = {
   user: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,

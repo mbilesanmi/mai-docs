@@ -1,20 +1,23 @@
-const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const path = require('path');
+import webpack from 'webpack';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import Dotenv from 'dotenv-webpack';
+import path from 'path';
 
 export default {
   debug: true,
-  devtool: 'inline-source-map',
-  noInfo: false,
+  devtool: 'cheap-module-eval-source-map',
+  noInfo: true,
   entry: [
     // necessary for hot reloading with IE
     'eventsource-polyfill',
     // note that it reloads the page if hot module reloading fails.
     'webpack-hot-middleware/client?reload=true',
-    path.resolve(__dirname, './client/index')
+    './client/index'
   ],
   target: 'web',
   output: {
+    // Note: Physical files are only output by the production build task.
+    // Use `npm run build`
     path: `${__dirname}/dist`,
     publicPath: '/',
     filename: 'bundle.js'
@@ -24,7 +27,7 @@ export default {
     extensions: ['', '.js', '.jsx']
   },
   devServer: {
-    contentBase: './dist'
+    contentBase: './client'
   },
   plugins: [
     new ExtractTextPlugin('./client/styles/styles.css', {
@@ -44,7 +47,7 @@ export default {
         test: /\.jsx?$/,
         loader: 'babel-loader',
         query: { presets: ['react', 'es2015'] },
-        exclude: /node_modules/
+        exclude: /(node_modules)/
       },
       {
         test: /\.js$/,

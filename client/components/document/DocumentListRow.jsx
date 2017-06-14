@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import DocumentTasks from './DocumentTasks.jsx';
 
+/**
+ * @desc component used to display the list of documents
+ */
 const DocumentListRow = ({ document, loggedInUserID, users }) =>
   <div className="col s12 m6 l4">
     <div className="card medium hoverable z-depth-5">
@@ -17,13 +20,6 @@ const DocumentListRow = ({ document, loggedInUserID, users }) =>
         </div>
         <div className="col s12 light">
           <b>Author:</b> {document.User.firstname} {document.User.lastname}
-          {/*{users.filter(user =>
-            user.id === document.ownerId
-          ).map(user =>
-            <span key={user.id}>
-              {user.firstname} {user.lastname}
-            </span>
-          )}*/}
         </div>
         <div className="col s12 light">
           {document.content.slice(0, 200)}...
@@ -46,12 +42,19 @@ const DocumentListRow = ({ document, loggedInUserID, users }) =>
     </div>
   </div>;
 
+/**
+ * @desc Set the PropTypes
+ */
 DocumentListRow.propTypes = {
-  document: React.PropTypes.object.isRequired,
-  loggedInUserID: React.PropTypes.number
-  // users: React.PropTypes.array
+  document: PropTypes.object.isRequired,
+  loggedInUserID: PropTypes.number
 };
 
+/**
+ *
+ * @param {any} state
+ * @returns {*} props
+ */
 const mapStateToProps = state => ({
   users: state.users
 });

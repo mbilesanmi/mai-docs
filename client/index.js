@@ -28,6 +28,10 @@ if (userToken) {
 
 const app = document.getElementById('app');
 
+/**
+ * React Render
+ * @return {object} html
+ */
 render(
   <Provider store={store}>
     <Router history={browserHistory} routes={routes} />

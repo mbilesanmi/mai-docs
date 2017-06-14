@@ -2,6 +2,9 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import TextInput from '../common/TextInput.jsx';
 
+/**
+ * @desc component used to display the signup form
+ */
 const SignupForm = ({ onChange, onSubmit, loading, errors }) =>
   <form className="login-form">
     <div className="card-content">
@@ -85,6 +88,9 @@ const SignupForm = ({ onChange, onSubmit, loading, errors }) =>
   </form>
 ;
 
+/**
+ * @desc Set the PropTypes
+ */
 SignupForm.propTypes = {
   user: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,

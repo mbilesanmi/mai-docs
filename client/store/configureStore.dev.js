@@ -3,6 +3,13 @@ import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import thunk from 'redux-thunk';
 import rootReducer from '../reducers';
 
+/**
+ * Configure redux store for development environment
+ *
+ * @export
+ * @param {Object} initialState
+ * @returns {Function} configuration function
+ */
 const configureStore = (initialState) => {
   /* eslint-disable no-underscore-dangle */
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__

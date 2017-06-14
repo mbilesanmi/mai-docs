@@ -4,11 +4,24 @@ import { bindActionCreators } from 'redux';
 import toastr from 'toastr';
 import * as actions from '../../actions/documentActions';
 
+/**
+ * @desc component used to display all document view
+ * @class VieDocument
+ * @extends {Component}
+ */
 class ViewDocument extends Component {
+  /**
+   * @desc handles the triggering of the necessary action
+   * @returns {null} returns no value
+   */
   componentWillMount() {
     this.props.actions.getOneDocument(this.props.documentId);
   }
 
+  /**
+   * @desc Renders the Document view
+   * @return {*} html
+   */
   render() {
     const { documents } = this.props;
     let createdAt;
@@ -35,18 +48,27 @@ class ViewDocument extends Component {
   }
 }
 
+/**
+ * @desc Set the PropTypes
+ */
 ViewDocument.propTypes = {
   document: PropTypes.array,
   documentId: PropTypes.number,
   message: PropTypes.string
 };
 
-// Pull in the React Router context
-// so router is available on this.context.router.
+/**
+ * @desc Set the contextTypes
+ */
 ViewDocument.contextTypes = {
   router: PropTypes.object
 };
 
+/**
+ *
+ * @param {any} state
+ * @returns {*} props
+ */
 const mapStateToProps = (state, ownProps) => ({
   isAuth: state.isAuth,
   loggedInUserID: state.isAuth.loggedInUser.id,
@@ -54,6 +76,10 @@ const mapStateToProps = (state, ownProps) => ({
   documents: state.documents
 });
 
+/**
+ * @param {any} dispatch
+ * @returns {any} actions
+ */
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions, dispatch)
 });

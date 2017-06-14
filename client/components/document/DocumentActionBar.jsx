@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
+/**
+ * @desc component used to display the document actionBar
+ */
 const DocumentActionBar = ({
     redirectToManageDocument, onViewAccessChange,
     sitewide, onSearchChange }) =>
@@ -30,11 +33,14 @@ const DocumentActionBar = ({
     </div>
   </div>;
 
+/**
+ * @desc Set the PropTypes
+ */
 DocumentActionBar.propTypes = {
-  redirectToManageDocument: React.PropTypes.func,
-  onViewAccessChange: React.PropTypes.func,
-  sitewide: React.PropTypes.string,
-  onSearchChange: React.PropTypes.func
+  redirectToManageDocument: PropTypes.func,
+  onViewAccessChange: PropTypes.func,
+  sitewide: PropTypes.string,
+  onSearchChange: PropTypes.func
 };
 
 export default DocumentActionBar;

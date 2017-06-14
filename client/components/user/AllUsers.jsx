@@ -6,14 +6,24 @@ import UserListRow from './UserListRow.jsx';
 import UserActionBar from './UserActionBar.jsx';
 import * as actions from '../../actions/userActions';
 
+/**
+ * @desc component used to display all users
+ * @class AllUsers
+ * @extends {Component}
+ */
 class AllUsers extends Component {
+  /**
+   * Creates an instance of AllUsers.
+   * @param {any} props property of component
+   * @param {any} context property of component
+   * @returns {*} no return value
+   * @memberof AllUsers
+   */
   constructor(props, context) {
     super(props, context);
 
     this.redirectToManageUser = this.redirectToManageUser.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
-    this.clearSearch = this.clearSearch.bind(this);
-    this.onRoleChange = this.onRoleChange.bind(this);
 
     this.state = {
       users: [],
@@ -24,33 +34,41 @@ class AllUsers extends Component {
     };
   }
 
+  /**
+   * @desc handles the triggering of the necessary action
+   * @returns {null} returns no value
+   */
   componentWillMount() {
     if (this.props.isAuth.isAuthenticated) {
       this.props.actions.getAllUsers(this.state.offset);
     }
   }
 
+  /**
+   * @desc handles the redirecting to the manage documents page
+   * @returns {null} returns no value
+   */
   redirectToManageUser() {
     this.context.router.push('/user');
   }
 
-  onRoleChange(event) {
-    this.setState({ roleType: event.target.value });
-  }
-
-  clearSearch(event) {
-    this.setState({ search: '' });
-  }
-
+  /**
+   * @desc handles change of the search form
+   * @param {any} event html event
+   * @returns {*} no return value
+   */
   onSearchChange(event) {
     this.setState({ search: event.target.value });
     this.props.actions.search(event.target.value)
     .catch(() => toastr.error(this.props.message));
   }
 
+  /**
+   * React Render
+   * @return {object} html
+   */
   render() {
     const { users, searchResults, metaData } = this.props;
-    // const { searchResults } = this.props;
 
     if (users) {
       let filteredUsers;
@@ -98,6 +116,9 @@ class AllUsers extends Component {
   }
 }
 
+/**
+ * @desc Set the PropTypes
+ */
 AllUsers.propTypes = {
   users: PropTypes.array,
   searchResults: PropTypes.array,
@@ -107,12 +128,19 @@ AllUsers.propTypes = {
   actions: PropTypes.object
 };
 
-// Pull in the React Router context
-// so router is available on this.context.router.
+/**
+ * @desc Set the contextTypes
+ */
 AllUsers.contextTypes = {
   router: PropTypes.object
 };
 
+/**
+ *
+ * @param {any} state
+ * @param {any} ownProps
+ * @returns {*} props
+ */
 const mapStateToProps = state => ({
   isAuth: state.isAuth,
   message: state.message,
@@ -122,6 +150,10 @@ const mapStateToProps = state => ({
   loggedInUserID: state.isAuth.loggedInUser.id
 });
 
+/**
+ * @param {any} dispatch
+ * @returns {any} actions
+ */
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions, dispatch)
 });

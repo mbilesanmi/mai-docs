@@ -7,7 +7,19 @@ import DocumentListRow from '../document/DocumentListRow.jsx';
 import DocumentActionBar from '../document/DocumentActionBar.jsx';
 import * as actions from '../../actions/documentActions';
 
+/**
+ * @desc component used to display user's documents
+ * @class Dashboard
+ * @extends {Component}
+ */
 class Dashboard extends Component {
+  /**
+   * Creates an instance of Dashboard.
+   * @param {any} props property of component
+   * @param {any} context property of component
+   * @returns {*} no return value
+   * @memberof Dashboard
+   */
   constructor(props, context) {
     super(props, context);
 
@@ -23,16 +35,29 @@ class Dashboard extends Component {
     };
   }
 
+  /**
+   * @desc handles the triggering of the necessary action
+   * @returns {null} returns no value
+   */
   componentWillMount() {
     if (this.props.isAuth.isAuthenticated) {
       this.props.actions.getUserDocuments(this.props.loggedInUserID, this.state.offset);
     }
   }
 
+  /**
+   * @desc handles the redirecting to the manage documents page
+   * @returns {null} returns no value
+   */
   redirectToManageDocument() {
     this.context.router.push('/document');
   }
 
+  /**
+   * @desc handles change of the search form
+   * @param {any} event html event
+   * @returns {*} no return value
+   */
   onSearchChange(event) {
     this.setState({ search: event.target.value });
     if (event.target.value === '') {
@@ -44,6 +69,11 @@ class Dashboard extends Component {
     });
   }
 
+  /**
+   * @desc handles change of the pagination
+   * @param {any} data the page number
+   * @returns {*} no return value
+   */
   handlePageClick(data) {
     const selected = data.selected;
     const offset = Math.ceil(selected * this.props.metaData.pageSize);
@@ -53,10 +83,13 @@ class Dashboard extends Component {
     });
   }
 
+   /**
+   * @desc Renders the Document holder
+   * @return {*} render the Document holder
+   */
   render() {
     const { documents, searchResults, metaData } = this.props;
     let documentsInfo;
-
 
     if (!documents || this.props.message === 'no document found') {
       return (documentsInfo = <div className="section">
@@ -160,6 +193,9 @@ class Dashboard extends Component {
   }
 }
 
+/**
+ * @desc Set the PropTypes
+ */
 Dashboard.propTypes = {
   documents: PropTypes.array,
   searchResults: PropTypes.array,
@@ -169,12 +205,19 @@ Dashboard.propTypes = {
   actions: PropTypes.object
 };
 
-// Pull in the React Router context
-// so router is available on this.context.router.
+/**
+ * @desc Set the contextTypes
+ */
 Dashboard.contextTypes = {
   router: PropTypes.object
 };
 
+/**
+ *
+ * @param {any} state
+ * @returns {boolean} isAuthenticated
+ * @returns {*} isAdmin
+ */
 const mapStateToProps = state => ({
   isAuth: state.isAuth,
   message: state.message,
@@ -183,6 +226,10 @@ const mapStateToProps = state => ({
   loggedInUserID: state.isAuth.loggedInUser.id
 });
 
+/**
+ * @param {any} dispatch
+ * @returns {any} actions
+ */
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions, dispatch)
 });

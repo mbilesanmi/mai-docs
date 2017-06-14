@@ -2,6 +2,9 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import UserTasks from './UserTasks.jsx';
 
+/**
+ * @desc component used to display the list of users
+ */
 const UserListRow = ({ user, roles }) =>
   <div className="col s12 m6 l4">
     <div className="card medium hoverable z-depth-5">
@@ -34,11 +37,20 @@ const UserListRow = ({ user, roles }) =>
   </div>
 ;
 
+/**
+ * @desc Set the PropTypes
+ */
 UserListRow.propTypes = {
   user: PropTypes.object.isRequired,
   roles: PropTypes.array
 };
 
+/**
+ *
+ * @param {any} state
+ * @param {any} ownProps
+ * @returns {*} props
+ */
 const mapStateToProps = state => ({
   roles: state.roles
 });

@@ -5,7 +5,19 @@ import toastr from 'toastr';
 import SigninForm from './SigninForm.jsx';
 import * as userActions from '../../actions/userActions';
 
+/**
+ * @desc component used to display the login component
+ * @class Signin
+ * @extends {Component}
+ */
 class Signin extends Component {
+  /**
+   * Creates an instance of Signin.
+   * @param {any} props property of component
+   * @param {any} context property of component
+   * @returns {*} no return value
+   * @memberof Signin
+   */
   constructor(props, context) {
     super(props, context);
 
@@ -19,6 +31,10 @@ class Signin extends Component {
     };
   }
 
+  /**
+   * @desc handles the triggering of the necessary action
+   * @returns {null} returns no value
+   */
   componentWillMount() {
     if (this.props.isAuthenticated) {
       toastr.error('Already logged in');
@@ -26,6 +42,11 @@ class Signin extends Component {
     }
   }
 
+  /**
+   * @desc handles user login
+   * @param {any} event html event
+   * @returns {*} no return value
+   */
   onSubmit(event) {
     event.preventDefault();
     this.setState({
@@ -44,6 +65,11 @@ class Signin extends Component {
     });
   }
 
+  /**
+   * @desc handles form element changes
+   * @param {any} event html event
+   * @returns {*} no return value
+   */
   updateUserState(event) {
     const field = event.target.name;
     const user = this.state.user;
@@ -51,6 +77,10 @@ class Signin extends Component {
     return this.setState({ user });
   }
 
+  /**
+   * @desc Renders the Signin component
+   * @return {*} html
+   */
   render() {
     return (
       <div>
@@ -71,6 +101,9 @@ class Signin extends Component {
   }
 }
 
+/**
+ * @desc Set the PropTypes
+ */
 Signin.propTypes = {
   user: PropTypes.object,
   message: PropTypes.string,
@@ -78,8 +111,9 @@ Signin.propTypes = {
   userActions: PropTypes.object.isRequired
 };
 
-// Pull in the React Router context
-// so router is available on this.context.router.
+/**
+ * @desc Set the contextTypes
+ */
 Signin.contextTypes = {
   router: PropTypes.object
 };
@@ -88,7 +122,7 @@ Signin.contextTypes = {
  *  map state to props
  *
  * @param {state} state
- * @returns {object}
+ * @returns {*} props
  */
 const mapStateToProps = state => ({
   message: state.message,
@@ -96,6 +130,10 @@ const mapStateToProps = state => ({
   isAuthenticated: state.isAuth.isAuthenticated
 });
 
+/**
+ * @param {any} dispatch
+ * @returns {any} actions
+ */
 const mapDispatchToProps = dispatch => ({
   userActions: bindActionCreators(userActions, dispatch)
 });

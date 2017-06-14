@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react';
 
-const DocumentActionBar = ({ onRoleChange, onSearchChange, clearSearch }) =>
+/**
+ * @desc component used to display the user action bar
+ */
+const UserActionBar = ({ onRoleChange, onSearchChange, clearSearch }) =>
   <div className="row">
 
     <div className="col l8 m8 s12">
@@ -55,10 +58,13 @@ const DocumentActionBar = ({ onRoleChange, onSearchChange, clearSearch }) =>
   </div>
 ;
 
-DocumentActionBar.propTypes = {
+/**
+ * @desc Set the PropTypes
+ */
+UserActionBar.propTypes = {
   onRoleChange: PropTypes.func,
   clearSearch: PropTypes.func,
   onSearchChange: PropTypes.func
 };
 
-export default DocumentActionBar;
+export default UserActionBar;
