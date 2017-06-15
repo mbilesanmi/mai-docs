@@ -16,21 +16,42 @@ class EditUserProfile extends Component {
     super(props, context);
 
     this.updateUserState = this.updateUserState.bind(this);
-    // this.updateUser = this.updateUser.bind(this);
+    this.updateProfile = this.updateProfile.bind(this);
 
     this.state = {
       user: Object.assign({}, props.user),
       errors: {},
       saving: false
     };
+    console.log('user state', this.state.user);
   }
 
+  /**
+   * @desc handles the triggering of the necessary action
+   * @returns {null} returns no value
+   */
   componentWillMount() {
     if (this.props.userId) {
       this.props.userActions.getOneUser(this.props.userId);
     }
   }
 
+  /**
+   * @desc handles the triggering of the necessary action when the page reloads
+   * @returns {null} returns no value
+   */
+  componentWillReceiveProps(nextProps) {
+    if (this.props.user.id !== nextProps.user.id) {
+      // Necessary to repopulate the form when document is loaded directly
+      this.setState({ user: Object.assign({}, nextProps.user) });
+    }
+  }
+
+  /**
+   * @desc handles form element changes
+   * @param {any} event html event
+   * @returns {*} no return value
+   */
   updateUserState(event) {
     const field = event.target.name;
     const user = this.state.user;
@@ -40,8 +61,41 @@ class EditUserProfile extends Component {
     return this.setState({ user });
   }
 
+  /**
+   * @desc handles user profile update form action
+   * @param {any} event html event
+   * @returns {*} no return value
+   */
+  updateProfile(event) {
+    event.preventDefault();
+    this.setState({
+      saving: true
+    });
+    this.props.userActions.updateUser(this.state.user.id, this.state.user)
+    .then(() => this.redirect())
+    .catch(() => {
+      this.setState({ saving: false });
+      toastr.error(this.props.message);
+    });
+  }
+
+  /**
+   * @desc handles the redirecting to the dashboard on success
+   * @returns {null} returns no value
+   */
+  redirect() {
+    this.setState({ saving: false });
+    toastr.success(this.props.message);
+    this.context.router.push('/dashboard');
+  }
+
+  /**
+   * React Render
+   * @return {object} html
+   */
   render() {
-    console.log('user upda', this.state.user);
+    const { user } = this.props;
+    
     return (
       <div className="container">
         <div className="row">
@@ -57,16 +111,21 @@ class EditUserProfile extends Component {
                       <input
                         name="firstname"
                         type="text"
+                        value={this.state.user.firstname || user.firstname}
+                        onChange={this.updateUserState}
                         placeholder="Your firstname here"
                         required />
                     </div>
                   </div>
+
                   <div className="row">
                     <div className="col s6 offset-s3">
                       <p className="flow-text">Lastname:</p>
                       <input
                         name="lastname"
                         type="text"
+                        value={this.state.user.lastname || user.lastname}
+                        onChange={this.updateUserState}
                         placeholder="Your lastname here"
                         required />
                     </div>
@@ -78,6 +137,8 @@ class EditUserProfile extends Component {
                       <input
                         name="username"
                         type="text"
+                        value={this.state.user.username || user.username}
+                        onChange={this.updateUserState}
                         placeholder="Your username here"
                         required />
                     </div>
@@ -87,8 +148,10 @@ class EditUserProfile extends Component {
                     <div className="col s6 offset-s3">
                       <p className="flow-text">Email:</p>
                       <input
-                        name="username"
+                        name="email"
                         type="email"
+                        value={user.email}
+                        disabled
                         placeholder="Your email here"
                         required />
                     </div>
@@ -98,8 +161,9 @@ class EditUserProfile extends Component {
                     <div className="row">
                       <div className="input-field col s12">
                         <input
-                          id="saveProfile"
+                          id="updateProfile"
                           type="submit"
+                          onClick={this.updateProfile}
                           className=
                             "btn waves-effect waves-light col s2 offset-s5 teal darken-1" />
                       </div>
@@ -121,7 +185,7 @@ class EditUserProfile extends Component {
  */
 EditUserProfile.propTypes = {
   userActions: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
+  user: PropTypes.object,
   userId: PropTypes.number.isRequired,
   message: PropTypes.string
 };
@@ -141,7 +205,11 @@ EditUserProfile.contextTypes = {
  */
 function mapStateToProps(state, ownProps) {
   const userId = parseInt(ownProps.params.id, 10);
-  const user = state.users;
+  let user = {};
+
+  if (userId && (state.users.id === userId)) {
+    user = state.users;
+  }
 
   return {
     user,

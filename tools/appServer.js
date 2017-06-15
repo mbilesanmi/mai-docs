@@ -9,7 +9,6 @@ const bodyParser = require('body-parser');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 import swaggerJSDoc from 'swagger-jsdoc';
 import serverRoutes from '../server/routes/index';
-// import config from '../webpack.config.dev';
 
 const pathurl = path.join(__dirname + '/../server/routes/*.js');
 console.log(pathurl);
@@ -45,7 +44,6 @@ app.get('/swagger.json', (req, res) => {
   res.send(swaggerSpec);
 });
 
-// const compiler = webpack(config);
 let port;
 if (process.env.NODE_ENV === 'test') {
   port = 3003;
@@ -53,15 +51,11 @@ if (process.env.NODE_ENV === 'test') {
   port = process.env.PORT || 3002;
 }
 
-// if (true) {
-  const compiler = webpack(webpackConfig);
-  app.use(webpackDevMiddleware(compiler, {
-    noInfo: true,
-    publicPath: '/assets'
-  }));
-// }
-
-// process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+const compiler = webpack(webpackConfig);
+app.use(webpackDevMiddleware(compiler, {
+  noInfo: true,
+  publicPath: '/assets'
+}));
 
 // Log requests to the console.
 app.use(logger('dev'));
@@ -70,12 +64,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// if (process.env.NODE_ENV === 'development') {
-//   app.use(require('webpack-hot-middleware')(compiler));
-// }
-
-// app.use(express.static(path.join(__dirname, '/../dist/client/')))
-// app.use('/bundle.js', )
 serverRoutes(app);
 console.log(path.join(__dirname, '../dist'));
 app.use(express.static(path.join(__dirname, '../dist')));
@@ -89,9 +77,6 @@ app.listen(port, (err) => {
   if (err) {
     console.log(err);
   } else {
-    // if (process.env.NODE_ENV === 'development') {
-    //   open(`http://localhost:${port}`);
-    // }
     console.log(`Express dev server is up on port ${port}`.blue);
   }
 });

@@ -10,9 +10,6 @@ import * as actions from '../../actions/userActions.js';
  * @extends {Component}
  */
 class UserProfile extends Component {
-  constructor(props) {
-    super(props);
-  }
   /**
    * @desc handles the triggering of the necessary action
    * @returns {null} returns no value

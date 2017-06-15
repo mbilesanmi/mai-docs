@@ -1,5 +1,4 @@
 import webpack from 'webpack';
-// import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import path from 'path';
 
 const BUILD_PATH = path.resolve(__dirname, './dist');

@@ -62,10 +62,6 @@ class UserTasks extends Component {
   render() {
     return (
       <span>
-        <Link
-          to={`/user/view/${this.props.userId}`}
-          className="waves-effect waves-light btn blue">View
-        </Link>
         &nbsp;&nbsp;
         <a className="waves-effect waves-light btn red"
           onClick={this.deleteUser}>Delete

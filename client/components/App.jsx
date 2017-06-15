@@ -13,7 +13,7 @@ class App extends Component {
    */
   render() {
     return (
-      <div className="grey container-fluid">
+      <div className="container-fluid">
         <Header />
         {this.props.children}
       </div>

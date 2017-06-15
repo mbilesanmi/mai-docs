@@ -191,7 +191,7 @@ class Dashboard extends Component {
               nextLabel={'next'}
               breakLabel={<a href="">...</a>}
               breakClassName={'break-me'}
-              pageCount={metaData.pages}
+              pageCount={metaData.pages ? metaData.pages : null}
               marginPagesDisplayed={2}
               pageRangeDisplayed={5}
               onPageChange={this.handlePageClick}
