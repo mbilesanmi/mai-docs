@@ -7,7 +7,8 @@
   "description": "Mai Document Management System",
   "scripts": {
     "start": "npm run postbuild",
-    "start:dev": "NODE_ENV=development nodemon ./tools/appServer.js --exec babel-node",
+    "start:dev": "webpack -w & nodemon tools/appserver.js --exec babel-node",
+    "run-build": "babel-node webpack --config webpack.config.dev.js",
     "open:client": "NODE_ENV=development npm run lint && npm run test && npm run start:dev",
     "lint": "node_modules/.bin/esw webpack.config.* client tools",
     "lint:watch": "npm run lint -- --watch",
@@ -19,7 +20,7 @@
     "build:html": "babel-node tools/buildHtml.js",
     "prebuild": "npm-run-all clean-dist build:html",
     "build": "babel-node tools/build.js",
-    "postbuild": "babel-node ./tools/distServer.js"
+    "postbuild": "babel-node ./tools/appServer.js"
   },
   "repository": {
     "type": "git",
@@ -40,7 +41,6 @@
     "babel-polyfill": "6.8.0",
     "babel-preset-es2015": "6.6.0",
     "babel-preset-react": "6.5.0",
-    "babel-preset-react-hmre": "1.1.1",
     "babel-register": "6.8.0",
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.2",
@@ -87,7 +87,7 @@
     "sweetalert": "^1.1.3",
     "toastr": "2.1.2",
     "url-loader": "0.5.7",
-    "webpack": "^1.14.0"
+    "webpack": "^2.6.1"
   },
   "devDependencies": {
     "babel-plugin-istanbul": "^4.1.4",

@@ -45,8 +45,8 @@ export class ManageDocument extends Component {
    * @returns {null} returns no value
    */
   componentWillMount() {
-    if (this.props.documentId) {
-      this.props.actions.getOneDocument(this.props.documentId);
+    if (this.props.params.id) {
+      this.props.actions.getOneDocument(this.props.params.id);
     }
   }
 
@@ -123,7 +123,7 @@ export class ManageDocument extends Component {
    * @return {object} html
    */
   render() {
-    const isUpdate = this.props.document.id;
+    const isUpdate = this.props.params.id;
     const documentTitle = this.props.document.title;
     return (
       <div className="section">
@@ -169,23 +169,29 @@ ManageDocument.contextTypes = {
  * @param {any} ownProps
  * @returns {*} props
  */
-const mapStateToProps = (state, ownProps) => {
-  const documentId = parseInt(ownProps.params.id, 10);
-  const authorId = state.isAuth.loggedInUser.id;
-  const message = state.message;
-
-  let document = { id: '', title: '', content: '', viewAccess: '' };
-
-  if (documentId && (state.documents.id === documentId)) {
-    document = state.documents;
-  }
-
+const mapStateToProps = ({ documents, message, isAuth }, ownProps) => {
+  // console.log(docuemnts,' ')
   return {
-    documentId,
-    document,
-    authorId,
-    message
+    document: documents.find((document) => document.id === ownProps.params.id) || {},
+    message,
+    authorId: isAuth.loggedInUser.id
   };
+  // const documentId = parseInt(ownProps.params.id, 10);
+  // const authorId = state.isAuth.loggedInUser.id;
+  // const message = state.message;
+
+  // let document = { id: '', title: '', content: '', viewAccess: '' };
+
+  // if (documentId && (state.documents.id === documentId)) {
+  //   document = state.documents;
+  // }
+
+  // return {
+  //   documentId,
+  //   document,
+  //   authorId,
+  //   message
+  // };
 };
 
 /**

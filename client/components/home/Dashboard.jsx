@@ -8,7 +8,7 @@ import * as actions from '../../actions/documentActions';
 import * as userActions from '../../actions/userActions';
 import DocumentListRow from '../document/DocumentListRow.jsx';
 import DocumentActionBar from '../document/DocumentActionBar.jsx';
-import UserProfile from '../user/UserProfile';
+import UserProfile from '../user/UserProfile.jsx';
 
 /**
  * @desc component used to display user's documents

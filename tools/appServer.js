@@ -4,10 +4,12 @@ const path = require('path');
 const open = require('open');
 const colors = require('colors');
 const logger = require('morgan');
+const webpackConfig = require('../webpack.config.dev');
 const bodyParser = require('body-parser');
+const webpackDevMiddleware = require('webpack-dev-middleware');
 import swaggerJSDoc from 'swagger-jsdoc';
 import serverRoutes from '../server/routes/index';
-import config from '../webpack.config.dev';
+// import config from '../webpack.config.dev';
 
 const pathurl = path.join(__dirname + '/../server/routes/*.js');
 console.log(pathurl);
@@ -43,7 +45,7 @@ app.get('/swagger.json', (req, res) => {
   res.send(swaggerSpec);
 });
 
-const compiler = webpack(config);
+// const compiler = webpack(config);
 let port;
 if (process.env.NODE_ENV === 'test') {
   port = 3003;
@@ -51,13 +53,15 @@ if (process.env.NODE_ENV === 'test') {
   port = process.env.PORT || 3002;
 }
 
-if (process.env.NODE_ENV === 'development') {
-  app.use(require('webpack-dev-middleware')(compiler, {
-    publicPath: config.output.publicPath
+// if (true) {
+  const compiler = webpack(webpackConfig);
+  app.use(webpackDevMiddleware(compiler, {
+    noInfo: true,
+    publicPath: '/assets'
   }));
-}
+// }
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+// process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 // Log requests to the console.
 app.use(logger('dev'));
@@ -66,17 +70,18 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-if (process.env.NODE_ENV === 'development') {
-  app.use(require('webpack-hot-middleware')(compiler));
-}
+// if (process.env.NODE_ENV === 'development') {
+//   app.use(require('webpack-hot-middleware')(compiler));
+// }
 
 // app.use(express.static(path.join(__dirname, '/../dist/client/')))
 // app.use('/bundle.js', )
-app.use(express.static('dist'));
 serverRoutes(app);
+console.log(path.join(__dirname, '../dist'));
+app.use(express.static(path.join(__dirname, '../dist')));
 
 
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
