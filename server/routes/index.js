@@ -3,6 +3,11 @@ import RoleController from '../controllers/RoleController';
 import UserController from '../controllers/UserController';
 import DocumentController from '../controllers/DocumentController';
 
+import Authenticate from '../middleware/Authenticate';
+
+const adminAccess = Authenticate.adminAccess;
+const validateToken = Authenticate.validateToken;
+
 const Routes = (app) => {
   /**
    * @swagger
@@ -68,7 +73,7 @@ const Routes = (app) => {
    *           $ref: '#/definitions/Roles'
    */
   app.get(
-    '/api/roles', RoleController.getAll
+    '/api/roles', validateToken, RoleController.getAll
   );
   /**
    * @swagger
@@ -92,7 +97,7 @@ const Routes = (app) => {
    *           $ref: '#/definitions/Roles'
    */
   app.get(
-    '/api/roles/:id', RoleController.getOne
+    '/api/roles/:id', adminAccess, validateToken, RoleController.getOne
   );
   /**
    * @swagger
@@ -115,7 +120,7 @@ const Routes = (app) => {
    *         description: Successfully created
    */
   app.post(
-    '/api/roles', RoleController.create
+    '/api/roles', validateToken, adminAccess, RoleController.create
   );
 
   // USERS API ENDPOINT ROUTES
@@ -135,7 +140,7 @@ const Routes = (app) => {
    *           $ref: '#/definitions/Users'
    */
   app.get(
-    '/api/users/', UserController.getAll
+    '/api/users/', validateToken, UserController.getAll
   );
   /**
    * @swagger
@@ -159,7 +164,7 @@ const Routes = (app) => {
    *           $ref: '#/definitions/Users'
    */
   app.get(
-    '/api/users/:id', UserController.getOne
+    '/api/users/:id', validateToken, UserController.getOne
   );
   /**
    * @swagger
@@ -226,7 +231,7 @@ const Routes = (app) => {
    *         description: Successfully updated
    */
   app.put(
-    '/api/users/:id', UserController.update
+    '/api/users/:id', validateToken, UserController.update
   );
   /**
    * @swagger
@@ -248,7 +253,7 @@ const Routes = (app) => {
    *         description: Successfully deleted
    */
   app.delete(
-    '/api/users/:id', UserController.delete
+    '/api/users/:id', validateToken, UserController.delete
   );
 
   // DOCUMENTS API ENDPOINT ROUTES
@@ -291,7 +296,7 @@ const Routes = (app) => {
    *           $ref: '#/definitions/Documents'
    */
   app.get(
-    '/api/documents/', DocumentController.getAll
+    '/api/documents/', validateToken, DocumentController.getAll
   );
   /**
    * @swagger
@@ -315,7 +320,7 @@ const Routes = (app) => {
    *           $ref: '#/definitions/Documents'
    */
   app.get(
-    '/api/documents/:id', DocumentController.getOne
+    '/api/documents/:id', validateToken, DocumentController.getOne
   );
   /**
    * @swagger
@@ -336,7 +341,7 @@ const Routes = (app) => {
    *         description: Successfully updated
    */
   app.put(
-    '/api/documents/:id', DocumentController.update
+    '/api/documents/:id', validateToken, DocumentController.update
   );
   /**
    * @swagger
@@ -359,7 +364,7 @@ const Routes = (app) => {
    */
   
   app.delete(
-    '/api/documents/:id', DocumentController.delete
+    '/api/documents/:id', validateToken, DocumentController.delete
   );
   /**
    * @swagger
@@ -378,7 +383,7 @@ const Routes = (app) => {
    */
   
   app.get(
-    '/api/users/:id/documents', DocumentController.getUserDocuments
+    '/api/users/:id/documents', validateToken, DocumentController.getUserDocuments
   );
 
   // SEARCH API ENDPOINT ROUTES
@@ -398,7 +403,7 @@ const Routes = (app) => {
    *           $ref: '#/definitions/Users'
    */
   app.get(
-    '/api/search/users/', UserController.search
+    '/api/search/users/', validateToken, adminAccess, UserController.search
   );
   /**
    * @swagger
@@ -416,7 +421,7 @@ const Routes = (app) => {
    *           $ref: '#/definitions/Documents'
    */
   app.get(
-    '/api/search/documents/', DocumentController.search
+    '/api/search/documents/', validateToken, DocumentController.search
   );
 };
 

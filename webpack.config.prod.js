@@ -2,12 +2,11 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
-const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
-// const CommonsChunkPlugin = require('../../lib/optimize/CommonsChunkPlugin');
 
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production')
 };
+console.log(GLOBALS.process.env.NODE_ENV);
 
 module.exports = {
   debug: true,
@@ -15,14 +14,12 @@ module.exports = {
   noInfo: false,
   entry: {
     bundle: path.resolve(__dirname, 'client/index')
-    // distServer: path.resolve(__dirname, 'tools/distServer')
   },
   target: 'web',
   output: {
     path: `${__dirname}/dist`,
     publicPath: '/',
     filename: 'bundle.js'
-    // chunkFilename: '[id].chunk.js'
   },
   resolve: {
     root: __dirname,
@@ -54,10 +51,6 @@ module.exports = {
         drop_debugger: true
       }
     })
-    // new CommonsChunkPlugin({
-    //   filename: 'commons.js',
-    //   name: 'commons'
-    // })
   ],
   module: {
     loaders: [
@@ -65,14 +58,15 @@ module.exports = {
         test: /\.jsx?$/,
         loader: 'babel-loader',
         query: { presets: ['react', 'es2015'] },
-        exclude: /node_modules/
+        exclude: path.resolve(__dirname, 'node_modules')
       },
       {
         test: /\.js$/,
         include: [
           path.join(__dirname, 'client')
         ],
-        loaders: ['babel-loader?presets[]=es2015']
+        loaders: ['babel-loader?presets[]=es2015'],
+        exclude: path.resolve(__dirname, 'node_modules')
       },
       {
         test: /(\.css)$/,

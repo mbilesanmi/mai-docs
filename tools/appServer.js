@@ -1,10 +1,10 @@
-import express from 'express';
-import webpack from 'webpack';
-import path from 'path';
-import open from 'open';
-import colors from 'colors';
-import logger from 'morgan';
-import bodyParser from 'body-parser';
+const express = require('express');
+const webpack = require('webpack');
+const path = require('path');
+const open = require('open');
+const colors = require('colors');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
 import swaggerJSDoc from 'swagger-jsdoc';
 import serverRoutes from '../server/routes/index';
 import config from '../webpack.config.dev';
@@ -51,9 +51,11 @@ if (process.env.NODE_ENV === 'test') {
   port = process.env.PORT || 3002;
 }
 
-app.use(require('webpack-dev-middleware')(compiler, {
-  publicPath: config.output.publicPath
-}));
+if (process.env.NODE_ENV === 'development') {
+  app.use(require('webpack-dev-middleware')(compiler, {
+    publicPath: config.output.publicPath
+  }));
+}
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -64,7 +66,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'development') {
   app.use(require('webpack-hot-middleware')(compiler));
 }
 
@@ -82,9 +84,9 @@ app.listen(port, (err) => {
   if (err) {
     console.log(err);
   } else {
-    if (process.env.NODE_ENV === 'development') {
-      open(`http://localhost:${port}`);
-    }
+    // if (process.env.NODE_ENV === 'development') {
+    //   open(`http://localhost:${port}`);
+    // }
     console.log(`Express dev server is up on port ${port}`.blue);
   }
 });

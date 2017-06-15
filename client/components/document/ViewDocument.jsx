@@ -6,7 +6,7 @@ import * as actions from '../../actions/documentActions';
 
 /**
  * @desc component used to display all document view
- * @class VieDocument
+ * @class ViewDocument
  * @extends {Component}
  */
 class ViewDocument extends Component {
@@ -38,7 +38,7 @@ class ViewDocument extends Component {
               Owner ID: {documents.User.firstname} {documents.User.lastname}
             </div>
             <span>
-              <div dangerouslySetInnerHTML={ { __html: documents.content } } />
+              <div className="flow-text" dangerouslySetInnerHTML={ { __html: documents.content } } />
             </span>
           </span>
         </div>

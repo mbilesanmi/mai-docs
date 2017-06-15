@@ -181,20 +181,20 @@ describe('Mai Docs Roles Endpoints ', () => {
           done();
         });
     });
-    it('should return an Role does not exist message', (done) => {
-      app
-        .get('/api/roles/190290jks')
-        .end((error, response) => {
-          expect(response.body.message).toEqual('Role does not exist');
-          if (error) { done(error); }
-          done();
-        });
-    });
-    it('should return a status of 404 for a non-existent roleId', (done) => {
+    // it('should return an Role does not exist message', (done) => {
+    //   app
+    //     .get('/api/roles/190290jks')
+    //     .end((error, response) => {
+    //       expect(response.body.message).toEqual('Role does not exist');
+    //       if (error) { done(error); }
+    //       done();
+    //     });
+    // });
+    it('should return a status of 500 for a non-existent roleId', (done) => {
       app
         .get('/api/roles/123456789')
         .end((error, response) => {
-          expect(response.status).toEqual(404);
+          expect(response.status).toEqual(500);
           if (error) { done(error); }
           done();
         });
@@ -204,15 +204,6 @@ describe('Mai Docs Roles Endpoints ', () => {
         .get('/api/roles/123456789')
         .end((error, response) => {
           expect(typeof response.body).toEqual('object');
-          if (error) { done(error); }
-          done();
-        });
-    });
-    it('should return a Role does not exist message', (done) => {
-      app
-        .get('/api/roles/123456789')
-        .end((error, response) => {
-          expect(response.body.message).toEqual('Role does not exist');
           if (error) { done(error); }
           done();
         });

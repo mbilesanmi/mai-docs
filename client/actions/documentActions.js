@@ -151,7 +151,7 @@ export function getOneDocument(id) {
 export function createDocument(document) {
   return dispatch => axios.post('api/documents', document)
   .then((response) => {
-    dispatch(getAllDocuments());
+    dispatch(getAllDocuments(0));
     dispatch(passSuccessMessage(response.data.message));
   })
   .catch((error) => {
@@ -170,7 +170,7 @@ export function createDocument(document) {
 export function updateDocument(id, document) {
   return dispatch => axios.put(`/api/documents/${id}`, document)
   .then((response) => {
-    dispatch(getAllDocuments());
+    dispatch(getAllDocuments(0));
     dispatch(passSuccessMessage(response.data.message));
   })
   .catch((error) => {

@@ -89,7 +89,7 @@ const DocumentController = {
       }));
   },
   getAll(request, response) {
-    const offset = request.query.offset || 0;
+    const offset = request.query.offset ? request.query.offset : 0;
     const limit = 12;
 
     Documents

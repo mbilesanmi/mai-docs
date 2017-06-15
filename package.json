@@ -7,11 +7,11 @@
   "description": "Mai Document Management System",
   "scripts": {
     "start": "npm run postbuild",
-    "start:dev": "NODE_ENV=development babel-node ./tools/appServer.js",
+    "start:dev": "NODE_ENV=development nodemon ./tools/appServer.js --exec babel-node",
     "open:client": "NODE_ENV=development npm run lint && npm run test && npm run start:dev",
     "lint": "node_modules/.bin/esw webpack.config.* client tools",
     "lint:watch": "npm run lint -- --watch",
-    "test": "cross-env NODE_ENV=test nyc --reporter=html mocha --compilers js:babel-register ./client/test/**/*.test.js ./server/test/**/*.test.js --require babel-register",
+    "test": "NODE_ENV=test nyc --reporter=text node_modules/.bin/_mocha ./client/test/**/*.js ./server/test/**/*.test.js --require babel-register",
     "test:watch": "npm run test -- --watch",
     "clean-dist": "npm run remove-dist && mkdir dist",
     "remove-dist": "node_modules/.bin/rimraf ./dist",
@@ -63,6 +63,7 @@
     "node-sass": "^4.5.3",
     "nodemon": "^1.11.0",
     "npm-run-all": "^1.8.0",
+    "nyc": "^11.0.2",
     "pg": "^6.2.3",
     "pg-hstore": "^2.3.2",
     "react": "15.0.2",
@@ -89,6 +90,7 @@
     "webpack": "^1.14.0"
   },
   "devDependencies": {
+    "babel-plugin-istanbul": "^4.1.4",
     "chai": "^4.0.2",
     "chai-http": "^3.0.0",
     "colors": "1.1.2",
@@ -112,7 +114,6 @@
     "json-loader": "^0.5.4",
     "mocha": "2.4.5",
     "nock": "8.0.0",
-    "nyc": "^11.0.2",
     "open": "0.0.5",
     "react-addons-test-utils": "15.0.2",
     "redux-mock-store": "1.0.2",

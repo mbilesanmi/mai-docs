@@ -155,7 +155,9 @@ const UserController = {
             message: 'User does not exist'
           });
         }
-        return response.status(200).send(user);
+        return response.status(200).send({
+          user
+        });
       })
       .catch(error => response.status(400).send({
         error,

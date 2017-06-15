@@ -127,7 +127,8 @@ export function getOneUser(id) {
   return dispatch => axios.get(`/api/users/${id}`)
   .then((response) => {
     dispatch(getUserSuccess(response.data.user));
-    dispatch(passSuccessMessage(response.data.message));
+    dispatch(passSuccessMessage('dfdjkf, user profile'));
+    // dispatch(passSuccessMessage(response.data.message));
   })
   .catch((error) => {
     throw dispatch(passFailureMessage(error.response.data.message));

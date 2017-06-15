@@ -4,9 +4,9 @@ import Dotenv from 'dotenv-webpack';
 import path from 'path';
 
 export default {
-  debug: true,
+  debug: false,
   devtool: 'cheap-module-eval-source-map',
-  noInfo: true,
+  noInfo: false,
   entry: [
     // necessary for hot reloading with IE
     'eventsource-polyfill',
@@ -47,11 +47,12 @@ export default {
         test: /\.jsx?$/,
         loader: 'babel-loader',
         query: { presets: ['react', 'es2015'] },
-        exclude: /(node_modules)/
+        exclude: path.resolve(__dirname, 'node_modules')
       },
       {
         test: /\.js$/,
         include: path.join(__dirname, 'client'),
+        exclude: path.resolve(__dirname, 'node_modules'),
         loaders: ['babel-loader']
       },
       {
