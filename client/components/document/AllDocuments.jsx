@@ -130,6 +130,17 @@ class AllDocuments extends Component {
             onSearchChange={this.onSearchChange}
             sitewide="sitewide" />
 
+          <div className="row">
+            <div className="col s12">
+              {documents.map(document =>
+                <DocumentListRow
+                  loggedInUserID={this.props.loggedInUserID}
+                  key={document.id}
+                  document={document} />
+              )}
+            </div>
+          </div>
+
           <div className="center">
             <ReactPaginate previousLabel={'previous'}
               nextLabel={'next'}
@@ -142,17 +153,6 @@ class AllDocuments extends Component {
               containerClassName={'pagination'}
               subContainerClassName={'pages pagination'}
               activeClassName={'active'} />
-          </div>
-
-          <div className="row">
-            <div className="col s12">
-              {documents.map(document =>
-                <DocumentListRow
-                  loggedInUserID={this.props.loggedInUserID}
-                  key={document.id}
-                  document={document} />
-              )}
-            </div>
           </div>
         </div>
       </div>

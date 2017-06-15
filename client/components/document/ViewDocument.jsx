@@ -24,6 +24,7 @@ class ViewDocument extends Component {
    */
   render() {
     const { documents } = this.props;
+    console.log('content', documents.content);
     let createdAt;
     if (documents.id) {
       createdAt = documents.createdAt.slice(0, 10);
@@ -31,16 +32,23 @@ class ViewDocument extends Component {
     if (documents.id) {
       return (
         <div className="container">
-          <span>
-            <h1>Title: {documents.title}</h1>
-            <div>
-              Date Created: {createdAt}<br />
-              Owner ID: {documents.User.firstname} {documents.User.lastname}
+          <div className="row">
+            <div className="col s12 m12">
+              <div className="card large">
+                <div className="card-image" />
+                <div className="card-content">
+                  <span>
+                    <h1>Title: {documents.title}</h1>
+                    <div>
+                      Date Created: {createdAt}<br />
+                      Owner ID: {documents.User.firstname} {documents.User.lastname}
+                    </div>
+                    <div className="flow-text" dangerouslySetInnerHTML={ { __html: documents.content } } />
+                  </span>
+                </div>
+              </div>
             </div>
-            <span>
-              <div className="flow-text" dangerouslySetInnerHTML={ { __html: documents.content } } />
-            </span>
-          </span>
+          </div>
         </div>
       );
     }

@@ -128,10 +128,7 @@ export function getOneUser(id) {
   .then((response) => {
     dispatch(getUserSuccess(response.data.user));
     // dispatch(passSuccessMessage('dfdjkf, user profile'));
-    dispatch(passSuccessMessage(response.data.message));
-  })
-  .catch((error) => {
-    throw dispatch(passFailureMessage(error.response.data.message));
+    // dispatch(passSuccessMessage(response.data.message));
   });
 }
 

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import toastr from 'toastr';
@@ -166,10 +167,13 @@ class EditUserProfile extends Component {
                           onClick={this.updateProfile}
                           className=
                             "btn waves-effect waves-light col s2 offset-s5 teal darken-1" />
+                        
+                        <Link to="/dashboard" className="right btn red">
+                          Cancel
+                        </Link>
                       </div>
                     </div>
                   </div>
-
                 </form>
               </div>
             </div>

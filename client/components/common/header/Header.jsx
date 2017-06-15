@@ -57,16 +57,18 @@ class Header extends Component {
     }
     return (
       <nav className="nav-wrapper teal" role="navigation">
-        <IndexLink
-          to="/dashboard"
-          classID="logo-container"
-          className="brand-logo">
-          Mai Docs
-        </IndexLink>
-        <MainMenu
-          loggedIn={loggedIn}
-          isAdmin={isAdmin}
-          logout={this.logout} />
+        <div className="container">
+          <IndexLink
+            to="/dashboard"
+            classID="logo-container"
+            className="brand-logo">
+            Mai Docs
+          </IndexLink>
+          <MainMenu
+            loggedIn={loggedIn}
+            isAdmin={isAdmin}
+            logout={this.logout} />
+        </div>
       </nav>
     );
   }

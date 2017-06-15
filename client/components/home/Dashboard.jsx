@@ -159,7 +159,7 @@ class Dashboard extends Component {
     }
 
     return (
-      <div className="section">
+      <div className="section white">
         <div className="container">
           <div className="row">
             <div className="col l12 m12 s12">

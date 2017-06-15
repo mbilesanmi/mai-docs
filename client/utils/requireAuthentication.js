@@ -24,7 +24,6 @@ export default function (ComposedComponent) {
     }
 
     render() {
-      console.log('got here?')
       return <ComposedComponent {...this.props} />;
     }
   }
