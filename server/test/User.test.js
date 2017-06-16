@@ -11,8 +11,6 @@ process.env.NODE_ENV = 'test';
 const app = supertest.agent(server);
 
 describe('Mai Docs Users Endpoints ', () => {
-
-
   describe('POST /api/users create/signup new user route', () => {
     it('should return a status of 201 when successful', (done) => {
       app
