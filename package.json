@@ -12,7 +12,7 @@
     "open:client": "NODE_ENV=development npm run lint && npm run test && npm run start:dev",
     "lint": "node_modules/.bin/esw webpack.config.* client tools",
     "lint:watch": "npm run lint -- --watch",
-    "test": "NODE_ENV=test nyc --reporter=text node_modules/.bin/_mocha ./**/test/*.test.js --require babel-register",
+    "test": "NODE_ENV=test nyc --reporter=text node_modules/.bin/_mocha ./**/test/**/*.js --require babel-register",
     "test:watch": "npm run test -- --watch",
     "clean-dist": "npm run remove-dist && mkdir dist",
     "remove-dist": "node_modules/.bin/rimraf ./dist",
