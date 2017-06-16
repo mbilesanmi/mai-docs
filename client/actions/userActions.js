@@ -127,10 +127,8 @@ export function getOneUser(id) {
   return dispatch => axios.get(`/api/users/${id}`)
   .then((response) => {
     dispatch(getUserSuccess(response.data.user));
-    dispatch(passSuccessMessage(response.data.message));
-  })
-  .catch((error) => {
-    throw dispatch(passFailureMessage(error.response.data.message));
+    // dispatch(passSuccessMessage('dfdjkf, user profile'));
+    // dispatch(passSuccessMessage(response.data.message));
   });
 }
 
@@ -149,6 +147,23 @@ export function createUser(user) {
       setAuthorizationToken(token);
       axios.defaults.headers.common.Authorization = token;
       dispatch(setCurrentUser(response.data.userData));
+    })
+    .catch((error) => {
+      throw dispatch(passFailureMessage(error.response.data.message));
+    });
+}
+
+/**
+ * @desc update Profile user via PUT /api/users/:id
+ * @export
+ * @param {any} user - The user to be updated
+ * @returns {object} returns the update user profile
+ */
+export function updateUser(id, user) {
+  return dispatch => axios.put(`/api/users/${id}`, user)
+    .then((response) => {
+      dispatch(passSuccessMessage(response.data.message));
+      dispatch(getOneUser(id));
     })
     .catch((error) => {
       throw dispatch(passFailureMessage(error.response.data.message));

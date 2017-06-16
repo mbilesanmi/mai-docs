@@ -155,7 +155,9 @@ const UserController = {
             message: 'User does not exist'
           });
         }
-        return response.status(200).send(user);
+        return response.status(200).send({
+          user
+        });
       })
       .catch(error => response.status(400).send({
         error,
@@ -180,10 +182,14 @@ const UserController = {
               message: 'Profile successfully updated'
             }))
           .catch(error => response.status(400).send({
-            error
+            error,
+            message: 'Update failed'
           }));
       })
-      .catch(error => response.status(400).send(error));
+      .catch(error => response.status(400).send({
+        error,
+        message: 'failure'
+      }));
   },
   delete(request, response) {
     User

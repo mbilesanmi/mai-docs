@@ -7,11 +7,12 @@
   "description": "Mai Document Management System",
   "scripts": {
     "start": "npm run postbuild",
-    "start:dev": "NODE_ENV=development babel-node ./tools/appServer.js",
+    "start:dev": "webpack -w & nodemon tools/appserver.js --exec babel-node",
+    "run-build": "babel-node webpack --config webpack.config.dev.js",
     "open:client": "NODE_ENV=development npm run lint && npm run test && npm run start:dev",
     "lint": "node_modules/.bin/esw webpack.config.* client tools",
     "lint:watch": "npm run lint -- --watch",
-    "test": "cross-env NODE_ENV=test nyc mocha --compilers js:babel-register ./client/test/**/*.test.js ./server/test/**/*.test.js --require babel-register",
+    "test": "NODE_ENV=test nyc --reporter=text node_modules/.bin/_mocha ./**/test/**/*.js --require babel-register",
     "test:watch": "npm run test -- --watch",
     "clean-dist": "npm run remove-dist && mkdir dist",
     "remove-dist": "node_modules/.bin/rimraf ./dist",
@@ -19,7 +20,7 @@
     "build:html": "babel-node tools/buildHtml.js",
     "prebuild": "npm-run-all clean-dist build:html",
     "build": "babel-node tools/build.js",
-    "postbuild": "babel-node ./tools/distServer.js"
+    "postbuild": "babel-node ./tools/appServer.js"
   },
   "repository": {
     "type": "git",
@@ -40,7 +41,6 @@
     "babel-polyfill": "6.8.0",
     "babel-preset-es2015": "6.6.0",
     "babel-preset-react": "6.5.0",
-    "babel-preset-react-hmre": "1.1.1",
     "babel-register": "6.8.0",
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.2",
@@ -63,6 +63,7 @@
     "node-sass": "^4.5.3",
     "nodemon": "^1.11.0",
     "npm-run-all": "^1.8.0",
+    "nyc": "^11.0.2",
     "pg": "^6.2.3",
     "pg-hstore": "^2.3.2",
     "react": "15.0.2",
@@ -82,12 +83,14 @@
     "sequelize": "^3.30.4",
     "sequelize-cli": "^2.7.0",
     "style-loader": "0.13.1",
+    "swagger-jsdoc": "^1.3.0",
     "sweetalert": "^1.1.3",
     "toastr": "2.1.2",
     "url-loader": "0.5.7",
-    "webpack": "^1.14.0"
+    "webpack": "^2.6.1"
   },
   "devDependencies": {
+    "babel-plugin-istanbul": "^4.1.4",
     "chai": "^4.0.2",
     "chai-http": "^3.0.0",
     "colors": "1.1.2",
@@ -111,7 +114,6 @@
     "json-loader": "^0.5.4",
     "mocha": "2.4.5",
     "nock": "8.0.0",
-    "nyc": "^11.0.2",
     "open": "0.0.5",
     "react-addons-test-utils": "15.0.2",
     "redux-mock-store": "1.0.2",

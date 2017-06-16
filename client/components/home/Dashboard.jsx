@@ -1,11 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router';
 import toastr from 'toastr';
 import ReactPaginate from 'react-paginate';
+import * as actions from '../../actions/documentActions';
+import * as userActions from '../../actions/userActions';
 import DocumentListRow from '../document/DocumentListRow.jsx';
 import DocumentActionBar from '../document/DocumentActionBar.jsx';
-import * as actions from '../../actions/documentActions';
+import UserProfile from '../user/UserProfile.jsx';
 
 /**
  * @desc component used to display user's documents
@@ -40,6 +43,7 @@ class Dashboard extends Component {
    * @returns {null} returns no value
    */
   componentWillMount() {
+    this.props.userActions.getOneUser(this.props.loggedInUserID);
     if (this.props.isAuth.isAuthenticated) {
       this.props.actions.getUserDocuments(this.props.loggedInUserID, this.state.offset);
     }
@@ -88,11 +92,49 @@ class Dashboard extends Component {
    * @return {*} render the Document holder
    */
   render() {
-    const { documents, searchResults, metaData } = this.props;
+    const { documents, searchResults, metaData, user } = this.props;
     let documentsInfo;
+    let userProfile;
+
+    if (user && documents) {
+      userProfile = <div className="row">
+        <div className="col s12 m7 l7">
+          <div className="card">
+            <div className="card-image" />
+            <div className="card-content">
+              <h1 className="center">{user.firstname} {user.lastname}</h1>
+              <p className="center flow-text">Username: {user.username}</p>
+              <p className="center flow-text">Email: {user.email}</p>
+            </div>
+            <div className=" center card-action">
+              <Link to={`/user/${user.id}`} className="waves-effect waves-light btn">Edit Your Profile</Link>
+            </div>
+          </div>
+        </div>
+        <div className="col s12 m5 l5">
+          <div className="row">
+            <div className="card-panel blue z-depth-1 col s10">
+              <p className="flow-text">You have {documents.filter(document =>
+                document.viewAccess === 'Private'
+              ).length} Private documents</p>
+            </div>
+            <div className="card-panel green z-depth-1 col s10">
+              <p className="flow-text">You have {documents.filter(document =>
+                document.viewAccess === 'Public'
+              ).length} Public documents</p>
+            </div>
+            <div className="card-panel red z-depth-1 col s10">
+              <p className="flow-text">You have {documents.filter(document =>
+                document.viewAccess === 'Role'
+              ).length} Role documents</p>
+            </div>
+          </div>
+        </div>
+      </div>;
+    }
 
     if (!documents || this.props.message === 'no document found') {
-      return (documentsInfo = <div className="section">
+      return <div className="section">
         <div className="container">
           <div className="col s12 m8 offset-m2 l6 offset-l3">
             <div className="card-panel teal lighten-3 z-depth-1">
@@ -113,48 +155,18 @@ class Dashboard extends Component {
             </div>
           </div>
         </div>
-      </div>);
+      </div>;
     }
 
     return (
-      <div className="section">
+      <div className="section white">
         <div className="container">
           <div className="row">
             <div className="col l12 m12 s12">
               <hr />
-                <h1 className="center">My Documents</h1>
+                <h3 className="center">My Dashboard</h3>
               <hr />
-              <div className="col s12 m4 l4">
-                <div className="card-panel teal lighten-2 z-depth-1">
-                  <div className="row valign-wrapper">
-                    <div className="col s10">
-                      <h4>You have {documents.length} document(s) in total</h4>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col s12 m4 l4">
-                <div className="card-panel green z-depth-1">
-                  <div className="row valign-wrapper">
-                    <div className="col s10">
-                      <h4>You have {documents.filter(document =>
-                        documents.viewAccess === 'Public'
-                      ).length} Public documents</h4>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col s12 m4 l4">
-                <div className="card-panel blue z-depth-1">
-                  <div className="row valign-wrapper">
-                    <div className="col s10">
-                      <h4>You have {documents.filter(document =>
-                        documents.viewAccess === 'Private'
-                      ).length} Private documents</h4>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {userProfile}
             </div>
           </div>
 
@@ -162,20 +174,6 @@ class Dashboard extends Component {
             redirectToManageDocument={this.redirectToManageDocument}
             onSearchChange={this.onSearchChange}
             onViewAccessChange={this.onViewAccessChange} />
-          
-          <div className="center">
-            <ReactPaginate previousLabel={'previous'}
-              nextLabel={'next'}
-              breakLabel={<a href="">...</a>}
-              breakClassName={'break-me'}
-              pageCount={metaData.pages}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={this.handlePageClick}
-              containerClassName={'pagination'}
-              subContainerClassName={'pages pagination'}
-              activeClassName={'active'} />
-          </div>
 
           <div className="row">
             <div className="col s12">
@@ -186,6 +184,20 @@ class Dashboard extends Component {
                   document={document} />
               )}
             </div>
+          </div>
+
+          <div className="center">
+            <ReactPaginate previousLabel={'previous'}
+              nextLabel={'next'}
+              breakLabel={<a href="">...</a>}
+              breakClassName={'break-me'}
+              pageCount={metaData.pages ? metaData.pages : null}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={this.handlePageClick}
+              containerClassName={'pagination'}
+              subContainerClassName={'pages pagination'}
+              activeClassName={'active'} />
           </div>
         </div>
       </div>
@@ -199,7 +211,6 @@ class Dashboard extends Component {
 Dashboard.propTypes = {
   documents: PropTypes.array,
   searchResults: PropTypes.array,
-  loggedInUserID: PropTypes.number,
   search: PropTypes.string,
   message: PropTypes.string,
   actions: PropTypes.object
@@ -219,6 +230,7 @@ Dashboard.contextTypes = {
  * @returns {*} isAdmin
  */
 const mapStateToProps = state => ({
+  user: state.users,
   isAuth: state.isAuth,
   message: state.message,
   documents: state.documents.documents,
@@ -231,7 +243,8 @@ const mapStateToProps = state => ({
  * @returns {any} actions
  */
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions, dispatch)
+  actions: bindActionCreators(actions, dispatch),
+  userActions: bindActionCreators(userActions, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

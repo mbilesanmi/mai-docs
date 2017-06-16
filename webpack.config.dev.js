@@ -1,79 +1,60 @@
 import webpack from 'webpack';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import Dotenv from 'dotenv-webpack';
 import path from 'path';
 
-export default {
-  debug: true,
-  devtool: 'cheap-module-eval-source-map',
-  noInfo: true,
-  entry: [
-    // necessary for hot reloading with IE
-    'eventsource-polyfill',
-    // note that it reloads the page if hot module reloading fails.
-    'webpack-hot-middleware/client?reload=true',
-    './client/index'
-  ],
-  target: 'web',
+const BUILD_PATH = path.resolve(__dirname, './dist');
+const APP_DIR = path.resolve(__dirname, './client');
+
+module.exports = {
+  devtool: 'cheap-eval-source-map',
+  entry: [`${APP_DIR}/index.js`],
   output: {
-    // Note: Physical files are only output by the production build task.
-    // Use `npm run build`
-    path: `${__dirname}/dist`,
-    publicPath: '/',
+    path: BUILD_PATH,
+    publicPath: './dist',
     filename: 'bundle.js'
   },
-  resolve: {
-    root: __dirname,
-    extensions: ['', '.js', '.jsx']
-  },
-  devServer: {
-    contentBase: './client'
-  },
-  plugins: [
-    new ExtractTextPlugin('./client/styles/styles.css', {
-      allChunks: true
-    }),
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.jQuery': 'jquery'
-    }),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
-  ],
   module: {
     loaders: [
       {
-        test: /\.jsx?$/,
-        loader: 'babel-loader',
-        query: { presets: ['react', 'es2015'] },
-        exclude: /(node_modules)/
-      },
-      {
         test: /\.js$/,
-        include: path.join(__dirname, 'client'),
-        loaders: ['babel-loader']
+        include: [
+          path.join(__dirname, 'client')
+        ],
+        exclude: /node_modules/,
+        loader: 'babel-loader'
       },
       {
-        test: /(\.css)$/,
-        loaders: ['style', 'css']
+        test: /\.jsx$/,
+        include: [
+          path.join(__dirname, 'client')
+        ],
+        exclude: /node_modules/,
+        loader: 'babel-loader'
+
+      },
+      {
+        test: /\.css$/,
+        loaders: ['style-loader', 'css-loader']
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('css!sass')
+        loaders: ['style-loader', 'css-loader', 'sass-loader']
       },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
+      {
+        test: /\.jpg$/,
+        loader: 'file-loader'
+      },
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader' },
       {
         test: /\.(woff|woff2)$/,
-        loader: 'url?prefix=font/&limit=5000'
+        loader: 'url-loader'
       },
       {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=application/octet-stream'
+        loader: 'url-loader'
       },
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=image/svg+xml'
+        loader: 'url-loader'
       }
     ]
   }

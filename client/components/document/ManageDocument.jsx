@@ -128,7 +128,7 @@ export class ManageDocument extends Component {
     return (
       <div className="section">
         <div className="container">
-          <h1>
+          <h1 className="center flow-text">
             {isUpdate ? `Edit: ${documentTitle}`
               : 'Add new document'}
           </h1>

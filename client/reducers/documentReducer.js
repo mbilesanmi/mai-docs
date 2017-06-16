@@ -14,9 +14,6 @@ export default (state = initialState.documents, action) => {
     case types.GET_ALL_DOCUMENTS_SUCCESS:
       return action.documents;
 
-    case types.GET_ONE_DOCUMENT_SUCCESS:
-      return action.document;
-
     case types.CREATE_DOCUMENT_SUCCESS:
       return [
         ...state,

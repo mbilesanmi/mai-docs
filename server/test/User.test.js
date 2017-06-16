@@ -11,8 +11,6 @@ process.env.NODE_ENV = 'test';
 const app = supertest.agent(server);
 
 describe('Mai Docs Users Endpoints ', () => {
-
-
   describe('POST /api/users create/signup new user route', () => {
     it('should return a status of 201 when successful', (done) => {
       app
@@ -249,11 +247,11 @@ describe('Mai Docs Users Endpoints ', () => {
           done();
         });
     });
-    it('should return an Invalid userID message', (done) => {
+    it('should return an Token required to access this route message', (done) => {
       app
         .get('/api/users/190290jks')
         .end((error, response) => {
-          expect(response.body.message).toEqual('Invalid userID');
+          expect(response.body.message).toEqual('Token required to access this route');
           if (error) { done(error); }
           done();
         });
