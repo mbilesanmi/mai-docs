@@ -47,7 +47,7 @@ Ensure that project dependencies are installed before running tests.
 3. Run `npm test`
 
 ## API Summary
-View full API documentation [here](http://doc-mage.herokuapp.com/api)
+View full API documentation [here](https://mai-docs-staging.herokuapp.com/api-docs)
 
 ### Users
 EndPoint                      |   Functionality

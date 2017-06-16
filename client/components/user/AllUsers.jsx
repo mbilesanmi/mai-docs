@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import toastr from 'toastr';
+import ReactPaginate from 'react-paginate';
 import UserListRow from './UserListRow.jsx';
 import UserActionBar from './UserActionBar.jsx';
 import * as actions from '../../actions/userActions';
@@ -59,8 +60,25 @@ class AllUsers extends Component {
    */
   onSearchChange(event) {
     this.setState({ search: event.target.value });
-    this.props.actions.search(event.target.value)
-    .catch(() => toastr.error(this.props.message));
+    if (event.target.value === '') {
+      this.props.actions.getAllUsers(this.state.offset);
+    } else {
+      this.props.actions.search(event.target.value);
+    }
+  }
+
+  /**
+   * @desc handles change of the pagination
+   * @param {any} data the page number
+   * @returns {*} no return value
+   */
+  handlePageClick(data) {
+    const selected = data.selected;
+    const offset = Math.ceil(selected * this.props.metaData.pageSize);
+
+    this.setState({ offset }, () => {
+      this.props.actions.getAllUsers(offset);
+    });
   }
 
   /**
@@ -68,20 +86,9 @@ class AllUsers extends Component {
    * @return {object} html
    */
   render() {
-    const { users, searchResults, metaData } = this.props;
+    const { users, metaData } = this.props;
 
     if (users) {
-      let filteredUsers;
-      if (this.state.search !== '') {
-        filteredUsers = searchResults;
-      } else if (this.state.roleType === ''
-        || this.state.roleType === 'All') {
-        filteredUsers = users;
-      } else {
-        filteredUsers = users.filter(user =>
-          user.roleId === parseInt(this.state.roleType, 10)
-        );
-      }
       return (
         <div className="section">
           <div className="container">
@@ -94,19 +101,31 @@ class AllUsers extends Component {
             </div>
 
             <UserActionBar
-              clearSearch={this.clearSearch}
-              onRoleChange ={this.onRoleChange}
               onSearchChange={this.onSearchChange} />
 
             <div className="row">
               <div className="col s12">
-                {filteredUsers.map(user =>
+                {users.map(user =>
                   <UserListRow
                     loggedInUserID={this.props.loggedInUserID}
                     key={user.id}
                     user={user} />
                 )}
               </div>
+            </div>
+
+            <div className="center">
+              <ReactPaginate previousLabel={'previous'}
+                nextLabel={'next'}
+                breakLabel={<a href="">...</a>}
+                breakClassName={'break-me'}
+                pageCount={metaData.pages ? metaData.pages : null}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={this.handlePageClick}
+                containerClassName={'pagination'}
+                subContainerClassName={'pages pagination'}
+                activeClassName={'active'} />
             </div>
           </div>
         </div>

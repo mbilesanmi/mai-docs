@@ -3,19 +3,15 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 
-const GLOBALS = {
-  'process.env.NODE_ENV': JSON.stringify('production')
-};
-console.log(GLOBALS.process.env.NODE_ENV);
+
+const BUILD_PATH = path.resolve(__dirname, './dist');
+const APP_DIR = path.resolve(__dirname, './client');
 
 module.exports = {
-  debug: true,
   devtool: 'source-map',
-  noInfo: false,
   entry: {
     bundle: path.resolve(__dirname, 'client/index')
   },
-  target: 'web',
   output: {
     path: `${__dirname}/dist`,
     publicPath: '/',
@@ -27,12 +23,6 @@ module.exports = {
     alias: {
       jquery: path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js')
     }
-  },
-  node: {
-    fs: 'empty'
-  },
-  devServer: {
-    contentBase: path.resolve(__dirname, 'client')
   },
   plugins: [
     new ExtractTextPlugin('./client/styles/styles.css', {
@@ -55,43 +45,45 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.jsx?$/,
-        loader: 'babel-loader',
-        query: { presets: ['react', 'es2015'] },
-        exclude: path.resolve(__dirname, 'node_modules')
-      },
-      {
         test: /\.js$/,
         include: [
           path.join(__dirname, 'client')
         ],
-        loaders: ['babel-loader?presets[]=es2015'],
-        exclude: path.resolve(__dirname, 'node_modules')
+        exclude: /node_modules/,
+        loader: 'babel-loader'
       },
       {
-        test: /(\.css)$/,
-        loader: ExtractTextPlugin.extract('css?sourceMap')
+        test: /\.jsx$/,
+        include: [
+          path.join(__dirname, 'client')
+        ],
+        exclude: /node_modules/,
+        loader: 'babel-loader'
+      },
+      {
+        test: /\.css$/,
+        loaders: ExtractTextPlugin.extract('style-loader', 'css-loader')
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('css!sass')
+        loaders: ExtractTextPlugin.extract('style-loader', 'css-loader', 'sass-loader')
       },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
+      {
+        test: /\.jpg$/,
+        loader: 'file-loader'
+      },
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader' },
       {
         test: /\.(woff|woff2)$/,
-        loader: 'url?prefix=font/&limit=5000'
+        loader: 'url-loader'
       },
       {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=application/octet-stream'
-      },
-      {
-        test: /\.json$/,
-        loader: 'json-loader'
+        loader: 'url-loader'
       },
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=image/svg+xml'
+        loader: 'url-loader'
       }
     ]
   }

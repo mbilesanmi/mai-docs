@@ -24,7 +24,6 @@ class ViewDocument extends Component {
    */
   render() {
     const { documents } = this.props;
-    console.log('content', documents.content);
     let createdAt;
     if (documents.id) {
       createdAt = documents.createdAt.slice(0, 10);

@@ -114,7 +114,7 @@ const UserController = {
       .catch(error => response.status(400).send(error));
   },
   getAll(request, response) {
-    const offset = request.query.offset || 0;
+    const offset = request.query.offset ? request.query.offset : 0;
     const limit = 12;
 
     User

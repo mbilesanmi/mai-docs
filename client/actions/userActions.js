@@ -35,9 +35,9 @@ export function passFailureMessage(errorMessage) {
  * @param {*} users  returned users from search api call
  * @returns {*} action, action types and users
  */
-export function searchUsersSuccess(users) {
-  return { type: types.SEARCH_USERS_SUCCESS, users };
-}
+// export function searchUsersSuccess(users) {
+//   return { type: types.SEARCH_USERS_SUCCESS, users };
+// }
 
 /**
  *
@@ -93,8 +93,7 @@ export function signoutUser(user) {
 export function search(queryString) {
   return dispatch => axios.get(`/api/search/users/?search=${queryString}`)
   .then((response) => {
-    dispatch(passSuccessMessage(response.data.message));
-    dispatch(searchUsersSuccess(response.data.users));
+    dispatch(getUserSuccess(response.data));
   })
   .catch((error) => {
     throw dispatch(passFailureMessage(error.response.data.message));
@@ -111,9 +110,6 @@ export function getAllUsers(offset) {
   return dispatch => axios.get(`/api/users/?offset=${offset}`)
   .then((response) => {
     dispatch(getUserSuccess(response.data));
-  })
-  .catch((error) => {
-    throw dispatch(passFailureMessage(error.response.data.message));
   });
 }
 
@@ -214,7 +210,7 @@ export function deleteUser(id) {
   return dispatch => axios.delete(`/api/users/${id}`)
   .then((response) => {
     dispatch(passSuccessMessage(response.data.message));
-    dispatch(getAllUsers());
+    dispatch(getAllUsers(0));
   })
   .catch((error) => {
     throw dispatch(passFailureMessage(error.response.data.message));

@@ -8,7 +8,7 @@
 /* eslint max-len: "off"*/
 import webpack from 'webpack';
 import colors from 'colors';
-import webpackConfig from '../webpack.config.prod';
+import webpackConfig from '../webpack.config.dev';
 
 process.env.NODE_ENV = 'production';
 

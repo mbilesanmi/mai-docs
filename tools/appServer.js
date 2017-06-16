@@ -1,17 +1,15 @@
 const express = require('express');
 const webpack = require('webpack');
 const path = require('path');
-const open = require('open');
 const colors = require('colors');
 const logger = require('morgan');
 const webpackConfig = require('../webpack.config.dev');
 const bodyParser = require('body-parser');
-const webpackDevMiddleware = require('webpack-dev-middleware');
 import swaggerJSDoc from 'swagger-jsdoc';
 import serverRoutes from '../server/routes/index';
 
 const pathurl = path.join(__dirname + '/../server/routes/*.js');
-console.log(pathurl);
+
 /* eslint-disable no-console */
 
 const app = express();
@@ -51,11 +49,15 @@ if (process.env.NODE_ENV === 'test') {
   port = process.env.PORT || 3002;
 }
 
-const compiler = webpack(webpackConfig);
-app.use(webpackDevMiddleware(compiler, {
-  noInfo: true,
-  publicPath: '/assets'
-}));
+if (process.env.NODE_ENV !== 'production') {
+  const webpackDevMiddleware = require('webpack-dev-middleware');
+  
+  const compiler = webpack(webpackConfig);
+  app.use(webpackDevMiddleware(compiler, {
+    noInfo: true,
+    publicPath: '/assets'
+  }));
+}
 
 // Log requests to the console.
 app.use(logger('dev'));

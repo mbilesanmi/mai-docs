@@ -24,7 +24,6 @@ class EditUserProfile extends Component {
       errors: {},
       saving: false
     };
-    console.log('user state', this.state.user);
   }
 
   /**

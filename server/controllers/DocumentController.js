@@ -222,7 +222,9 @@ const DocumentController = {
             }
           }],
           $and: {
-            viewAccess: 'Private'
+            viewAccess: {
+              $ne: 'Private'
+            }
           }
         },
         include: {

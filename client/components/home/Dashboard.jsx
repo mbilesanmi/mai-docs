@@ -92,8 +92,8 @@ class Dashboard extends Component {
    * @return {*} render the Document holder
    */
   render() {
-    const { documents, searchResults, metaData, user } = this.props;
-    let documentsInfo;
+    const { documents, metaData, user } = this.props;
+    // let documentsInfo;
     let userProfile;
 
     if (user && documents) {
@@ -159,7 +159,7 @@ class Dashboard extends Component {
     }
 
     return (
-      <div className="section white">
+      <div className="section">
         <div className="container">
           <div className="row">
             <div className="col l12 m12 s12">
@@ -172,8 +172,7 @@ class Dashboard extends Component {
 
           <DocumentActionBar
             redirectToManageDocument={this.redirectToManageDocument}
-            onSearchChange={this.onSearchChange}
-            onViewAccessChange={this.onViewAccessChange} />
+            onSearchChange={this.onSearchChange} />
 
           <div className="row">
             <div className="col s12">

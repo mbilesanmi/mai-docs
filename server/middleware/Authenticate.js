@@ -11,7 +11,7 @@ const Authenticate = {
     if (token) {
       jwt.verify(token, secret, (error, decoded) => {
         if (error) {
-          response.status(401).send({
+          return response.status(401).send({
             status: 'Invalid token',
             message: 'Token authentication failed.'
           });
@@ -29,13 +29,15 @@ const Authenticate = {
   },
 
   adminAccess(request, response, next) {
-    model.Roles.findById(request.decoded.data.roleId)
+    const roleID = request.decoded.roleId;
+    model.Role.findById(roleID)
       .then((foundRole) => {
         if (foundRole.id === 1) {
           next();
+        } else {
+          return response.status(403)
+            .send({ message: 'Access denied.' });
         }
-        return response.status(403)
-          .send({ message: 'Access denied.' });
       })
       .catch(error => response.status(400).send({
         error,
