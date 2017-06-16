@@ -26,6 +26,7 @@ module.exports = {
         allowNull: false,
         validate: {
           isEmail: true,
+          message: 'Please enter a valid email',
           notEmpty: true
         }
       },

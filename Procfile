@@ -1,0 +1,1 @@
+web: ./tools/run_scripts.sh

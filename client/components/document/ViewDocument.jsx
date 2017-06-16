@@ -1,53 +1,95 @@
-import { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import toastr from 'toastr';
+import * as actions from '../../actions/documentActions';
 
+/**
+ * @desc component used to display all document view
+ * @class ViewDocument
+ * @extends {Component}
+ */
 class ViewDocument extends Component {
-  render() {
-    const { users, documents } = this.props;
+  /**
+   * @desc handles the triggering of the necessary action
+   * @returns {null} returns no value
+   */
+  componentWillMount() {
+    this.props.actions.getOneDocument(this.props.documentId);
+  }
 
-    return (
-      <div className="container">
-        {documents.filter(document => document.id === this.props.documentId)
-        .map(document =>
-          <span key="document.id">
-            <h1>Title: {document.title}</h1>
-            <div>
-              Date Created: {document.createdAt.slice(0, 10)}<br />
-              Owner ID: {users.filter(user =>
-                user.id === document.ownerId
-              ).map(user =>
-                <span key={user.id}>
-                  {user.firstname} {user.lastname}
-                </span>
-              )}
+  /**
+   * @desc Renders the Document view
+   * @return {*} html
+   */
+  render() {
+    const { documents } = this.props;
+    console.log('content', documents.content);
+    let createdAt;
+    if (documents.id) {
+      createdAt = documents.createdAt.slice(0, 10);
+    }
+    if (documents.id) {
+      return (
+        <div className="container">
+          <div className="row">
+            <div className="col s12 m12">
+              <div className="card large">
+                <div className="card-image" />
+                <div className="card-content">
+                  <span>
+                    <h1>Title: {documents.title}</h1>
+                    <div>
+                      Date Created: {createdAt}<br />
+                      Owner ID: {documents.User.firstname} {documents.User.lastname}
+                    </div>
+                    <div className="flow-text" dangerouslySetInnerHTML={ { __html: documents.content } } />
+                  </span>
+                </div>
+              </div>
             </div>
-            <span>
-              {document.content}
-            </span>
-          </span>
-        )}
-      </div>
-    );
+          </div>
+        </div>
+      );
+    }
+    return null;
   }
 }
 
+/**
+ * @desc Set the PropTypes
+ */
 ViewDocument.propTypes = {
-  documents: PropTypes.array.isRequired,
+  document: PropTypes.array,
   documentId: PropTypes.number,
-  message: PropTypes.string,
-  users: PropTypes.object
+  message: PropTypes.string
 };
 
-// Pull in the React Router context
-// so router is available on this.context.router.
+/**
+ * @desc Set the contextTypes
+ */
 ViewDocument.contextTypes = {
   router: PropTypes.object
 };
 
+/**
+ *
+ * @param {any} state
+ * @returns {*} props
+ */
 const mapStateToProps = (state, ownProps) => ({
-  users: state.users,
+  isAuth: state.isAuth,
+  loggedInUserID: state.isAuth.loggedInUser.id,
   documentId: parseInt(ownProps.params.id, 10),
   documents: state.documents
 });
 
-export default connect(mapStateToProps)(ViewDocument);
+/**
+ * @param {any} dispatch
+ * @returns {any} actions
+ */
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actions, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ViewDocument);

@@ -48,7 +48,7 @@ const DocumentController = {
             content: request.body.content,
             viewAccess: request.body.viewAccess
           })
-          .then(() => response.status(201).send({
+          .then(() => response.status(200).send({
             document,
             message: 'Document successfully updated!'
           }))
@@ -89,24 +89,113 @@ const DocumentController = {
       }));
   },
   getAll(request, response) {
+    const offset = request.query.offset ? request.query.offset : 0;
+    const limit = 12;
+
     Documents
-      .findAll()
-      .then(documents => response.status(200).send(documents))
+      .findAndCountAll({
+        limit,
+        offset,
+        where: {
+          viewAccess: {
+            $ne: 'Private'
+          }
+        },
+        include: {
+          model: Users,
+          attributes: ['id', 'username', 'roleId', 'firstname', 'lastname']
+        },
+        order: [['updatedAt', 'DESC']]
+      })
+      .then((documents) => {
+        if (documents.length < 1) {
+          return response.status(404).send({
+            message: 'no document found'
+          });
+        }
+
+        const metaData = {
+          totalCount: documents.count,
+          pages: Math.ceil(documents.count / limit),
+          currentPage: Math.floor(offset / limit) + 1,
+          pageSize: documents.rows.length
+        } || null;
+
+        return response.status(200).send({
+          documents: documents.rows,
+          metaData
+        });
+      })
       .catch(error => response.status(400).send(error));
+  },
+  getUserDocuments(request, response) {
+    const offset = request.query.offset || 0;
+    const limit = 12;
+
+    return Users.findById(request.params.id)
+    .then((user) => {
+      if (!user) {
+        return response.status(404).json({
+          message: 'User not found'
+        });
+      }
+      return Documents
+      .findAndCountAll({
+        limit,
+        offset,
+        where: {
+          ownerId: request.params.id
+        },
+        include: {
+          model: Users,
+          attributes: ['id', 'username', 'roleId', 'firstname', 'lastname']
+        },
+        order: [['updatedAt', 'DESC']]
+      })
+      .then((documents) => {
+        if (documents.count < 1) {
+          return response.status(404).send({
+            message: 'no document found'
+          });
+        }
+
+        const metaData = {
+          totalCount: documents.count,
+          pages: Math.ceil(documents.count / limit),
+          currentPage: Math.floor(offset / limit) + 1,
+          pageSize: documents.rows.length
+        } || null;
+
+        return response.status(200).send({
+          documents: documents.rows,
+          metaData
+        });
+      })
+      .catch((error) => {
+        response.status(500).send({
+          error,
+          message: 'Error occurred while retrieving documents'
+        });
+      });
+    });
+
   },
   getOne(request, response) {
     return Documents
-      .findById(parseInt(request.params.id, 10), {})
+      .findById(parseInt(request.params.id, 10), {
+        include: {
+          model: Users,
+          attributes: ['id', 'username', 'roleId', 'firstname', 'lastname']
+        }
+      })
       .then((document) => {
-        if (!document) {
-          return response.status(404).send({
-            message: 'Document does not exist'
+        if (document) {
+          return response.status(200).send({
+            document,
+            message: 'Document loaded'
           });
         }
-        return response.status(200).send({
-          document,
-          message: 'Document loaded'
-        });
+        return [];
       })
       .catch(error => response.status(500).send({
         error,
@@ -115,8 +204,13 @@ const DocumentController = {
   },
   search(request, response) {
     const search = request.query.search;
+    const offset = request.query.offset || 0;
+    const limit = 12;
+
     return Documents
-      .findAll({
+      .findAndCountAll({
+        limit,
+        offset,
         where: {
           $or: [{
             title: {
@@ -126,18 +220,33 @@ const DocumentController = {
             content: {
               $iLike: `%${search}%`
             }
-          }]
-        }
+          }],
+          $and: {
+            viewAccess: 'Private'
+          }
+        },
+        include: {
+          model: Users,
+          attributes: ['id', 'username', 'roleId', 'firstname', 'lastname']
+        },
+        order: [['updatedAt', 'DESC']]
       })
       .then((documents) => {
-        if (documents.length <= 0) {
-          return response.status(404)
-          .send({
+        if (documents.count <= 0) {
+          return response.status(404).send({
             message: 'No documents found matching search criteria'
           });
         }
+        const metaData = {
+          totalCount: documents.count,
+          pages: Math.ceil(documents.count / limit),
+          currentPage: Math.floor(offset / limit) + 1,
+          pageSize: documents.rows.length
+        } || null;
+
         return response.status(200).send({
-          documents,
+          documents: documents.rows,
+          metaData,
           message: 'Documents found'
         });
       })
@@ -151,34 +260,3 @@ const DocumentController = {
 };
 
 export default DocumentController;
-
-// getMyDocuments(req, res) {
-//     return Documents
-//     .findAll({
-//       where: {
-//         $or: [
-//           { viewAccess: 'public' },
-//           {
-//             role: String(req.decoded.data.roleId)
-//           },
-//           {
-//             userId: req.params.id
-//           }
-//         ]
-//       },
-//       include: [Users],
-//       order: [['updatedAt', 'DESC']]
-//     })
-//     .then((document) => {
-//       if (!document) {
-//         return res.status(404).send({
-//           message: 'Document Not Found'
-//         });
-//       }
-//       return res.status(200).send(document);
-//     })
-//     .catch(error => res.status(400).send({
-//       error,
-//       message: 'Error occurred while retrieving documents'
-//     }));
-//   },

@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 /**
- *
- * @export
- * @param {any} token
- */
+* Set and use a token for every axios call
+* @param {Object} token
+* @returns {Undefined} returns nothing
+*/
 export default function setAuthorizationToken(token) {
   if (token) {
     axios.defaults.headers.common.Authorization = token;

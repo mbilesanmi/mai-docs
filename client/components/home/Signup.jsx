@@ -5,7 +5,19 @@ import toastr from 'toastr';
 import SignupForm from './SignupForm.jsx';
 import * as userActions from '../../actions/userActions';
 
+/**
+ * @desc component used to display the signup component
+ * @class Signup
+ * @extends {Component}
+ */
 class Signup extends Component {
+  /**
+   * Creates an instance of Signup.
+   * @param {any} props property of component
+   * @param {any} context property of component
+   * @returns {*} no return value
+   * @memberof Signup
+   */
   constructor(props, context) {
     super(props, context);
 
@@ -19,6 +31,10 @@ class Signup extends Component {
     };
   }
 
+  /**
+   * @desc handles the triggering of the necessary action
+   * @returns {null} returns no value
+   */
   componentWillMount() {
     if (this.props.isAuthenticated) {
       toastr.error('Already logged in');
@@ -26,6 +42,11 @@ class Signup extends Component {
     }
   }
 
+  /**
+   * @desc handles signup form actions
+   * @param {any} event html event
+   * @returns {*} no return value
+   */
   onSubmit(event) {
     event.preventDefault();
     this.setState({
@@ -40,11 +61,15 @@ class Signup extends Component {
     })
     .catch(() => {
       this.setState({ isLoading: false });
-      toastr.error(
-        'Account creation failed. Please check your details and try again.');
+      toastr.error(this.props.message);
     });
   }
 
+  /**
+   * @desc handles form element changes
+   * @param {any} event html event
+   * @returns {*} no return value
+   */
   updateUserState(event) {
     const field = event.target.name;
     const user = this.state.user;
@@ -63,8 +88,7 @@ class Signup extends Component {
         <p className="center">Mai Document manager</p>
         <div className="container">
           <div className="row">
-            {/*<div className="col s12 z-depth-5 card-panel">*/}
-            <div className="col s12 z-depth-5 card">
+            <div className="grey lighten-3 col s12 z-depth-5 card">
               <div className="card-image">
                 <h2 className="center">SIGNUP</h2>
               </div>
@@ -83,6 +107,9 @@ class Signup extends Component {
   }
 }
 
+/**
+ * @desc Set the PropTypes
+ */
 Signup.propTypes = {
   user: PropTypes.object,
   message: PropTypes.string,
@@ -90,8 +117,9 @@ Signup.propTypes = {
   userActions: PropTypes.object.isRequired
 };
 
-// Pull in the React Router context
-// so router is available on this.context.router.
+/**
+ * @desc Set the contextTypes
+ */
 Signup.contextTypes = {
   router: PropTypes.object
 };
@@ -100,7 +128,7 @@ Signup.contextTypes = {
  *  map state to props
  *
  * @param {state} state
- * @returns {object}
+ * @returns {object} props
  */
 function mapStateToProps(state) {
   return {
@@ -110,6 +138,10 @@ function mapStateToProps(state) {
   };
 }
 
+/**
+ * @param {any} dispatch
+ * @returns {any} actions
+ */
 const mapDispatchToProps = dispatch => ({
   userActions: bindActionCreators(userActions, dispatch)
 });

@@ -5,13 +5,30 @@ import { bindActionCreators } from 'redux';
 import swal from 'sweetalert';
 import * as userActions from '../../actions/userActions';
 
+/**
+ * @desc component used to display the user tasks
+ * @class UserTasks
+ * @extends {Component}
+ */
 class UserTasks extends Component {
+  /**
+   * Creates an instance of AllUsers.
+   * @param {any} props property of component
+   * @param {any} context property of component
+   * @returns {*} no return value
+   * @memberof AllUsers
+   */
   constructor(props, context) {
     super(props, context);
 
     this.deleteUser = this.deleteUser.bind(this);
   }
 
+  /**
+   * @desc handles the user profile delete
+   * @param {any} event html event
+   * @returns {*} no return value
+   */
   deleteUser(event) {
     event.preventDefault();
     swal({
@@ -37,13 +54,14 @@ class UserTasks extends Component {
       }
     });
   }
+
+  /**
+   * React Render
+   * @return {object} html
+   */
   render() {
     return (
       <span>
-        <Link
-          to={`/user/view/${this.props.userId}`}
-          className="waves-effect waves-light btn blue">View
-        </Link>
         &nbsp;&nbsp;
         <a className="waves-effect waves-light btn red"
           onClick={this.deleteUser}>Delete
@@ -53,17 +71,25 @@ class UserTasks extends Component {
   }
 }
 
+/**
+ * @desc Set the PropTypes
+ */
 UserTasks.propTypes = {
   userId: PropTypes.number,
   actions: PropTypes.object.isRequired
 };
 
-// Pull in the React Router context
-// so router is available on this.context.router.
+/**
+ * @desc Set the contextTypes
+ */
 UserTasks.contextTypes = {
   router: PropTypes.object
 };
 
+/**
+ * @param {any} dispatch
+ * @returns {any} actions
+ */
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(userActions, dispatch)

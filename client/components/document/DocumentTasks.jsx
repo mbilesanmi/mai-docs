@@ -6,13 +6,30 @@ import swal from 'sweetalert';
 import toastr from 'toastr';
 import * as documentActions from '../../actions/documentActions';
 
+/**
+ * @desc component used to display document tasks
+ * @class DocumentTasks
+ * @extends {Component}
+ */
 class DocumentTasks extends Component {
+  /**
+   * Creates an instance of DocumentTasks.
+   * @param {any} props property of component
+   * @param {any} context property of component
+   * @returns {*} no return value
+   * @memberof DocumentTasks
+   */
   constructor(props, context) {
     super(props, context);
 
     this.deleteDocument = this.deleteDocument.bind(this);
   }
 
+  /**
+   * @desc handles the document delete
+   * @param {any} event html event
+   * @returns {*} no return value
+   */
   deleteDocument(event) {
     event.preventDefault();
     swal({
@@ -38,6 +55,11 @@ class DocumentTasks extends Component {
       }
     });
   }
+
+  /**
+   * @desc Renders the Document tasks buttons
+   * @return {*} render the Document task buttons
+   */
   render() {
     if (this.props.ownerId === this.props.loggedInUserID) {
       return (
@@ -57,6 +79,9 @@ class DocumentTasks extends Component {
   }
 }
 
+/**
+ * @desc Set the PropTypes
+ */
 DocumentTasks.propTypes = {
   documentId: PropTypes.number,
   ownerId: PropTypes.number,
@@ -64,22 +89,28 @@ DocumentTasks.propTypes = {
   actions: PropTypes.object.isRequired
 };
 
-// Pull in the React Router context
-// so router is available on this.context.router.
+/**
+ * @desc Set the contextTypes
+ */
 DocumentTasks.contextTypes = {
   router: PropTypes.object
 };
 
-function mapStateToProps(state) {
-  return {
-    loggedInID: state.isAuth.loggedInUser.id
-  };
-}
+/**
+ *
+ * @param {any} state
+ * @returns {*} props
+ */
+const mapStateToProps = state => ({
+  loggedInID: state.isAuth.loggedInUser.id
+});
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(documentActions, dispatch)
-  };
-}
+/**
+ * @param {any} dispatch
+ * @returns {any} actions
+ */
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(documentActions, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(DocumentTasks);

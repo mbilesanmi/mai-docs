@@ -1,11 +1,18 @@
 import React, { PropTypes } from 'react';
 
+/**
+ * @desc component used to display text input fields
+ */
 const TextInput = ({ name, type, label, onChange, placeholder, value, error }) => {
   let wrapperClass = 'form-group';
   if (error && error.length > 0) {
     wrapperClass += ' has-error';
   }
 
+  /**
+   * React Render
+   * @return {object} html
+   */
   return (
     <div className={wrapperClass}>
       <label htmlFor={name}>{label}</label>
@@ -23,6 +30,9 @@ const TextInput = ({ name, type, label, onChange, placeholder, value, error }) =
   );
 };
 
+/**
+ * @desc Set the PropTypes
+ */
 TextInput.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,

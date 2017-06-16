@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
 
@@ -9,7 +9,7 @@ import toastr from 'toastr';
  * @returns {any}
  */
 export default function (ComposedComponent) {
-  class RequireAuth extends React.Component {
+  class RequireAuth extends Component {
     componentWillMount() {
       if (!this.props.isAuthenticated) {
         toastr.error('You need to login to access this page');
@@ -28,17 +28,29 @@ export default function (ComposedComponent) {
     }
   }
 
+  /**
+   * @desc Set the PropTypes
+   */
   RequireAuth.propTypes = {
     isAuthenticated: React.PropTypes.bool.isRequired
   };
 
+  /**
+   * @desc Set the contextTypes
+   */
   RequireAuth.contextTypes = {
     router: PropTypes.object.isRequired
   };
 
-  function mapStateToProps(state) {
-    return { isAuthenticated: state.isAuth.isAuthenticated };
-  }
+  /**
+   *
+   * @param {any} state
+   * @returns {boolean} isAuthenticated
+   * @returns {*} isAdmin
+   */
+  const mapStateToProps = state => ({
+    isAuthenticated: state.isAuth.isAuthenticated
+  });
 
   return connect(mapStateToProps)(RequireAuth);
 }

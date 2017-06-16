@@ -1,22 +1,37 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import toastr from 'toastr';
 import * as documentActions from '../../actions/documentActions';
 import DocumentForm from '../document/DocumentForm.jsx';
 
-class ManageDocument extends React.Component {
+/**
+ * @desc component used to display the document form
+ * @class ManageDocuments
+ * @extends {Component}
+ */
+export class ManageDocument extends Component {
+  /**
+   * @desc handles the rendering of the selecet box.
+   * @returns {null} returns no value
+   */
   static componentDidMount() {
     $('select').material_select();
   }
 
+  /**
+   * Creates an instance of ManageDocuments.
+   * @param {any} props property of component
+   * @param {any} context property of component
+   * @returns {*} no return value
+   * @memberof ManageDocuments
+   */
   constructor(props, context) {
     super(props, context);
 
     this.updateDocumentState = this.updateDocumentState.bind(this);
     this.createDocument = this.createDocument.bind(this);
     this.updateDocument = this.updateDocument.bind(this);
-    this.onEditorChange = this.onEditorChange.bind(this);
 
     this.state = {
       document: Object.assign({}, props.document),
@@ -25,10 +40,20 @@ class ManageDocument extends React.Component {
     };
   }
 
+  /**
+   * @desc handles the triggering of the necessary action
+   * @returns {null} returns no value
+   */
   componentWillMount() {
-    this.props.actions.getAllDocuments();
+    if (this.props.documentId) {
+      this.props.actions.getOneDocument(this.props.documentId);
+    }
   }
 
+  /**
+   * @desc handles the triggering of the necessary action when the page reloads
+   * @returns {null} returns no value
+   */
   componentWillReceiveProps(nextProps) {
     if (this.props.document.id !== nextProps.document.id) {
       // Necessary to repopulate the form when document is loaded directly
@@ -36,12 +61,11 @@ class ManageDocument extends React.Component {
     }
   }
 
-  onEditorChange(event) {
-    const document = this.state.document;
-    document.content = event.target.getContent();
-    return { document };
-  }
-
+  /**
+   * @desc handles form element changes
+   * @param {any} event html event
+   * @returns {*} no return value
+   */
   updateDocumentState(event) {
     const field = event.target.name;
     const authorId = 'ownerId';
@@ -51,6 +75,11 @@ class ManageDocument extends React.Component {
     return this.setState({ document });
   }
 
+  /**
+   * @desc handles create form actions
+   * @param {any} event html event
+   * @returns {*} no return value
+   */
   createDocument(event) {
     event.preventDefault();
     this.setState({ saving: true });
@@ -62,6 +91,11 @@ class ManageDocument extends React.Component {
     });
   }
 
+  /**
+   * @desc handles update form actions
+   * @param {any} event html event
+   * @returns {*} no return value
+   */
   updateDocument(event) {
     event.preventDefault();
     this.setState({ saving: true });
@@ -74,19 +108,28 @@ class ManageDocument extends React.Component {
     });
   }
 
+  /**
+   * @desc handles the redirecting to the dashboard on success
+   * @returns {null} returns no value
+   */
   redirect() {
     this.setState({ saving: false });
     toastr.success(this.props.message);
     this.context.router.push('/dashboard');
   }
 
+  /**
+   * React Render
+   * @return {object} html
+   */
   render() {
     const isUpdate = this.props.document.id;
+    const documentTitle = this.props.document.title;
     return (
       <div className="section">
         <div className="container">
-          <h1>
-            {isUpdate ? `Edit ${this.state.document.title}`
+          <h1 className="center flow-text">
+            {isUpdate ? `Edit: ${documentTitle}`
               : 'Add new document'}
           </h1>
           <DocumentForm
@@ -103,48 +146,54 @@ class ManageDocument extends React.Component {
   }
 }
 
+/**
+ * @desc Set the PropTypes
+ */
 ManageDocument.propTypes = {
-  actions: React.PropTypes.object.isRequired,
-  document: React.PropTypes.object.isRequired,
-  authorId: React.PropTypes.number.isRequired,
-  message: React.PropTypes.string
+  actions: PropTypes.object.isRequired,
+  document: PropTypes.object.isRequired,
+  authorId: PropTypes.number.isRequired,
+  message: PropTypes.string
 };
 
-// Pull in the React Router context
-// so router is available on this.context.router.
+/**
+ * @desc Set the contextTypes
+ */
 ManageDocument.contextTypes = {
-  router: React.PropTypes.object
+  router: PropTypes.object
 };
 
-function getDocumentById(documents, id) {
-  const doc = documents.filter(document => document.id === id);
-  // Filter returns an array, have to grab the first.
-  if (doc) { return document[0]; }
-  return null;
-}
-
-function mapStateToProps(state, ownProps) {
+/**
+ *
+ * @param {any} state
+ * @param {any} ownProps
+ * @returns {*} props
+ */
+const mapStateToProps = (state, ownProps) => {
   const documentId = parseInt(ownProps.params.id, 10);
   const authorId = state.isAuth.loggedInUser.id;
   const message = state.message;
 
   let document = { id: '', title: '', content: '', viewAccess: '' };
 
-  if (documentId && state.documents.length > 0) {
-    document = getDocumentById(state.documents, documentId);
+  if (documentId && (state.documents.id === documentId)) {
+    document = state.documents;
   }
 
   return {
+    documentId,
     document,
     authorId,
     message
   };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(documentActions, dispatch)
-  };
-}
+/**
+ * @param {any} dispatch
+ * @returns {any} actions
+ */
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(documentActions, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageDocument);

@@ -131,15 +131,3 @@ export const document = {
     ownerId: 1
   }
 };
-
-// const seeds = () => {
-//   models.sequelize.sync({ force: true }).then(() => {
-//     // Table created
-//     models.Role.bulkCreate(role);
-//     models.User.bulkCreate(user, { individualHooks: true }).then(() => {
-//       models.Document.bulkCreate(document);
-//     });
-//   });
-// };
-
-// export default seeds();

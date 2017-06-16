@@ -2,79 +2,64 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import TextInput from '../common/TextInput.jsx';
 
+/**
+ * @desc component used to display the signup form
+ */
 const SignupForm = ({ onChange, onSubmit, loading, errors }) =>
   <form className="login-form">
     <div className="card-content">
       <div className="row">
         <div className="col s4 offset-s2">
-          <TextInput
-            type="text"
-            label="Firstname"
+          <input
             name="firstname"
-            icon="person"
+            type="text"
             onChange={onChange}
-            onBlur=""
-            clearError=""
-            error={errors.firstname}/>
+            placeholder="Your firstname here"
+            required />
         </div>
         <div className="col s4">
-          <TextInput
-            type="text"
-            label="Lastname"
+          <input
             name="lastname"
-            icon="person"
-            onChange={onChange}
-            onBlur=""
-            clearError=""
-            error={errors.lastname}/>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col s4 offset-s2">
-          <TextInput
             type="text"
-            label="Username"
-            name="username"
-            icon="person"
             onChange={onChange}
-            onBlur=""
-            clearError=""
-            error={errors.username}/>
-        </div>
-        <div className="col s4">
-          <TextInput
-            type="email"
-            label="Email"
-            name="email"
-            icon="email"
-            onChange={onChange}
-            onBlur=""
-            clearError=""
-            error={errors.email}/>
+            placeholder="Your lastname here"
+            required />
         </div>
       </div>
       <div className="row">
         <div className="col s4 offset-s2">
-          <TextInput
-            type="password"
-            label="Password"
-            name="password"
-            icon="lock"
+          <input
+            name="username"
+            type="text"
             onChange={onChange}
-            onBlur=""
-            clearError=""
-            error={errors.password}/>
+            placeholder="Your username here"
+            required />
         </div>
         <div className="col s4">
-          <TextInput
-            type="password"
-            label="Confirm Password"
-            name="confirmPassword"
-            icon="lock"
+          <input
+            name="email"
+            type="email"
             onChange={onChange}
-            onBlur=""
-            clearError=""
-            error={errors.confirmPassword}/>
+            placeholder="Your email here"
+            required />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col s4 offset-s2">
+          <input
+            name="password"
+            type="password"
+            onChange={onChange}
+            placeholder="Your password here"
+            required />
+        </div>
+        <div className="col s4">
+          <input
+            name="confirmPassword"
+            type="password"
+            onChange={onChange}
+            placeholder="Confirm your password"
+            required />
         </div>
       </div>
     </div>
@@ -83,6 +68,7 @@ const SignupForm = ({ onChange, onSubmit, loading, errors }) =>
       <div className="row">
         <div className="input-field col s12">
           <input
+            id="saveProfile"
             type="submit"
             disabled={loading}
             value={loading ? 'Creating user profile...' : 'Signup'}
@@ -102,6 +88,9 @@ const SignupForm = ({ onChange, onSubmit, loading, errors }) =>
   </form>
 ;
 
+/**
+ * @desc Set the PropTypes
+ */
 SignupForm.propTypes = {
   user: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,

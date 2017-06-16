@@ -1,23 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import Header from './common/header/Header.jsx';
 
+/**
+ * @desc component used to display the main site App component
+ * @class App
+ * @extends {Component}
+ */
 class App extends Component {
-  // componentDidMount() {
-  //   $('.button-collapse').sideNav({
-  //     menuWidth: 300, // Default is 300
-  //     edge: 'left', // Choose the horizontal origin
-  //     draggable: true // Choose whether you can drag to open on touch screens
-  //   });
-  //   $('.modal').modal();
-  //   $('select').material_select();
-  //   $('.tooltipped').tooltip({ delay: 50 });
-  //   $('.dropdown-button').dropdown();
-  //   $('ul.tabs').tabs();
-  // }
-
+   /**
+   * React Render
+   * @return {object} html
+   */
   render() {
     return (
-      <div>
+      <div className="container-fluid">
         <Header />
         {this.props.children}
       </div>
@@ -25,8 +21,11 @@ class App extends Component {
   }
 }
 
+/**
+ * @desc Set the PropTypes
+ */
 App.propTypes = {
-  children: PropTypes.object.isRequired
+  children: PropTypes.element
 };
 
 export default App;

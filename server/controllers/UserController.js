@@ -28,7 +28,7 @@ const UserController = {
         if (!user) {
           return response.status(404).send({
             status: 404,
-            message: 'User does not exist'
+            message: 'Invalid login details'
           });
         } else if (user.validPassword(request.body.password)) {
           const userData = {
@@ -56,7 +56,7 @@ const UserController = {
           message: 'Could not sign you in. Kindly check your login details'
         });
       })
-      .catch(error => response.status(400).send(error));
+      .catch(error => response.status(500).send(error));
   },
   logout(request, response) {
     response.setHeader['x-access-token'] = ' ';
@@ -107,21 +107,38 @@ const UserController = {
             .catch((error) => {
               response.status(403).send({
                 error,
-                message: 'User signup failed'
+                message: 'User signup failed. Ensure valid  form data is entered.'
               });
             });
       })
       .catch(error => response.status(400).send(error));
   },
   getAll(request, response) {
+    const offset = request.query.offset || 0;
+    const limit = 12;
+
     User
-      .findAll({
+      .findAndCountAll({
+        limit,
+        offset,
         include: [{
           model: Documents,
           as: 'documents'
-        }]
+        }],
+        order: [['updatedAt', 'DESC']]
       })
-      .then(users => response.status(200).send(users))
+      .then(users => {
+        const metaData = {
+          totalCount: users.count,
+          pages: Math.ceil(users.count / limit),
+          currentPage: Math.floor(offset / limit) + 1,
+          pageSize: users.rows.length
+        } || null;
+        return response.status(200).send({
+          users: users.rows,
+          metaData
+        });
+      })
       .catch(error => response.status(400).send(error));
   },
   getOne(request, response) {
@@ -138,7 +155,9 @@ const UserController = {
             message: 'User does not exist'
           });
         }
-        return response.status(200).send(user);
+        return response.status(200).send({
+          user
+        });
       })
       .catch(error => response.status(400).send({
         error,
@@ -163,10 +182,14 @@ const UserController = {
               message: 'Profile successfully updated'
             }))
           .catch(error => response.status(400).send({
-            error
+            error,
+            message: 'Update failed'
           }));
       })
-      .catch(error => response.status(400).send(error));
+      .catch(error => response.status(400).send({
+        error,
+        message: 'failure'
+      }));
   },
   delete(request, response) {
     User

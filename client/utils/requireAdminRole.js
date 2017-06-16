@@ -10,6 +10,9 @@ import toastr from 'toastr';
  */
 export default (ComposedComponent) => {
   class RequireAuth extends React.Component {
+    /**
+     * @desc Performs tasks before the component mounts.
+     */
     componentWillMount() {
       const isAuthenticated = this.props.isAuthenticated;
       let isAdmin;
@@ -25,6 +28,10 @@ export default (ComposedComponent) => {
       }
     }
 
+    /**
+     * @desc Performs tasks before the component mounts.
+     * @param {any} nextProps the next set of props for the component
+     */
     componentWillUpdate(nextProps) {
       if (!nextProps.isAuthenticated) {
         this.context.router.push('/');
@@ -36,15 +43,28 @@ export default (ComposedComponent) => {
     }
   }
 
+  /**
+   * @desc Set the PropTypes
+   */
   RequireAuth.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
     isAdmin: PropTypes.object
   };
 
+  /**
+   * @desc Set the contextTypes
+   */
   RequireAuth.contextTypes = {
     router: PropTypes.object.isRequired
   };
 
+  /**
+   *
+   *
+   * @param {any} state
+   * @returns {boolean} isAuthenticated
+   * @returns {*} isAdmin
+   */
   const mapStateToProps = state => ({
     isAuthenticated: state.isAuth.isAuthenticated,
     isAdmin: state.isAuth.loggedInUser
