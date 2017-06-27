@@ -50,7 +50,7 @@ export class Navbar extends Component {
       userIsAuth = true;
     }
     return (
-      <nav className="nav-extended teal">
+      <nav className="nav-extended brown">
         <div className="nav-wrapper">
           <div className="container">
             <IndexLink

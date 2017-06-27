@@ -28,6 +28,7 @@ const DocumentController = {
   getAllDocuments(request, response) {
     const limit = request.query.limit ? request.query.limit : 12;
     const offset = request.query.offset ? request.query.offset : 0;
+    const roleId = request.decoded.roleId;
 
     return Documents
       .findAndCountAll({
@@ -36,7 +37,7 @@ const DocumentController = {
         order: [['updatedAt', 'DESC']],
         where: {
           access: {
-            $ne: 0
+            $gte: roleId
           }
         },
         include: {

@@ -246,8 +246,8 @@ describe('Mai Docs Users Endpoints ', () => {
 
     it('should successfully update a user', (done) => {
       app
-        .put('/api/user/3')
-        .set('x-access-token', signinUser.token)
+        .put('/api/user/1')
+        .set('x-access-token', adminToken.token)
         .send({ firstname: 'tomiwa' })
         .end((error, response) => {
           expect(response.status).toEqual(200);

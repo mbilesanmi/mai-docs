@@ -10,7 +10,7 @@ const Sidebar = ({ search, clearSearch, updateSearchState, userDetails }) =>
 <div className="col s12 m12 l3">
   <div className="clearfix"></div>
   <Link to="/document"
-    className="waves-effect btn green lighten-2 addDocument">
+    className="waves-effect btn green addDocument">
   Add New Document</Link>
 
   <div className="card-panel">

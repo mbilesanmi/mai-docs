@@ -129,7 +129,7 @@ class AllDocuments extends Component {
 				<div>Role: {user.Role.title}</div>
 				<div className="divider"></div>
 				<Link to={`/user/${user.id}`}
-					className="waves-effect btn blue lighten-2">
+					className="waves-effect btn blue">
 				Update Profile</Link>
 			</div>;
     }
@@ -151,8 +151,15 @@ class AllDocuments extends Component {
 								<tbody>
 									{documentDetails.map(document =>
 										<tr key={document.id}>
-											<td><h6><Link to={`/document/view/${document.id}`}>{document.title}</Link></h6></td>
-											<td>{document.User.firstname} {document.User.lastname}</td>
+											<td><h6>
+												<Link
+													className="docTitle"
+													to={`/document/view/${document.id}`}>
+												{document.title.slice(0, 60)}...</Link>
+											</h6></td>
+											<td>
+												{document.User.firstname} {document.User.lastname}
+											</td>
 										</tr>
 									)}
 								</tbody>

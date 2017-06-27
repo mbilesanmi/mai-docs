@@ -49,20 +49,21 @@ class Dashboard extends Component {
       this.context.router.push('/login');
     } else {
 			this.props.userActions.getOneUser(this.props.authUser.id);
-			this.props.documentActions.getUserDocuments(this.props.authUser.id, this.state.offset);
+			this.props.documentActions.getUserDocuments(
+				this.props.authUser.id, this.state.offset);
 		}
   }
 
 	searchDocuments(event) {
 		event.preventDefault();
-		this.props.documentActions.searchUserDocuments(this.state.search, this.state.offset)
-		.then(() => {
-			toastr.success(this.props.message);
-		})
-		.catch(() => {
-			toastr.error(this.props.message);
-		})
-		;
+		this.props.documentActions.searchUserDocuments(
+			this.state.search, this.state.offset)
+			.then(() => {
+				toastr.success(this.props.message);
+			})
+			.catch(() => {
+				toastr.error(this.props.message);
+			});
 	}
 
 	updateSearchState(event) {
@@ -72,7 +73,8 @@ class Dashboard extends Component {
 
 	clearSearch(event) {
 		event.preventDefault();
-		this.props.documentActions.getUserDocuments(this.props.authUser.id, this.state.offset);
+		this.props.documentActions.getUserDocuments(
+			this.props.authUser.id, this.state.offset);
 	}
 
 	deleteDocument(event) {
@@ -158,7 +160,7 @@ class Dashboard extends Component {
 				<div>Role: {user.Role.title}</div>
 				<div className="divider"></div>
 				<Link to={`/user/${user.id}`}
-					className="waves-effect btn blue lighten-2 editProfile">
+					className="waves-effect btn blue editProfile">
 				Update Profile</Link>
 			</div>;
     }
@@ -180,17 +182,23 @@ class Dashboard extends Component {
 								<tbody>
 									{documentDetails.map(document =>
 										<tr key={document.id}>
-											<td><h6><Link className="docTitle" to={`/document/view/${document.id}`}>{document.title.slice(0, 60)}...</Link></h6></td>
+											<td><h6>
+												<Link
+													className="docTitle"
+													to={`/document/view/${document.id}`}>
+												{document.title.slice(0, 60)}...</Link>
+											</h6></td>
 											<td>
 												<Link
 													to={`/document/${document.id}`}
-													className="waves-effect waves-light btn green lighten-2 editDoc">Edit
+													className="waves-effect waves-light btn green editDoc">
+													Edit
 												</Link>
 												&nbsp;
 												<btn
 													onClick={this.deleteDocument}
 													name={document.id}
-													className="waves-effect waves-light btn red lighten-2">Delete
+													className="waves-effect waves-light btn red">Delete
 												</btn>
 											</td>
 										</tr>
@@ -240,8 +248,3 @@ const mapDispatchToProps = dispatch => ({
   documentActions: bindActionCreators(documentActions, dispatch)
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
-
-
-//
-// then begin working on the document aspect of the application
-//
