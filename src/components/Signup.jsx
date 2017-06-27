@@ -114,122 +114,126 @@ class Signup extends Component {
    */
   render() {
     return (
-      <div className="signupPage login-container login-cover">
-        <div className="page-container">
-          <div className="page-content">
-            <div className="content-wrapper">
-              <form className="form-validate registration-form"
-                onSubmit={this.onSubmit}>
+      <div className="section">
+        <div className="container">
+          <div className="card">
+            <form className="col s12" onSubmit={this.onSubmit}>
+              <div className="card-content">
+                <span className="card-title row">
+                  <div className="icon-object border-success text-success">
+                    <i className="icon-plus3"></i>
+                  </div>
+                  <h5 className="center">
+                    Create account
+                  </h5>
+                  <small className="col s12 m6 l3 offset-l5 offset-m3">
+                    All fields are required
+                  </small>
+                </span>
 
+                <div className="divider" />
                 <div className="row">
-                  <div className="col-lg-6 col-lg-offset-3">
-                    <div className="panel">
-                      <div className="panel-body">
-                        <div className="text-center">
-                          <div className="icon-object border-success text-success">
-                            <i className="icon-plus3"></i>
-                          </div>
-                          <h5 className="content-group-lg">Create account
-                            <small className="display-block">
-                              All fields are required
-                            </small>
-                          </h5>
-                        </div>
-
-                        <div className="form-group has-feedback">
-                          <span>Firstname</span>
-                          <input
-                            type="text"
-                            name="firstname"
-                            className="form-control"
-                            onChange={this.updateFormState}
-                            placeholder="Firstname"
-                            required="required" />
-                        </div>
-
-                        <div className="form-group has-feedback">
-                          <span>Lastname</span>
-                          <input
-                            type="text"
-                            name="lastname"
-                            className="form-control"
-                            onChange={this.updateFormState}
-                            placeholder="Lastname"
-                            required="required" />
-                        </div>
-
-                        <div className="form-group has-feedback">
-                          <span>Username</span>
-                          <input
-                            type="text"
-                            name="username"
-                            className="form-control"
-                            onChange={this.updateFormState}
-                            placeholder="Choose username"
-                            required="required" />
-                        </div>
-
-                        <div className="form-group has-feedback">
-                          <span>Email</span>
-                          <input
-                            type="email"
-                            name="email"
-                            className="form-control"
-                            onChange={this.updateFormState}
-                            placeholder="Your email"
-                            required="required" />
-                        </div>
-
-                        <div className="form-group has-feedback">
-                          <span>Password</span>
-                          <input
-                            type="password"
-                            name="password"
-                            className="form-control"
-                            onChange={this.updateFormState}
-                            placeholder="Create password"
-                            required="required" />
-                        </div>
-
-                        <div className="form-group has-feedback">
-                          <span>Confirm Password</span>
-                          <input
-                            type="password"
-                            name="confirmPassword"
-                            className="form-control"
-                            onBlur={this.isPassword}
-                            placeholder="Repeat password"
-                            required="required" />
-                        </div>
-
-                        <div className="clearfix">
-                          <button
-                            type="submit"
-                            name="signup"
-                            className="btn bg-teal btn-labeled btn-block content-group">
-                            Create account
-                          </button>
-                        </div>
-
-                        <div className="content-divider text-muted form-group">
-                          <span>Have an account?</span>
-                        </div>
-                        <Link
-                          to="/login"
-                          className="btn btn-default btn-block content-group sm-6">
-                          Login
-                        </Link>
-                        <span className="help-block text-center no-margin">
-                          By continuing, you're confirming that you've read our
-                          <a> Terms &amp; Conditions </a>
-                          and <a>Cookie Policy</a>
-                        </span>
-                      </div>
-                    </div>
+                  <div className="input-field col s6 offset-s3">
+                    <span>Firstname</span>
+                    <input
+                      type="text"
+                      name="firstname"
+                      onChange={this.updateFormState}
+                      placeholder="Firstname"
+                      required="required" />
                   </div>
                 </div>
-              </form>
-            </div>
+
+                <div className="row">
+                  <div className="input-field col s6 offset-s3">
+                    <span>Lastname</span>
+                    <input
+                      type="text"
+                      name="lastname"
+                      onChange={this.updateFormState}
+                      placeholder="Lastname"
+                      required="required" />
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="input-field col s6 offset-s3">
+                    <span>Username</span>
+                    <input
+                      type="text"
+                      name="username"
+                      onChange={this.updateFormState}
+                      placeholder="Choose username"
+                      required="required" />
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="input-field col s6 offset-s3">
+                    <span>Email</span>
+                    <input
+                      type="email"
+                      name="email"
+                      onChange={this.updateFormState}
+                      placeholder="Your email"
+                      required="required" />
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="input-field col s6 offset-s3">
+                    <span>Password</span>
+                    <input
+                      type="password"
+                      name="password"
+                      className="form-control"
+                      onChange={this.updateFormState}
+                      placeholder="Create password"
+                      required="required" />
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="input-field col s6 offset-s3">
+                    <span>Confirm Password</span>
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      className="form-control"
+                      onBlur={this.isPassword}
+                      placeholder="Repeat password"
+                      required="required" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="card-action">
+                <div className="row">
+                  <div className="clearfix">
+                    <button
+                      type="submit"
+                      name="signup"
+                      className="btn btn-success col s2 offset-s5">
+                      {this.state.isLoading ? 'Processing...' : 'Create account'}
+                    </button>
+                  </div>
+                  <div className="clearfix"></div>
+                  <span>
+                    <p className="center">Have an account?</p>
+                    <Link
+                      to="/login"
+                      className="btn grey lighten-3 black-text col s2 offset-s5">
+                      Login
+                    </Link>
+                  </span>
+                  <div className="clearfix"></div>
+                  <span className="col s4 offset-s4 center">
+                    By continuing, you're confirming that you've read our <br/>
+                    <a>Terms &amp; Conditions</a>and <a>Cookie Policy</a>
+                  </span>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>

@@ -12,6 +12,8 @@ import '../node_modules/materialize-css/dist/css/materialize.min.css';
 import '../node_modules/toastr/build/toastr.min.css';
 import '../node_modules/sweetalert/dist/sweetalert.css';
 
+import '../dist/css/style.scss';
+
 
 // Require Editor CSS files.
 import '../node_modules/froala-editor/css/froala_style.min.css';

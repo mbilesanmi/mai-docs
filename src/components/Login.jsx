@@ -94,18 +94,18 @@ class Login extends Component {
       //
       // Style this page using the \'LOGIN-BODY\' class
       //
-      <div className="row login-body">
-        <div className="col s8 m6 offset-m3">
+      <div className="section">
+        <div className="container">
           <div className="card">
-            <form className="col s12" onSubmit={this.onSubmit} >
+            <form className="col s8 offset-s2" onSubmit={this.onSubmit}>
               <div className="card-content">
                 <span className="card-title">
                   <h5 className="center">
                     Login to your account
                   </h5>
                 </span>
+                <div className="divider" />
                 <div className="row">
-
                   <div className="input-field col s6 offset-s3">
                     <input
                       placeholder="Username/Email"
@@ -141,23 +141,19 @@ class Login extends Component {
                     className="btn btn-success col s2 offset-s5">
                     {this.state.isLoading ? 'Processing...' : 'Login'}
                   </button>
-                </div>
-
-                <div className="row">
-                  <p className="center">Don't have an account?</p>
-                </div>
-                <div className="row">
-                  <Link
-                    to="/signup"
-                    className="btn grey lighten-3 black-text col s2 offset-s5">
-                    Sign up
-                  </Link>
-                </div>
-                <div className="row">
-                  <span className="col s6 offset-s3 center">
-                    By continuing, you're confirming that you've read our
-                    <a> Terms &amp; Conditions </a>
-                    and <a>Cookie Policy</a>
+                  <div className="clearfix"></div>
+                  <span>
+                    <p className="center">Don't have an account?</p>
+                    <Link
+                      to="/signup"
+                      className="btn grey lighten-3 black-text col s2 offset-s5">
+                      Sign up
+                    </Link>
+                  </span>
+                  <div className="clearfix"></div>
+                  <span className="col s4 offset-s4 center">
+                    By continuing, you're confirming that you've read our <br/>
+                    <a>Terms &amp; Conditions</a>and <a>Cookie Policy</a>
                   </span>
                 </div>
               </div>

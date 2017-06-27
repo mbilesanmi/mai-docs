@@ -6,8 +6,8 @@
   "scripts": {
     "test:frontend": "NODE_ENV=test mocha -w test/mocha-helper.js test/**/*.spec.js --slow 5000 --compilers js:babel-register",
     "start": "webpack",
-    "test": "NODE_ENV=test npm run test:cover:src && npm run test:cover:server",
-    "test:cover": "NODE_ENV=test nyc --reporter=html --reporter=text node_modules/.bin/_mocha --reporter spec ./src/test/**/*.test.js ./server/test/*.test.js --require babel-register",
+    "test:cover": "NODE_ENV=test npm run test:cover:src && npm run test:cover:server",
+    "test": "NODE_ENV=test nyc --reporter=html --reporter=text node_modules/.bin/_mocha --reporter spec ./src/test/**/*.test.js ./server/test/*.test.js --require babel-register",
     "test:watch": "npm run test -- --watch",
     "e2e": "node_modules/.bin/nightwatch --config nightwatch.conf.js --require babel-register",
     "db:seed": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",

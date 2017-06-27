@@ -111,7 +111,7 @@ class AllUsers extends Component {
 				<div>Role: {oneUser.Role.title}</div>
 				<div className="divider"></div>
 				<Link to={`/user/${oneUser.id}`}
-					className="waves-effect btn blue lighten-2">
+					className="waves-effect btn blue">
 				Update Profile</Link>
 			</div>;
 		}

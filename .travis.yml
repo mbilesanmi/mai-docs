@@ -11,7 +11,7 @@ postgres:
  username: postgres
 
 after_success:
-  - npm test
+  - npm run test:server
   - npm run coverage
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < lcov.info
