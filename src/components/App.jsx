@@ -17,9 +17,15 @@ class App extends React.Component {
   render() {
     return (
       <div className="login_body">
-        <Navbar />
-        {this.props.children}
-        <Footer />
+        <header>
+          <Navbar />
+        </header>
+        <main className="site-content">
+          {this.props.children}
+        </main>
+        <footer className="page-footer brown">
+          <Footer />
+        </footer>
       </div>
     );
   }

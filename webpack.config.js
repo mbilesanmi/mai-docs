@@ -3,12 +3,10 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  devtool: 'cheap-eval-source-map',
-  entry: [
-    //'webpack-dev-server/client?/'
-    'webpack-hot-middleware/client?reload=true',
-    './src/index.jsx'
-  ],
+  devtool: 'source-map',
+  entry: {
+    bundle: path.resolve(__dirname, 'src/index')
+  },
   resolve: {
     extensions: ['.js', '.jsx', '.css', '.scss']
   },
@@ -23,7 +21,10 @@ module.exports = {
     loaders: [
       {
         test: /\.js|\.jsx?$/,
-        use: ['babel-loader?presets[]=react,presets[]=es2015,plugins[]=transform-decorators-legacy'],
+        use: ['babel-loader'],
+        include: [
+          path.join(__dirname, 'src')
+        ],
         exclude: [path.resolve(__dirname, 'node_modules/')]
       },
       {

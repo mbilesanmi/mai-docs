@@ -4,7 +4,8 @@ import models from '../../models';
 
 export const roles = [
   { title: 'Admin' },
-  { title: 'Author' }
+  { title: 'Author' },
+  { title: 'mai' }
 ];
 export const users = [
   {
@@ -70,3 +71,4 @@ const seeds = () => models.sequelize.sync({ force: true })
     }));
 
 export default seeds;
+

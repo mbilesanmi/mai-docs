@@ -5,14 +5,19 @@ node_js:
 services:
   - postgresql
 
+
 postgres:
  adapter: postgresql
  database: myapp_test
  username: postgres
 
+before_script:
+  - psql -c 'create database travis;' -U postgres
+  - dropdb --if-exists travis && createdb travis
+
 after_success:
-  - npm run test:server
-  - npm run coverage
+  - npm test
+  - npm run coveralls
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < lcov.info
   - npm run codeclimate

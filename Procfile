@@ -1,2 +1,1 @@
-npm run db:seed
-npm run start:dev
+web: npm start

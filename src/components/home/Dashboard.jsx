@@ -191,14 +191,15 @@ class Dashboard extends Component {
 											<td>
 												<Link
 													to={`/document/${document.id}`}
-													className="waves-effect waves-light btn green editDoc">
-													Edit
+													className="waves-effect waves-light btn green darken-2 editDoc">
+													<i className="fa fa-pencil" aria-hidden="true"></i>
 												</Link>
 												&nbsp;
 												<btn
 													onClick={this.deleteDocument}
 													name={document.id}
-													className="waves-effect waves-light btn red">Delete
+													className="waves-effect waves-light btn red darken-2">
+													<i className="fa fa-trash" aria-hidden="true"></i>
 												</btn>
 											</td>
 										</tr>
