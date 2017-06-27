@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Footer = () =>
-<footer className="page-footer brown">
   <div className="footer-copyright">
     <div className="container">
       <div className="center">
@@ -10,6 +9,6 @@ const Footer = () =>
       </div>
     </div>
   </div>
-</footer>;
+;
 
 export default Footer;

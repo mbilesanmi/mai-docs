@@ -4,7 +4,8 @@ import models from '../../models';
 
 export const roles = [
   { title: 'Admin' },
-  { title: 'Author' }
+  { title: 'Author' },
+  { title: 'mai' }
 ];
 export const users = [
   {
