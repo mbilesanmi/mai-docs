@@ -139,13 +139,13 @@ export class ViewDocument extends Component {
       <div className="container">
         <div className="section card-panel">
           <div className="text-center">
-            <div className="icon-object border-success text-success">
-              <i className="icon-plus3"></i>
+            <div className="row">
+              <h3 className="docTitle center col s12 m12 l9 flow-text">
+                {document.title}
+              </h3>
+                {manageDocument}
             </div>
-            <h3 className="docTitle center flow-text">
-              {document.title}
-            </h3>
-            <div className="divider"></div>
+            <div className="divider" />
             <div className="row">
               <div className="col s3">
                 <i><b>Date Published:</b> {createdAt}</i>
@@ -153,22 +153,11 @@ export class ViewDocument extends Component {
               <div className="col s3">
                 <i><b>Access Type:</b> {access}</i>
               </div>
-              {manageDocument}
-              <div className="clearfix"></div>
+            </div>
+            <div className="clearfix" />
+            <div className="row">
               <div className="col s9">
                 {renderHTML(document.content)}
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col s8 offset-s2">
-                <Link to="/dashboard" className="btn grey lighten-1 toDashboard">
-                  Go to dashboard
-                </Link>
-                &nbsp;
-                <Link to="/documents" className="btn grey lighten-1">
-                  View All Documents
-                </Link>
               </div>
             </div>
           </div>
