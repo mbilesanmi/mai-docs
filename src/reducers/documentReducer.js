@@ -17,6 +17,9 @@ export default (state = initialState.documents, action) => {
     case types.ALL_DOCS:
       return action.payload;
 
+    case types.DOCS_NOT_FOUND:
+      return initialState.documents;
+
     default:
       return state;
   }

@@ -93,7 +93,7 @@ class ManageDocuments extends Component {
     .then(() => this.redirectToDashboard())
     .catch(() => {
       this.setState({ saving: false });
-      toastr.error(this.props.message);
+      toastr.error(this.props.message[0].message);
     });
   }
 
@@ -194,7 +194,6 @@ const mapStateToProps = (state, ownProps) => {
   const authorId = state.authenticated.user.id;
   const roleId = state.authenticated.user.roleId;
   const message = state.message;
-  // const authorId = state.isAuth.loggedInUser.id;
 
   let document = { id: '', title: '', content: '', access: '' };
   const stateDocument = state.documents;

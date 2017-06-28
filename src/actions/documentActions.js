@@ -37,6 +37,16 @@ export const getAllDocsSuccess = documents =>
 
 /**
  *
+ * @desc getAllDocsSuccess
+ * @export
+ * @param {string} documents  returned all documents from api call
+ * @returns {*} action, action types and payload
+ */
+export const getDocsFailure = () =>
+  ({ type: types.DOCS_NOT_FOUND, payload: '' });
+
+/**
+ *
  * @desc getUserDocsSuccess
  * @export
  * @param {string} documents  returned users documents from api call
@@ -58,6 +68,7 @@ axios.get(`/api/documents/?offset=${offset}`)
     dispatch(getAllDocsSuccess(response.data));
   })
   .catch((error) => {
+    dispatch(getDocsFailure());
     throw dispatch(passFailureMessage(error.response.data.message));
   });
 
@@ -74,6 +85,7 @@ axios.get(`/api/document/${documentId}`)
     dispatch(getAllDocsSuccess(response.data.document));
   })
   .catch((error) => {
+    dispatch(getDocsFailure());
     throw dispatch(passFailureMessage(error.response.data.message));
   });
 
@@ -123,6 +135,7 @@ axios.get(`/api/users/${id}/documents/?offset=${offset}`)
     dispatch(getUserDocsSuccess(response.data));
   })
   .catch((error) => {
+    dispatch(getDocsFailure());
     throw dispatch(passFailureMessage(error.response.data.message));
   });
 

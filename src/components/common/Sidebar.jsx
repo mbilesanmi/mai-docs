@@ -11,7 +11,6 @@ const Sidebar = ({ search, clearSearch, updateSearchState, userDetails }) =>
   <div className="clearfix"></div>
   <Link to="/document"
     className="waves-effect btn green darken-2 addDocument">
-  <i className="fa fa-plus" aria-hidden="true"></i>
   Add New Document</Link>
 
   <div className="card-panel">
@@ -32,12 +31,6 @@ const Sidebar = ({ search, clearSearch, updateSearchState, userDetails }) =>
         onKeyUp={updateSearchState}
         placeholder="Search here" />
     </form>
-  </div>
-
-  <div className="card-panel">
-    <h6 className="sidebar-title">Documents Summary</h6>
-    <div className="divider"></div>
-    <p>Show the count of each document type here</p>
   </div>
 </div>;
 

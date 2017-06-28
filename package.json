@@ -14,7 +14,7 @@
     "db:seed": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
     "db:test:seed": "NODE_ENV=development babel-node ./server/test/helper/seeder.js",
     "db:clear:seed": "NODE_ENV=test babel-node ./server/test/helper/clearDb.js",
-    "start": "npm run db:seed && nodemon ./index.js --exec babel-node",
+    "start": "npm run build && nodemon ./index.js --exec babel-node",
     "build": "babel-node tools/build.js"
   },
   "repository": {

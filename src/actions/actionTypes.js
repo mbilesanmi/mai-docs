@@ -7,5 +7,6 @@ export const USER_DATA = 'USER_DATA';
 export const USER_DOCS = 'USER_DOCS';
 
 export const ALL_DOCS = 'ALL_DOCS';
+export const DOCS_NOT_FOUND = 'DOCS_NOT_FOUND';
 
 export const SIGNOUT_USER = 'SIGNOUT_USER';

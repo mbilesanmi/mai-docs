@@ -7,7 +7,7 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
-          message: 'Enter your firstname'
+          msg: 'Enter your firstname'
         }
       }
     },
@@ -16,7 +16,7 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
-          message: 'Enter your lastname'
+          msg: 'Enter your lastname'
         }
       }
     },
@@ -26,7 +26,7 @@ export default (sequelize, DataTypes) => {
       unique: true,
       validate: {
         notEmpty: {
-          message: 'You must choose a unique Username'
+          msg: 'You must choose a unique Username'
         }
       }
     },
@@ -36,7 +36,7 @@ export default (sequelize, DataTypes) => {
       unique: true,
       validate: {
         isEmail: {
-          message: 'Please enter a valid email address!'
+          msg: 'Please enter a valid email address!'
         }
       }
     },
@@ -46,7 +46,7 @@ export default (sequelize, DataTypes) => {
       validate: {
         len: {
           args: [6, 100],
-          message: 'Your password is really short!'
+          msg: 'Your password is really short!'
         }
       }
     },
@@ -56,7 +56,7 @@ export default (sequelize, DataTypes) => {
       defaultValue: 2,
       validate: {
         isInt: {
-          message: 'Role Id must be an integer'
+          msg: 'Role Id must be an integer'
         }
       }
     },

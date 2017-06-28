@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === 'test') {
   PORT = process.env.PORT || 8080;
 }
 
-if (process.env.NODE_ENV === 'development') {
+if ((process.env.NODE_ENV !== 'test') || (process.env.NODE_ENV !== 'production')) {
   const webpackConfig = require('./webpack.config');
   const webpackDevMiddleware = require('webpack-dev-middleware');
   const webpackHotMiddleware = require('webpack-hot-middleware');

@@ -28,7 +28,7 @@ class Dashboard extends Component {
     super(props, context);
 
     this.state = {
-      isLoading: false,
+      isLoading: true,
 			search: '',
 			offset: 0
     };
@@ -50,16 +50,25 @@ class Dashboard extends Component {
     } else {
 			this.props.userActions.getOneUser(this.props.authUser.id);
 			this.props.documentActions.getUserDocuments(
-				this.props.authUser.id, this.state.offset);
+				this.props.authUser.id, this.state.offset)
+				.then(() => {
+					this.setState({ isLoading: false });
+				})
+				.catch(() => {
+					toastr.error(this.props.message);
+					this.setState({ isLoading: false });
+				});
 		}
   }
 
 	searchDocuments(event) {
 		event.preventDefault();
+		this.setState({ isLoading: true });
 		this.props.documentActions.searchUserDocuments(
 			this.state.search, this.state.offset)
 			.then(() => {
 				toastr.success(this.props.message);
+				this.setState({ isLoading: false });
 			})
 			.catch(() => {
 				toastr.error(this.props.message);
@@ -134,7 +143,53 @@ class Dashboard extends Component {
 		let documentDetails;
 		let pagination;
 
-		if (documents.documents) {
+		if (user) {
+      userDetails = <div>
+				<div>Name: { user.firstname } { user.lastname }</div>
+				<div>Username: {user.username}</div>
+				<div>Email: {user.email}</div>
+				<div>Role: {user.Role.title}</div>
+				<div className="divider"></div>
+				<Link to={`/user/${user.id}`}
+					className="waves-effect btn blue editProfile">
+				Update Profile</Link>
+			</div>;
+    }
+
+		const sidebar = <Sidebar
+			userDetails={userDetails}
+			clearSearch={this.clearSearch}
+			updateSearchState={this.updateSearchState}
+			search={this.searchDocuments} />;
+
+		if (this.state.isLoading) {
+      return (
+      <div className="progress">
+        <div className="indeterminate"></div>
+      </div>
+      );
+    } else if (!documents.documents) {
+			return <div className="dashboard container">
+					<div className="section">
+						<h4>Dashboard</h4>
+						<div className="divider"></div>
+						<div className="row">
+							<div className="row">
+								<div className="col s12 m12 l9">
+									<div className="card white">
+										<div className="card-content">
+											<span className="card-title">Card Title</span>
+											<p>You have not created any documents. Click the Add New
+												Document button to begin.</p>
+										</div>
+									</div>
+								</div>
+								{sidebar}
+							</div>
+						</div>
+					</div>
+				</div>;
+		} else {
 			documentDetails = documents.documents;
 			pagination = <ReactPaginate previousLabel={'previous'}
 				nextLabel={'next'}
@@ -147,78 +202,58 @@ class Dashboard extends Component {
 				containerClassName={'pagination'}
 				subContainerClassName={'pages pagination'}
 				activeClassName={'active'} />;
-		} else {
-			documentDetails = [];
-			pagination = null;
-		}
-
-    if (user) {
-      userDetails = <div>
-				<div>Name: { user.firstname } { user.lastname }</div>
-				<div>Username: {user.username}</div>
-				<div>Email: {user.email}</div>
-				<div>Role: {user.Role.title}</div>
-				<div className="divider"></div>
-				<Link to={`/user/${user.id}`}
-					className="waves-effect btn blue editProfile">
-				Update Profile</Link>
-			</div>;
-    }
-    return (
-			<div className="dashboard container">
-				<div className="section">
-					<h4>Dashboard</h4>
-					<div className="divider"></div>
-					<div className="row">
-						<div className="col s12 m12 l9">
-							<table className="striped">
-								<thead>
-									<tr>
-											<th>Title</th>
-											<th>Actions</th>
-									</tr>
-								</thead>
-
-								<tbody>
-									{documentDetails.map(document =>
-										<tr key={document.id}>
-											<td><h6>
-												<Link
-													className="docTitle"
-													to={`/document/view/${document.id}`}>
-												{document.title.slice(0, 60)}...</Link>
-											</h6></td>
-											<td>
-												<Link
-													to={`/document/${document.id}`}
-													className="waves-effect waves-light btn green darken-2 editDoc">
-													<i className="fa fa-pencil" aria-hidden="true"></i>
-												</Link>
-												&nbsp;
-												<btn
-													onClick={this.deleteDocument}
-													name={document.id}
-													className="waves-effect waves-light btn red darken-2">
-													<i className="fa fa-trash" aria-hidden="true"></i>
-												</btn>
-											</td>
+			return (
+				<div className="dashboard container">
+					<div className="section">
+						<h4>Dashboard</h4>
+						<div className="divider"></div>
+						<div className="row">
+							<div className="col s12 m12 l9">
+								<table className="striped">
+									<thead>
+										<tr>
+												<th>Title</th>
+												<th>Actions</th>
 										</tr>
-									)}
-								</tbody>
-							</table>
-							<div className="center">
-								{pagination}
+									</thead>
+
+									<tbody>
+										{documentDetails.map(document =>
+											<tr key={document.id}>
+												<td><h6>
+													<Link
+														className="docTitle"
+														to={`/document/view/${document.id}`}>
+													{document.title.slice(0, 60)}...</Link>
+												</h6></td>
+												<td>
+													<Link
+														to={`/document/${document.id}`}
+														className="editDoc waves-effect waves-light btn green darken-2">
+														<i className="fa fa-pencil" aria-hidden="true"></i>
+													</Link>
+													&nbsp;
+													<button
+														onClick={this.deleteDocument}
+														name={document.id}
+														className="waves-effect waves-light btn red darken-2 deleteDoc">
+														<i className="fa fa-trash" aria-hidden="true"></i>
+													</button>
+												</td>
+											</tr>
+										)}
+									</tbody>
+								</table>
+								<div className="center">
+									{pagination}
+								</div>
 							</div>
+							{sidebar}
 						</div>
-						<Sidebar
-							userDetails={userDetails}
-							clearSearch={this.clearSearch}
-							updateSearchState={this.updateSearchState}
-							search={this.searchDocuments} />
 					</div>
 				</div>
-			</div>
-    );
+			);
+		}
   }
 }
 

@@ -29,7 +29,7 @@ class AllDocuments extends Component {
     this.state = {
       isLoading: false,
 			search: '',
-			offset: 0
+			offset: 0,
     };
 
 		this.searchDocuments = this.searchDocuments.bind(this);
@@ -46,21 +46,27 @@ class AllDocuments extends Component {
     if (!this.props.isAuthenticated) {
       this.context.router.push('/login');
     } else {
-			this.props.documentActions.getAllDocuments(this.state.offset);
+			this.setState({ isLoading: true });
+			this.props.documentActions.getAllDocuments(this.state.offset)
+			.then(() => {
+				this.setState({ isLoading: false });
+			});
 			this.props.userActions.getOneUser(this.props.authUser.id);
 		}
   }
 
 	searchDocuments(event) {
 		event.preventDefault();
+		this.setState({ isLoading: true });
 		this.props.documentActions.searchAllDocuments(this.state.search, this.state.offset)
 		.then(() => {
 			toastr.success(this.props.message);
+			this.setState({ isLoading: false });
 		})
 		.catch(() => {
 			toastr.error(this.props.message);
-		})
-		;
+			this.setState({ isLoading: false });
+		});
 	}
 
 	updateSearchState(event) {
@@ -85,9 +91,16 @@ class AllDocuments extends Component {
 
     this.setState({ offset }, () => {
 			if (this.props.documents.search) {
-				this.props.documentActions.searchAllDocuments(this.state.search, offset);
+				this.setState({ isLoading: true });
+				this.props.documentActions.searchAllDocuments(this.state.search, offset)
+				.then(() => {
+					this.setState({ isLoading: false });
+				});
 			} else {
-				this.props.documentActions.getAllDocuments(offset);
+				this.props.documentActions.getAllDocuments(offset)
+				.then(() => {
+					this.setState({ isLoading: false });
+				});
 			}
     });
   }
@@ -132,6 +145,14 @@ class AllDocuments extends Component {
 					className="waves-effect btn blue">
 				Update Profile</Link>
 			</div>;
+    }
+
+		if (this.state.isLoading) {
+      return (
+      <div className="progress">
+        <div className="indeterminate"></div>
+      </div>
+      );
     }
     return (
 			<div className="container">

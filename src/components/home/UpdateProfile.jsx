@@ -11,7 +11,7 @@ import * as userActions from '../../actions/userActions.js';
  * @class UpdateProfile
  * @extends {React.Component}
  */
-class UpdateProfile extends Component {
+export class UpdateProfile extends Component {
   /**
    * Creates an instance of UpdateProfile.
    * @param {any} props property of component
@@ -107,10 +107,8 @@ class UpdateProfile extends Component {
       this.setState({
         isLoading: true
       });
-      console.log('skhudbkjfd', this.state.user);
       this.props.userActions.updateProfile(this.state.user, this.props.isAuthenticated.user.id)
       .then(() => {
-        console.log('skhudbkjfd', this.props.authUser);
         this.redirectToDashboard();
       })
       .catch(() => {
@@ -224,7 +222,7 @@ class UpdateProfile extends Component {
                   </div>
 
                   <div className="switch">
-                    Toggle to change you password: &nbsp;
+                    Toggle to change your password: &nbsp;
                     <label>
                       Off
                       <input type="checkbox" value="off" onClick={this.changePasswordClick} />

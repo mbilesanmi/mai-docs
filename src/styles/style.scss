@@ -52,3 +52,30 @@ ul.pagination li.previous a, ul.pagination li.next a {
 ul.pagination li.active {
   background-color: #2196F3;
 }
+
+.input-field {
+  margin-top: 0;
+}
+
+input:not([type]), input[type=text], input[type=password], input[type=email],
+input[type=url], input[type=time], input[type=date], input[type=datetime],
+input[type=datetime-local], input[type=tel], input[type=number],
+input[type=search], textarea.materialize-textarea {
+  margin: 0;
+}
+
+thead {
+  background-color: #444;
+  color: #ffffff;
+}
+
+th:first-child, td:first-child {
+  padding-left: 20px;
+}
+
+a.waves-effect.waves-light.btn.green.darken-2.editDoc,
+button.waves-effect.waves-light.btn.red.darken-2.deleteDoc {
+  height: 24px;
+  line-height: 24px;
+  padding: 0 1rem;
+}

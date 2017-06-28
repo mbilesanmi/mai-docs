@@ -48,7 +48,7 @@ const editorConfig = {
  * @returns {*} no form element
  */
 const DocumentForm = ({ document, roleId, onSave, onChange, onModelChange, saving }) =>
-<form>
+<form onSubmit={onSave}>
   <div className="row">
     <div className="col s8 m8 ofset-s2 offset-m2">
       <div className="row">
@@ -68,7 +68,7 @@ const DocumentForm = ({ document, roleId, onSave, onChange, onModelChange, savin
 
           <div className="form-group has-feedback input-field col l5 m5 s12">
             <span>Access Level</span>
-            <select name="access" className="browser-default"
+            <select name="access" className="browser-default" required="required"
               value={document.viewAccess} onChange={onChange}>
               <option value="">Choose your option</option>
               <option value="-1">Private</option>
@@ -95,8 +95,7 @@ const DocumentForm = ({ document, roleId, onSave, onChange, onModelChange, savin
               type="submit"
               disabled={saving}
               value={saving ? 'Saving...' : 'Save'}
-              className="btn btn-primary"
-              onClick={onSave} />
+              className="btn btn-primary" />
 
             <Link to="/dashboard" className="btn grey lighten-1">
               Cancel
