@@ -7,6 +7,15 @@ const validateToken = Authenticate.validateToken;
 
 
 const Routes = (app) => {
+  /**
+   * @swagger
+   * /:
+   *   get:
+   *     description: Returns the api index page
+   *     responses:
+   *       200:
+   *         description: Welcome to the Mai Docs API!
+   */
   app.get('/api', (request, response) => response.status(200).send({
     message: 'Welcome to the Mai Docs API!'
   }));

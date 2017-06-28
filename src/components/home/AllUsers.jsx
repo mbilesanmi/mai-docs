@@ -70,7 +70,7 @@ class AllUsers extends Component {
 
 	clearSearch(event) {
 		event.preventDefault();
-		this.props.documentActions.getUserDocuments(this.props.authUser.id, this.state.offset);
+		this.props.userActions.getAllUsers(this.state.offset);
 	}
 
 	/**
@@ -137,7 +137,7 @@ class AllUsers extends Component {
 				<h4>All Users</h4>
 				<div className="divider"></div>
 				<div className="row">
-					<div className="col s9">
+					<div className="col s12 m12 l9">
 						<table className="striped responsive">
 							<thead>
 								<tr>
@@ -145,7 +145,6 @@ class AllUsers extends Component {
 										<th>Lastname</th>
 										<th>Username</th>
 										<th>Email</th>
-										<th>Actions</th>
 								</tr>
 							</thead>
 
@@ -156,7 +155,6 @@ class AllUsers extends Component {
 										<td>{user.lastname}</td>
 										<td>{user.username}</td>
 										<td>{user.email}</td>
-										<td></td>
 									</tr>
 								)}
 							</tbody>

@@ -76,7 +76,7 @@ class AllDocuments extends Component {
 
 	clearSearch(event) {
 		event.preventDefault();
-		this.props.documentActions.getUserDocuments(this.props.authUser.id, this.state.offset);
+		this.props.documentActions.getAllDocuments(this.state.offset);
 	}
 
 	/**

@@ -16,7 +16,7 @@ import Sidebar from '../common/Sidebar.jsx';
  * @class Dashboard
  * @extends {React.Component}
  */
-class Dashboard extends Component {
+export class Dashboard extends Component {
   /**
    * Creates an instance of Dashboard.
    * @param {any} props property of component
@@ -72,6 +72,7 @@ class Dashboard extends Component {
 			})
 			.catch(() => {
 				toastr.error(this.props.message);
+				this.setState({ isLoading: false });
 			});
 	}
 
@@ -237,7 +238,9 @@ class Dashboard extends Component {
 														onClick={this.deleteDocument}
 														name={document.id}
 														className="waves-effect waves-light btn red darken-2 deleteDoc">
-														<i className="fa fa-trash" aria-hidden="true"></i>
+														<i name={document.id}
+															className="fa fa-trash"
+															aria-hidden="true"></i>
 													</button>
 												</td>
 											</tr>

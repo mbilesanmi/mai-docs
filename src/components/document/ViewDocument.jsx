@@ -13,7 +13,7 @@ import * as documentActions from '../../actions/documentActions.js';
  * @class ViewDocument
  * @extends {React.Component}
  */
-class ViewDocument extends Component {
+export class ViewDocument extends Component {
   /**
    * Creates an instance of ViewDocument.
    * @param {any} props property of component
@@ -28,6 +28,8 @@ class ViewDocument extends Component {
       search: '',
       isLoading: false
     };
+
+    this.deleteDocument = this.deleteDocument.bind(this);
   }
 
   /**
@@ -107,7 +109,7 @@ class ViewDocument extends Component {
           onClick={this.deleteDocument}
           name={document.id}
           className="waves-effect waves-light btn red darken-2 deleteDoc">
-          <i className="fa fa-trash" aria-hidden="true"></i>
+          <i name={document.id} className="fa fa-trash" aria-hidden="true"></i>
         </button>
       </div>;
     } else {
