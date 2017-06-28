@@ -3,9 +3,39 @@ import path from 'path';
 import webpack from 'webpack';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
+import swaggerJSDoc from 'swagger-jsdoc';
 import serverRoutes from './server/routes';
 
 const app = express();
+
+// swagger definition
+const swaggerDefinition = {
+  info: {
+    title: 'Mai Docs',
+    version: '1.0.0',
+    description: 'Your very own Document Management System'
+  },
+  host: 'http://localhost:8080',
+  basePath: '/'
+};
+
+// options for the swagger docs
+const options = {
+  // import swaggerDefinitions
+  swaggerDefinition,
+  // path to the API docs
+  apis: ['./server/routes/index.js']
+};
+
+// initialize swagger-jsdoc
+const swaggerSpec = swaggerJSDoc(options);
+
+// serve swagger
+app.get('/swagger.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+
 let PORT;
 if (process.env.NODE_ENV === 'test') {
   PORT = 4444;

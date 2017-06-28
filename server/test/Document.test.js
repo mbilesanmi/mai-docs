@@ -73,9 +73,10 @@ describe('Mai Docs Documents Endpoints ', () => {
         .set('x-access-token', adminToken.token)
         .end((error, response) => {
           expect(response.status).toEqual(404);
+          console.log('404-200', response);
           expect(response.body.message).toEqual('No documents found');
+          done();
         });
-      done();
     });
 
     it('should return errors if no token is set', (done) => {
@@ -84,8 +85,8 @@ describe('Mai Docs Documents Endpoints ', () => {
         .set('x-access-token', '')
         .end((error, response) => {
           expect(response.status).toEqual(400);
+          done();
         });
-      done();
     });
   });
 
@@ -111,8 +112,8 @@ describe('Mai Docs Documents Endpoints ', () => {
           expect(response.body.document.title).toEqual(privateDoc.title);
           expect(response.body.message).toEqual('Document saved successfully');
           privateDocId = response.body.document.id;
+          done();
         });
-      done();
     });
   });
 

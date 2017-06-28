@@ -10,6 +10,9 @@ body {
   flex-direction: column;
   min-height: 85vh; }
 
+.have-account {
+  font-size: 16px; }
+
 a.brand-logo {
   font-family: 'Monoton', cursive; }
 

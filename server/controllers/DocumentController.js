@@ -199,6 +199,8 @@ const DocumentController = {
     const limit = request.query.limit ? request.query.limit : 12;
     const offset = request.query.offset ? request.query.offset : 0;
     const search = request.query.search;
+    const roleId = request.decoded.roleId;
+    const ownerId = request.decoded.id;
 
     if (!search) {
       return response.status(400).send({
@@ -215,8 +217,16 @@ const DocumentController = {
             title: { $iLike: `%${search}%` },
             content: { $iLike: `%${search}%` }
           },
-          access: {
-            $ne: 0
+          $and: {
+            $or: {
+              ownerId,
+              access: {
+                $or: {
+                  $gte: roleId,
+                  $eq: 0
+                }
+              }
+            }
           }
         },
         include: {

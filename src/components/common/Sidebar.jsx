@@ -14,12 +14,6 @@ const Sidebar = ({ search, clearSearch, updateSearchState, userDetails }) =>
   Add New Document</Link>
 
   <div className="card-panel">
-    <h6 className="sidebar-title">My Profile</h6>
-    <div className="divider"></div>
-    <div>{ userDetails }</div>
-  </div>
-
-  <div className="card-panel">
     <h6 className="sidebar-title left">Search</h6>
     <a className="right" onClick={clearSearch}>x</a>
     <div className="clearfix"></div>
@@ -31,6 +25,12 @@ const Sidebar = ({ search, clearSearch, updateSearchState, userDetails }) =>
         onKeyUp={updateSearchState}
         placeholder="Search here" />
     </form>
+  </div>
+
+  <div className="card-panel">
+    <h6 className="sidebar-title">My Profile</h6>
+    <div className="divider"></div>
+    <div>{ userDetails }</div>
   </div>
 </div>;
 

@@ -218,19 +218,15 @@ class Signup extends Component {
                     </button>
                   </div>
                   <div className="clearfix"></div>
-                  <span>
-                    <p className="center">Have an account?</p>
+                  <div>
+                    <p className="center have-account">Have an account?</p>
                     <Link
                       to="/login"
                       className="btn grey lighten-3 black-text col s2 offset-s5">
                       Login
                     </Link>
-                  </span>
+                  </div>
                   <div className="clearfix"></div>
-                  <span className="col s4 offset-s4 center">
-                    By continuing, you're confirming that you've read our <br/>
-                    <a>Terms &amp; Conditions</a>and <a>Cookie Policy</a>
-                  </span>
                 </div>
               </div>
             </form>

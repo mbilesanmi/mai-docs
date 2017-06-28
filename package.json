@@ -6,11 +6,11 @@
   "scripts": {
     "test:frontend": "NODE_ENV=test mocha -w test/mocha-helper.js test/**/*.spec.js --slow 5000 --compilers js:babel-register",
     "start:webpack": "webpack",
-    "test:cover": "NODE_ENV=test npm run test:cover:src && npm run test:cover:server",
-    "test": "NODE_ENV=test nyc --reporter=html --reporter=text node_modules/.bin/_mocha --reporter spec ./src/test/**/*.test.js ./server/test/*.test.js --require babel-register",
+    "test:cover": "NODE_ENV=test npm run test:cover:server && npm run test:cover:src",
+    "test": "NODE_ENV=test nyc --reporter=html --reporter=text node_modules/.bin/_mocha --reporter spec ./server/test/*.test.js ./src/test/**/*.test.js --require babel-register --timeout 20000",
     "test:watch": "npm run test -- --watch",
     "coveralls": "npm test && cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
-    "e2e": "node_modules/.bin/nightwatch --config nightwatch.conf.js --require babel-register",
+    "test:e2e": "node_modules/.bin/nightwatch --config nightwatch.conf.js --require babel-register",
     "db:seed": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
     "db:test:seed": "NODE_ENV=development babel-node ./server/test/helper/seeder.js",
     "db:clear:seed": "NODE_ENV=test babel-node ./server/test/helper/clearDb.js",
@@ -25,6 +25,23 @@
   "author": "Maranatha A. Ilesanmi",
   "bugs": {
     "url": "https://github.com/andela-milesanmi/mai-docs/issues"
+  },
+  "nyc": {
+    "require": [
+      "babel-register"
+    ],
+    "exclude": [
+      "**/*.test.jsx",
+      "**/utils/",
+      "dist"
+    ],
+    "extension": [
+      ".jsx",
+      ".js",
+      ".es6"
+    ],
+    "sourceMap": false,
+    "instrument": false
   },
   "homepage": "https://github.com/andela-milesanmi/mai-docs#readme",
   "license": "MIT",
@@ -76,6 +93,7 @@
     "sequelize": "^3.30.4",
     "sequelize-cli": "^2.7.0",
     "style-loader": "^0.18.2",
+    "swagger-jsdoc": "^1.3.0",
     "sweetalert": "^1.1.3",
     "toastr": "^2.1.2",
     "url-loader": "^0.5.9",
