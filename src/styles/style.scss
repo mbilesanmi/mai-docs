@@ -49,12 +49,16 @@ a.docTitle:hover {
   color: #0000cd;
 }
 
+ul.pagination {
+  cursor: pointer;
+}
+
 ul.pagination li.previous a, ul.pagination li.next a {
   color: #ffffff;
 }
 
 ul.pagination li.active {
-  background-color: #2196F3;
+  background-color: #795548;
 }
 
 .input-field {

@@ -152,7 +152,7 @@ export class Dashboard extends Component {
 				<div>Role: {user.Role.title}</div>
 				<div className="divider"></div>
 				<Link to={`/user/${user.id}`}
-					className="waves-effect btn blue editProfile">
+					className="waves-effect btn brown editProfile">
 				Update Profile</Link>
 			</div>;
     }

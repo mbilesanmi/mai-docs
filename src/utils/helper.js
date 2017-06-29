@@ -62,12 +62,12 @@ export const checkAuth = () => {
       if (decoded.exp < Date.now() / 1000) {
         return {
           isAuth: false,
-          user: null,
+          user: null
         };
       }
       return {
         isAuth: true,
-        user: decoded,
+        user: decoded
       };
     }
     return {

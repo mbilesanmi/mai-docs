@@ -1,234 +1,397 @@
 import expect from 'expect';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import nock from 'nock';
 import moxios from 'moxios';
+import nock from 'nock';
 import * as documentActions from '../../actions/documentActions';
 import {
   SUCCESS_MESSAGE,
   ERROR_MESSAGE,
   USER_DOCS,
-  ALL_DOCS
+  ALL_DOCS,
+  DOCS_NOT_FOUND
 } from '../../actions/actionTypes.js';
 
+let expectedActions, store;
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
+const document = {
+    id: 2,
+    title: 'pigs is pigs',
+    content: 'pigs are great',
+    access: 'public'
+  };
+const documents = [{
+    title: 'test',
+    content: 'test',
+    access: 'public',
+    ownerId: 20,
+    User: { firstName: 'mai', lastName: 'iles' }
+  },
+  {
+    title: 'test',
+    content: 'test',
+    access: 'public',
+    ownerId: 20,
+    User: { firstName: 'dami', lastName: 'peju' }
+  }];
+const metaData = { pageCount: 3, currentPage: 10 };
+const search = {
+    query: '',
+    access: '',
+    limit: 1,
+    offset: 1
+  };
+
+
 
 describe('async actions', () => {
   beforeEach(() => moxios.install());
-  // afterEach(() => moxios.uninstall());
-  afterEach(() => {
-    nock.cleanAll();
+  afterEach(() => moxios.uninstall());
+
+  describe('Mai Docs Document actions getAllDocuments', () => {
+    it('returns DOCS_NOT_FOUND when documents are not retrieved', () => {
+      moxios.stubRequest('/api/documents', {
+        status:400,
+        response: { message: 'No documents found' }
+      });
+      expectedActions = [
+        {
+          type: ERROR_MESSAGE,
+          errorMessage: 'No documents found'
+        }
+      ];
+      store = mockStore({});
+      store.dispatch(documentActions.getAllDocuments())
+      .then(() => {
+        expect(store.getActions()).throws(expectedActions);
+      });
+    });
+    it('returns DOCS_NOT_FOUND when documents are not retrieved', () => {
+      moxios.stubRequest('/api/documents', {
+        status:400,
+        response: { message: 'No documents found' }
+      });
+      expectedActions = [
+        {
+          type: DOCS_NOT_FOUND,
+          payload: ''
+        }
+      ];
+      store = mockStore({});
+      store.dispatch(documentActions.getAllDocuments())
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
+    it('returns ALL_DOCS when all documents are retrieved', () => {
+      moxios.stubRequest('/api/documents/?offset=0', {
+        status: 200,
+        response: { documents, metaData }
+      });
+      expectedActions = [
+        {
+          type: ALL_DOCS,
+          payload: { documents, metaData }
+        }
+      ];
+      store = mockStore({});
+      return store.dispatch(documentActions.getAllDocuments(0))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
   });
 
-  describe('Mai Docs Document actions', () => {
-    it('should dispatch an action to get all documents', () => {
-      const payload = { documents: {} };
-      const expectedAction = {
-        type: 'ALL_DOCS',
-        payload
-      };
-
-      expect(
-        documentActions.getAllDocsSuccess(payload)
-      ).toEqual(expectedAction);
+  describe('Mai Docs Document actions getOneDocument', () => {
+    it('returns DOCS_NOT_FOUND when document is not found', () => {
+      moxios.stubRequest('/api/document/1234566', {
+        status:404,
+        response: { message: 'No documents found' }
+      });
+      expectedActions = [
+        {
+          type: ERROR_MESSAGE,
+          errorMessage: 'No documents found'
+        }
+      ];
+      store = mockStore({});
+      store.dispatch(documentActions.getOneDocument())
+      .then(() => {
+        expect(store.getActions()).throws(expectedActions);
+      });
     });
-    it('should dispatch an action to pass success messages', () => {
-      const successMessage = 'Documents found';
-      const expectedAction = {
-        type: 'SUCCESS_MESSAGE',
-        successMessage
-      };
-
-      expect(
-        documentActions.passSuccessMessage(successMessage)
-      ).toEqual(expectedAction);
+    it('returns DOCS_NOT_FOUND when no document are not retrieved', () => {
+      moxios.stubRequest('/api/document/sdjshdjsd', {
+        status:400,
+        response: { message: 'Invalid document ID' }
+      });
+      expectedActions = [
+        {
+          type: DOCS_NOT_FOUND,
+          payload: ''
+        }
+      ];
+      store = mockStore({});
+      store.dispatch(documentActions.getOneDocument())
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
     });
-    it('should dispatch an action to get all docs', () => {
-      const errorMessage = 'No documents found';
-      const expectedAction = {
-        type: 'ERROR_MESSAGE',
-        errorMessage
-      };
-
-      expect(
-        documentActions.passFailureMessage(errorMessage)
-      ).toEqual(expectedAction);
-    });
-    it('should dispatch an action to get user\'s documents', () => {
-      const payload = { documents: {} };
-      const expectedAction = {
-        type: 'USER_DOCS',
-        payload
-      };
-
-      expect(
-        documentActions.getUserDocsSuccess(payload)
-      ).toEqual(expectedAction);
+    it('returns ALL_DOCS when one document is retrieved', () => {
+      moxios.stubRequest('/api/document/1', {
+        status: 200,
+        response: { document: { document } }
+      });
+      expectedActions = [
+        {
+          type: ALL_DOCS,
+          payload: { document }
+        }
+      ];
+      store = mockStore({});
+      return store.dispatch(documentActions.getOneDocument(1))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
     });
   });
 
-  describe('Mai Docs Document actions', () => {
-    it('returns ALL_DOCS when fetching documents has been done', (done) => {
-      nock('http://localhost:8080/')
-        .get('/api/documents')
-        .reply(200, { body: { documents: ['do something'] } });
-
-
-      const expectedActions = [
-        { type: 'ALL_DOCS', documents: ['do something'] }
+  describe('Mai Docs Document actions createDocuments', () => {
+    it('returns ERROR_MESSAGE when document creation fails', () => {
+      moxios.stubRequest('/api/documents', {
+        status:400,
+        response: { message: 'Document creation failed' }
+      });
+      expectedActions = [
+        {
+          type: ERROR_MESSAGE,
+          errorMessage: 'Document creation failed'
+        }
       ];
-      const store = mockStore();
-
-      store.dispatch(documentActions.getAllDocuments()).then(() => {
-        // return of async actions
+      store = mockStore({});
+      store.dispatch(documentActions.createDocument(document))
+      .then(() => {
+        expect(store.getActions()).throws(expectedActions);
+      });
+    });
+    it('returns SUCCESS_MESSAGE when document is created', () => {
+      moxios.stubRequest('/api/documents', {
+        status: 201,
+        response: { message: 'document created successfully', document }
+      });
+      expectedActions = [
+        {
+          type: SUCCESS_MESSAGE,
+          successMessage: 'document created successfully'
+        }
+      ];
+      store = mockStore({});
+      return store.dispatch(documentActions.createDocument(document))
+      .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       });
-      done();
     });
-    it('returns ALL_DOCS when fetching one document', (done) => {
-      nock('http://localhost:8080/')
-        .get('/api/document/1')
-        .reply(200, { body: { document: ['do something'] } });
+  });
 
-
-      const expectedActions = [
-        { type: 'ALL_DOCS', document: ['do something'] }
+  describe('Mai Docs Document actions updateDocuments', () => {
+    it('returns ERROR_MESSAGE when document update fails', () => {
+      moxios.stubRequest('/api/document/1211321', {
+        status: 400,
+        response: { message: 'Document update failed' }
+      });
+      expectedActions = [
+        {
+          type: ERROR_MESSAGE,
+          errorMessage: 'Document update failed'
+        }
       ];
-      const store = mockStore();
+      store = mockStore({});
+      store.dispatch(documentActions.updateDocument(document))
+      .then(() => {
+        expect(store.getActions()).throws(expectedActions);
+      });
+    });
 
-      store.dispatch(documentActions.getOneDocument(1)).then(() => {
-        // return of async actions
+    it('returns SUCCESS_MESSAGE when document is updated', () => {
+      moxios.stubRequest('/api/document/1', {
+        status: 200,
+        response: { message: 'document updated successfully' }
+      });
+      expectedActions = [
+        {
+          type: SUCCESS_MESSAGE,
+          successMessage: 'document updated successfully'
+        }
+      ];
+      store = mockStore({});
+      return store.dispatch(documentActions.updateDocument(1, document))
+      .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       });
-      done();
     });
-    it('returns SUCCESS_MESSAGE when creating a new document', (done) => {
-      const doc = ['do something'];
-      nock('http://localhost:8080/')
-        .post('/api/documents', doc)
-        .reply(200, { body: { message: 'success' } });
+  });
 
-
-      const expectedActions = [
-        { type: 'SUCCESS_MESSAGE', message: 'success' }
+  describe('Mai Docs Document actions getUserDocuments', () => {
+    it('returns DOCS_NOT_FOUND when documents are not retrieved', () => {
+      moxios.stubRequest('/api/users/23/documents/?offset=12', {
+        status:404,
+        response: { message: 'No documents found' }
+      });
+      expectedActions = [
+        {
+          type: ERROR_MESSAGE,
+          errorMessage: 'No documents found'
+        }
       ];
-      const store = mockStore();
-
-      store.dispatch(documentActions.createDocument(doc)).then(() => {
-        // return of async actions
+      store = mockStore({});
+      store.dispatch(documentActions.getUserDocuments(23, 12))
+      .then(() => {
+        expect(store.getActions()).throws(expectedActions);
+      });
+    });
+    it('returns DOCS_NOT_FOUND when documents are not retrieved', () => {
+      moxios.stubRequest('/api/users/23/documents/?offset=12', {
+        status:404,
+        response: { message: 'No documents found' }
+      });
+      expectedActions = [
+        {
+          type: DOCS_NOT_FOUND,
+          payload: ''
+        }
+      ];
+      store = mockStore({});
+      store.dispatch(documentActions.getUserDocuments(23, 12))
+      .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       });
-      done();
     });
-    it('returns SUCCESS_MESSAGE when updating a new document', (done) => {
-      const doc = ['do something'];
-      nock('http://localhost:8080/')
-        .put('/api/document/1', doc)
-        .reply(200, { body: { message: 'success' } });
-
-
-      const expectedActions = [
-        { type: 'SUCCESS_MESSAGE', message: 'success' }
+    it('returns USER_DOCS when all documents are retrieved', () => {
+      moxios.stubRequest('/api/users/23/documents/?offset=0', {
+        status: 200,
+        response: { documents, metaData }
+      });
+      expectedActions = [
+        {
+          type: USER_DOCS,
+          payload: { documents, metaData }
+        }
       ];
-      const store = mockStore();
-
-      store.dispatch(documentActions.createDocument(1, doc)).then(() => {
-        // return of async actions
+      store = mockStore({});
+      return store.dispatch(documentActions.getUserDocuments(23, 0))
+      .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       });
-      done();
     });
+  });
 
-    it('should create USER_DOCS and SUCCESS_MESSAGE when searching a user\'s documents', (done) => {
-      nock('http://localhost:8080')
-        .get('/api/search/userdocuments/?search=search')
-        .reply(200, { message: 'Found 20 docs', data: { documents: [{ title: 'Cory' }, { title: 'House' }] } });
-
-      const expectedActions = [
-        { type: SUCCESS_MESSAGE, message: 'Found 20 docs' },
-        { type: USER_DOCS, data: { documents: [{ title: 'Cory' }, { title: 'House' }] } }
-      ];
-
-      const store = mockStore({ documents: [] }, expectedActions, done);
-      store.dispatch(documentActions.searchUserDocuments()).then(() => {
-        const actions = store.getActions();
-        expect(actions[0].type).toEqual(SUCCESS_MESSAGE);
-        expect(actions[1].type).toEqual(USER_DOCS);
+  describe('Mai Docs Document actions searchUserDocuments', () => {
+    it('returns ERROR_MESSAGE when documents are not retrieved', () => {
+      moxios.stubRequest('/api/search/userdocuments/?search=ade&offset=0', {
+        status:404,
+        response: { message: 'No documents found' }
       });
-      done();
-    });
-
-    it('should return ALL_DOCS and SUCCESS_MESSAGE when searching all documents', (done) => {
-      nock('http://localhost:8080')
-        .get('/api/search/documents/?search=search')
-        .reply(200, { message: 'Found 20 docs', data: { documents: [{ title: 'Cory' }, { title: 'House' }] } });
-
-      const expectedActions = [
-        { type: SUCCESS_MESSAGE, message: 'Found 20 docs' },
-        { type: ALL_DOCS, data: { documents: [{ title: 'Cory' }, { title: 'House' }] } }
+      expectedActions = [
+        {
+          type: ERROR_MESSAGE,
+          errorMessage: 'No documents found'
+        }
       ];
-
-      const store = mockStore({ documents: [] }, expectedActions, done);
-      store.dispatch(documentActions.searchAllDocuments()).then(() => {
-        const actions = store.getActions();
-        expect(actions[0].type).toEqual(SUCCESS_MESSAGE);
-        expect(actions[1].type).toEqual(ALL_DOCS);
+      store = mockStore({});
+      store.dispatch(documentActions.searchUserDocuments('ade', 0))
+      .then(() => {
+        expect(store.getActions()).throws(expectedActions);
       });
-      done();
     });
-    it('should return USER_DOCS and SUCCESS_MESSAGE when deleting a document', (done) => {
-      nock('http://localhost:8080')
-        .delete('/api/document/1')
-        .reply(200, { message: 'Deleted', data: { documents: [{ title: 'Cory' }, { title: 'House' }] } });
-
-      const expectedActions = [
-        { type: SUCCESS_MESSAGE, message: 'Deleted' },
-        { type: USER_DOCS, data: { documents: [{ title: 'Cory' }, { title: 'House' }] } }
-      ];
-
-      const store = mockStore({ documents: [] }, expectedActions, done);
-      store.dispatch(documentActions.deleteDocument()).then(() => {
-        const actions = store.getActions();
-        expect(actions[0].type).toEqual(SUCCESS_MESSAGE);
-        expect(actions[1].type).toEqual(USER_DOCS);
+    it('returns SUCCESS_MESSAGE when documents are retrieved', () => {
+      moxios.stubRequest('/api/search/userdocuments/?search=ade&offset=0', {
+        status:200,
+        response: { message: 'Found 2 documents' }
       });
-      done();
-    });
-    it('should return ERROR_MESSAGE when deleting a document', (done) => {
-      nock('http://localhost:8080')
-        .delete('/api/documents/')
-        .replyWithError({ code: 'ETIMEDOUT' });
-
-      const expectedActions = [
-        { type: ERROR_MESSAGE, message: 'Not deleted' }
+      expectedActions = [
+        {
+          type: SUCCESS_MESSAGE,
+          payload: 'Found 2 documents'
+        }
       ];
-
-      const store = mockStore({ documents: [] }, expectedActions, done);
-      store.dispatch(documentActions.deleteDocument()).then(() => {
-        const actions = store.getActions();
-        expect(actions[0].type).toEqual(ERROR_MESSAGE);
-      });
-      done();
-    });
-
-    it('returns USER_DOCS when fetching a user\'s documents', (done) => {
-      const doc = ['do something'];
-      nock('http://localhost/')
-        .put('/api/users/1/documents/')
-        .reply(200, { body: { doc } });
-
-
-      const expectedActions = [
-        { type: 'USER_DOCS', doc }
-      ];
-      const store = mockStore();
-
-      store.dispatch(documentActions.createDocument(1)).then(() => {
-        // return of async actions
+      store = mockStore({});
+      store.dispatch(documentActions.searchUserDocuments('ade', 0))
+      .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       });
-      done();
+    });
+  });
+
+  describe('Mai Docs Document actions searchAllDocuments', () => {
+    it('returns ERROR_MESSAGE when documents are not retrieved', () => {
+      moxios.stubRequest('/api/search/documents/?search=ade&offset=0', {
+        status:404,
+        response: { message: 'No documents found' }
+      });
+      expectedActions = [
+        {
+          type: ERROR_MESSAGE,
+          errorMessage: 'No documents found'
+        }
+      ];
+      store = mockStore({});
+      store.dispatch(documentActions.searchAllDocuments('ade', 0))
+      .then(() => {
+        expect(store.getActions()).throws(expectedActions);
+      });
+    });
+    it('returns SUCCESS_MESSAGE when documents are retrieved', () => {
+      moxios.stubRequest('/api/search/documents/?search=ade&offset=0', {
+        status:200,
+        response: { message: 'Found 2 documents' }
+      });
+      expectedActions = [
+        {
+          type: SUCCESS_MESSAGE,
+          payload: 'Found 2 documents'
+        }
+      ];
+      store = mockStore({});
+      store.dispatch(documentActions.searchAllDocuments('ade', 0))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
+  });
+
+  describe('Mai Docs Document actions deleteDocument', () => {
+    it('returns ERROR_MESSAGE when document is not deleted', () => {
+      moxios.stubRequest('/api/document/0', {
+        status:404,
+        response: { message: 'Document not found' }
+      });
+      expectedActions = [
+        {
+          type: ERROR_MESSAGE,
+          errorMessage: 'Document not found'
+        }
+      ];
+      store = mockStore({});
+      store.dispatch(documentActions.deleteDocument(0))
+      .then(() => {
+        expect(store.getActions()).throws(expectedActions);
+      });
+    });
+    it('returns SUCCESS_MESSAGE when document is deleted', () => {
+      moxios.stubRequest('/api/document/1', {
+        status:200,
+        response: { message: 'Document deleted' }
+      });
+      expectedActions = [
+        { type: USER_DOCS, documents },
+        { type: SUCCESS_MESSAGE, successMessage: 'Document deleted' }
+      ];
+      store = mockStore({});
+      store.dispatch(documentActions.deleteDocument(1, 1))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
     });
   });
 });

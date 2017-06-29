@@ -142,7 +142,7 @@ class AllDocuments extends Component {
 				<div>Role: {user.Role.title}</div>
 				<div className="divider"></div>
 				<Link to={`/user/${user.id}`}
-					className="waves-effect btn blue">
+					className="waves-effect btn brown">
 				Update Profile</Link>
 			</div>;
     }

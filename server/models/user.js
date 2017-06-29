@@ -83,17 +83,19 @@ export default (sequelize, DataTypes) => {
       validPassword(password) {
         return bcrypt.compareSync(password, this.password);
       },
+      hashPassword() {
+        this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(8));
+      }
     },
     hooks: {
       beforeCreate(user) {
-        const salt = bcrypt.genSaltSync();
-        user.password = bcrypt.hashSync(user.password, salt);
+        user.hashPassword();
       },
-      afterUpdate(user) {
-        if (user.password) {
-          const salt = bcrypt.genSaltSync();
-          user.password = bcrypt.hashSync(user.password, salt);
-          user.updatedAt = Date.now();
+
+      beforeUpdate(user) {
+        /* eslint-disable no-underscore-dangle*/
+        if (user._changed.password) {
+          user.hashPassword();
         }
       }
     }

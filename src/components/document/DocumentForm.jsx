@@ -96,7 +96,7 @@ const DocumentForm = ({ document, roleId, onSave, onChange, onModelChange, savin
               disabled={saving}
               value={saving ? 'Saving...' : 'Save'}
               className="btn btn-primary" />
-
+            &nbsp;
             <Link to="/dashboard" className="btn grey lighten-1">
               Cancel
             </Link>

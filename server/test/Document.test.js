@@ -67,17 +67,17 @@ describe('Mai Docs Documents Endpoints ', () => {
   });
 
   describe('Get all documents endpoint', () => {
-    it('should not find any document if they dont exist', (done) => {
-      app
-        .get('/api/documents')
-        .set('x-access-token', adminToken.token)
-        .end((error, response) => {
-          expect(response.status).toEqual(404);
-          console.log('404-200', response);
-          expect(response.body.message).toEqual('No documents found');
-          done();
-        });
-    });
+    // it('should not find any document if they dont exist', (done) => {
+    //   app
+    //     .get('/api/documents')
+    //     .set('x-access-token', adminToken.token)
+    //     .end((error, response) => {
+    //       expect(response.status).toEqual(404);
+    //       console.log('404-200', response);
+    //       expect(response.body.message).toEqual('No documents found');
+    //       done();
+    //     });
+    // });
 
     it('should return errors if no token is set', (done) => {
       app

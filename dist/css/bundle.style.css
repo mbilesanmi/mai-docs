@@ -37,6 +37,9 @@ table.striped > tbody > tr:nth-child(even) {
 a.docTitle:hover {
   color: #0000cd; }
 
+ul.pagination {
+  cursor: pointer; }
+
 ul.pagination li.previous a, ul.pagination li.next a {
   color: #ffffff; }
 

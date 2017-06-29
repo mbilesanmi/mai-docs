@@ -183,12 +183,10 @@ const DocumentController = {
       return document.update(request.body, {
         where: { id: documentId }
       })
-      .then((editedDocument) => {
-        return response.status(200).send({
+      .then((editedDocument) => response.status(200).send({
           editedDocument,
           message: 'Document successfully updated'
-        });
-      });
+        }));
     })
     .catch(error => response.status(400).send({
       // If the role is set but the required field isn't unique

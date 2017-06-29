@@ -1,125 +1,265 @@
 import expect from 'expect';
-import thunk from 'redux-thunk';
-import nock from 'nock';
 import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import moxios from 'moxios';
 import * as userActions from '../../actions/userActions';
-import * as types from '../../actions/actionTypes';
+import { checkAuth } from '../../utils/helper';
+import {
+  SUCCESS_MESSAGE,
+  ERROR_MESSAGE,
+  LOGGEDIN_USER,
+  USERS_DATA,
+  USER_DATA,
+  SIGNOUT_USER
+} from '../../actions/actionTypes.js';
 
-const middleware = [thunk];
-const mockStore = configureMockStore(middleware);
+let expectedActions, store;
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+const user = {
+    firstname: 'dami',
+    lastname: 'dami',
+    username: 'dami',
+    password: 'dami'
+  };
+const users = [{
+    firstname: 'mai',
+    lastname: 'mai',
+    username: 'mai',
+    password: 'mai'
+  },
+  {
+    firstname: 'peju',
+    lastname: 'peju',
+    username: 'peju',
+    password: 'peju'
+  }];
+const metaData = { pageCount: 3, currentPage: 1 };
+const token = 1234;
 
+describe('async actions', () => {
+  beforeEach(() => moxios.install());
+  afterEach(() => moxios.uninstall());
 
-describe('User Actions', () => {
-  beforeEach(() => {
-    moxios.install();
-  });
+  describe('Mai Docs Users actions getAllUsers', () => {
+    it('returns ERROR_MESSAGE when users are not found', () => {
+      moxios.stubRequest('/api/users/?offset=0', {
+        status:400,
+        response: { message: 'No users found' }
+      });
+      expectedActions = [
+        {
+          type: ERROR_MESSAGE,
+          errorMessage: 'No users found'
+        }
+      ];
+      store = mockStore({});
+      return store.dispatch(userActions.getAllUsers(0))
+      .catch(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
 
-  afterEach(() => {
-    moxios.uninstall();
-  });
-
-  describe('setCurrentUser', () => {
-    it('should create a LOGGEDIN_USER action', (done) => {
-      const user = {
-        name: 'test',
-        username: 'test',
-        email: 'test@test.com',
-        password: 'password',
-        roleId: 2
-      };
-      const expectedAction = {
-        type: types.LOGGEDIN_USER,
-        payload: user
-      };
-      const action = userActions.setCurrentUser(user);
-      expect(action).toEqual(expectedAction);
-      done();
+    it('returns USERS_DATA when all users are retrieved', () => {
+      moxios.stubRequest('/api/users/?offset=0', {
+        status: 200,
+        response: { users, metaData }
+      });
+      expectedActions = [
+        {
+          type: USERS_DATA,
+          payload: { users, metaData }
+        }
+      ];
+      store = mockStore({});
+      return store.dispatch(userActions.getAllUsers(0))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
     });
   });
 
-  describe('login', () => {
-    // it('should return an error message action when user details are incorrect', (done) => {
-    //   const expected = [
-    //     { type: 'ERROR_MESSAGE', payload: 'Invalid login details' }
-    //   ];
+  describe('Mai Docs Users actions getOneUser', () => {
+    it('returns ERROR_MESSAGE when a user is not fetched', () => {
+      moxios.stubRequest('/api/user/123', {
+        status:404,
+        response: { message: 'No user found' }
+      });
+      expectedActions = [
+        {
+          type: ERROR_MESSAGE,
+          errorMessage: 'No user found'
+        }
+      ];
+      store = mockStore({});
+      return store.dispatch(userActions.getOneUser(123))
+      .catch(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
 
-    //   const store = mockStore({ users: null });
-
-    //   store.dispatch(userActions.login({
-    //     email: 'wrongemail@gmail.com',
-    //     password: ''
-    //   })).then(() => {
-    //     expect(store.getActions()).toEqual(expected);
-    //   });
-    //   done();
-
-    //   moxios.wait(() => {
-    //     const request = moxios.requests.mostRecent();
-    //     request.respondWith({
-    //       status: 401,
-    //       response: { message: 'Invalid login details' }
-    //     });
-    //   });
-    // });
-
-    // it('logs user in when validated', (done) => {
-    //   const expected = [
-    //     { type: 'LOGGEDIN_USER', payload: { token: '123456789' } }
-    //   ];
-
-    //   const store = mockStore({ isAuth: { loggedInUser: null, isAuthenticated: false } });
-
-    //   store.dispatch(userActions.login({
-    //     email: 'wrongemail@gmail.com',
-    //     password: 'password'
-    //   })).then(() => {
-    //     expect(store.getActions()).toEqual(expected);
-    //   });
-    //   done();
-
-    //   moxios.wait(() => {
-    //     const request = moxios.requests.mostRecent();
-    //     request.respondWith({
-    //       status: 200,
-    //       response: { token: '123456789' }
-    //     });
-    //   });
-    // });
-  });
-
-  describe('getOneUser', () => {
-    it('creates USER_DATA on request for a user\'s information', () => {
+    it('returns USER_DATA when a user info is fetched', () => {
       moxios.stubRequest('/api/user/1', {
         status: 200,
-        response: {
-          user: {}
-        }
+        response: { user }
       });
-
-      // const documents = {};
-      const expectedAction = [{
-        type: 'USER_DATA',
-        payload: { user: {} }
-      }];
-      const store = mockStore();
-
+      expectedActions = [
+        {
+          type: USER_DATA,
+          payload: { user }
+        }
+      ];
+      store = mockStore({});
       return store.dispatch(userActions.getOneUser(1))
-        .then(() => {
-          expect(store.getActions()).toEqual(expectedAction);
-        });
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
     });
   });
 
-  // describe('updateProfile', () => {
-  //   it('should create a SET_LOGGEDIN_USER action', () => {
-  //     const user = { username: 'mai', email: 'mai@iles.com' };
-  //     const expectedAction = {
-  //       type: types.SET_LOGGEDIN_USER,
-  //       user
-  //     };
-  //     const action = userActions.setCurrentUser(user);
-  //     expect(action).toEqual(expectedAction);
-  //   });
-  // });
+  describe('Mai Docs Users actions signup', () => {
+    it('returns ERROR_MESSAGE when user signup fails', () => {
+      moxios.stubRequest('/api/users', {
+        status:400,
+        response: { message: 'User signup failed' }
+      });
+      expectedActions = [
+        {
+          type: ERROR_MESSAGE,
+          errorMessage: 'User signup failed'
+        }
+      ];
+      store = mockStore({});
+      return store.dispatch(userActions.signup())
+      .catch(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
+    it('returns SUCCESS_MESSAGE & LOGGEDIN_USER when user profile is created', () => {
+      moxios.stubRequest('/api/users', {
+        status: 201,
+        response: { message: 'user created successfully', user }
+      });
+      expectedActions = [
+        { type: LOGGEDIN_USER, user },
+        { type: SUCCESS_MESSAGE, successMessage: 'user created successfully' }
+      ];
+      store = mockStore({});
+      store.dispatch(userActions.signup(user))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
+  });
+
+  describe('Mai Docs Users actions login', () => {
+    it('returns ERROR_MESSAGE when user login fails', () => {
+      moxios.stubRequest('/api/users/login', {
+        status:400,
+        response: { message: 'User login failed' }
+      });
+      expectedActions = [
+        {
+          type: ERROR_MESSAGE,
+          errorMessage: 'User login failed'
+        }
+      ];
+      store = mockStore({});
+      return store.dispatch(userActions.login())
+      .catch(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
+
+    it('returns SUCCESS_MESSAGE & LOGGEDIN_USER when user profile is created', () => {
+      moxios.stubRequest('/api/users/login', {
+        status: 200,
+        response: { message: 'user login successful', user, token }
+      });
+      expectedActions = [
+        { type: LOGGEDIN_USER, user },
+        { type: SUCCESS_MESSAGE, successMessage: 'user login successful' }
+      ];
+      store = mockStore({});
+      store.dispatch(userActions.login(user))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
+  });
+
+  describe('Mai Docs Users actions updateProfile', () => {
+    it('returns ERROR_MESSAGE when user update fails', () => {
+      moxios.stubRequest('/api/user/1211321', {
+        status: 400,
+        response: { message: 'Profile update failed' }
+      });
+      expectedActions = [
+        {
+          type: ERROR_MESSAGE,
+          errorMessage: 'Profile update failed'
+        }
+      ];
+      store = mockStore({});
+      return store.dispatch(userActions.updateProfile(user, 1211321))
+      .catch(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
+
+    it('returns SUCCESS_MESSAGE when profile is updated', () => {
+      moxios.stubRequest('/api/user/1', {
+        status: 200,
+        response: { message: 'Profile updated successfully' }
+      });
+      expectedActions = [
+        {
+          type: SUCCESS_MESSAGE,
+          successMessage: 'Profile updated successfully'
+        }
+      ];
+      store = mockStore({});
+      return store.dispatch(userActions.updateProfile(user, 1))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
+  });
+
+  describe('Mai Docs Users actions searchAllUsers', () => {
+    it('returns ERROR_MESSAGE when no users are not retrieved', () => {
+      moxios.stubRequest('/api/search/users/?search=ade&offset=0', {
+        status:404,
+        response: { message: 'No users found' }
+      });
+      expectedActions = [
+        {
+          type: ERROR_MESSAGE,
+          errorMessage: 'No users found'
+        }
+      ];
+      store = mockStore({});
+      return store.dispatch(userActions.searchAllUsers('ade', 0))
+      .catch(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
+    it('returns SUCCESS_MESSAGE when users are retrieved', () => {
+      moxios.stubRequest('/api/search/users/?search=ade&offset=0', {
+        status:200,
+        response: { message: 'Found 2 users' }
+      });
+      expectedActions = [
+        {
+          type: SUCCESS_MESSAGE,
+          payload: 'Found 2 users'
+        }
+      ];
+      store = mockStore({});
+      store.dispatch(userActions.searchAllUsers('ade', 0))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
+  });
 });

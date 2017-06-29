@@ -42,7 +42,6 @@
     "document": true,
     "window": true
   },
-  "parser": "babel-eslint",
   "rules": {
     "react/jsx-filename-extension": [0, { "extensions": [".js", ".jsx"] }],
     "import/no-dynamic-require" : [0],
@@ -103,7 +102,7 @@
     "no-alert"            : [0],
     "no-caller"           : [2],
     "no-div-regex"        : [2],
-    "no-else-return"      : [2],
+    "no-else-return"      : [0],
     "no-eq-null"          : [2],
     "no-eval"             : [2],
     "no-extend-native"    : [2],

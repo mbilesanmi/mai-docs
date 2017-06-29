@@ -9,24 +9,34 @@ describe('Authenticated Users Reducer', () => {
     expect(initialState.users).toEqual(null);
   });
 
-  // it('should fetch all users when passed USER_DATA', () => {
-  //   const user = [
-  //     { username: 'A' }
-  //   ];
+  it('should fetch loggedin user when passed USER_DATA', () => {
+    const user = [
+      { username: 'A' }
+    ];
 
-  //   const action = userActions.getUserSuccess(user);
+    const action = userActions.setCurrentUser({ isAuth: true, user });
 
-  //   const newState = authReducer(initialState.users, action);
+    const newState = authReducer(initialState.authenticated, action);
 
-  //   expect(newState.authenticated.isAuth).toEqual(true);
-  // });
+    expect(newState.isAuth).toEqual(true);
+  });
 
-  // it('should return initialState when nothing is passed', () => {
-  //   const message = 'found';
-  //   const action = userActions.passSuccessMessage(message);
+  it('should fetch loggedin user when passed USER_DATA', () => {
+    // const user = {};
 
-  //   const newState = authReducer(checkAuth(), action);
+    const action = userActions.setCurrentUser({ isAuth: false });
 
-  //   expect(newState).toEqual(initialState.users);
-  // });
+    const newState = authReducer(initialState.authenticated, action);
+
+    expect(newState.isAuth).toEqual(false);
+  });
+
+  it('should return initialState when nothing is passed', () => {
+    const message = 'found';
+    const action = userActions.passSuccessMessage(message);
+
+    const newState = authReducer(initialState, action);
+
+    expect(newState).toEqual(initialState);
+  });
 });
