@@ -15,7 +15,7 @@
     "cover": "NODE_ENV=test npm run db:seed && NODE_ENV=test istanbul cover _mocha -- ./server/test/controllers/*.spec.js server/test/models/*.spec.js server/test/middleware/*.spec.js --compilers js:babel-core/register && npm run test:client",
     "coveralls": "npm test && cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "test:e2e": "node_modules/.bin/nightwatch --config nightwatch.conf.js --require babel-register",
-    "postinstall": "sequelize db:migrate:undo:all && sequelize db:migrate",
+    "postinstall": "NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate",
     "db:seed": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
     "db:test:seed": "NODE_ENV=development babel-node ./server/test/helper/seeder.js",
     "db:clear:seed": "NODE_ENV=test babel-node ./server/test/helper/clearDb.js",

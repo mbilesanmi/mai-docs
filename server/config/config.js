@@ -15,7 +15,7 @@ module.exports = {
   },
   test: {
     username: 'mai',
-    password: 'mai',
+    password: '',
     database: 'maidocstest',
     host: '127.0.0.1',
     port: 5432,
