@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/andela-milesanmi/mai-docs/badge.svg?branch=client-side-testing-145555901)](https://coveralls.io/github/andela-milesanmi/mai-docs?branch=client-side-testing-145555901)
+[![Coverage Status](https://coveralls.io/repos/github/andela-milesanmi/mai-docs/badge.svg?branch=implement-defence-feedback)](https://coveralls.io/github/andela-milesanmi/mai-docs?branch=implement-defence-feedback)
 [![Code Climate](https://codeclimate.com/github/andela-milesanmi/mai-docs/badges/gpa.svg)](https://codeclimate.com/github/andela-milesanmi/mai-docs/)
 [![Build Status](https://travis-ci.org/andela-milesanmi/mai-docs.svg?branch=refactor-testing)](https://travis-ci.org/andela-milesanmi/mai-docs)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()

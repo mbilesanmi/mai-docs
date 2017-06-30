@@ -132,18 +132,18 @@ const Routes = (app) => {
    *     tags:
    *       - Users
    *     description: Sign a user into the app
+   *     consumes:
+   *       - application/x-www-form-urlencoded
    *     produces:
    *       - application/json
-   *     consumes:
-   *       - application/x-www-form-data-urlencoded
    *     parameters:
    *       - name: loginId
    *         description: User object
-   *         in: body
+   *         in: formData
    *         required: true
    *       - name: password
    *         description: User's password
-   *         in: body
+   *         in: formData
    *         required: true
    *     responses:
    *       200:
@@ -154,8 +154,6 @@ const Routes = (app) => {
    *         description: Invalid login details
    *       401:
    *         description: Validation Errors
-   *     security:
-   *       - x-auth: []
    */
   app.post('/api/users/login', UserController.login);
 

@@ -17,7 +17,7 @@ const swaggerDefinition = {
     version: '1.0.0',
     description: 'Your very own Document Management System'
   },
-  host: 'http://localhost:8080',
+  host: 'localhost:8080',
   basePath: '/'
 };
 

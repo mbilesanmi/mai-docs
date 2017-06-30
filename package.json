@@ -6,8 +6,8 @@
   "scripts": {
     "start:webpack": "webpack",
     "test": "npm run test:front && npm run test:server",
-    "test:front": "NODE_ENV=test nyc --reporter=text ./node_modules/.bin/_mocha --reporter spec ./tools/testSetup.js ./src/test/**/*.test.js --timeout 20000",
-    "test:server": "NODE_ENV=test nyc --reporter=text npm run mocha",
+    "test:front": "NODE_ENV=test nyc --reporter=text --reporter=lcov ./node_modules/.bin/_mocha --reporter spec ./tools/testSetup.js ./src/test/**/*.test.js --timeout 20000",
+    "test:server": "NODE_ENV=test nyc --reporter=text --reporter=lcov npm run mocha",
     "mocha": "NODE_ENV=test mocha ./server/test/ --require babel-register --timeout 20000",
     "test:server2": "NODE_ENV=test ./node_modules/.bin/istanbul cover ./node_modules/.bin/mocha -- ./server/test/ --require babel-register",
     "test:watch": "npm run test -- --watch",
