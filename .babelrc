@@ -4,8 +4,15 @@
     "es2015",
     "stage-2"
   ],
-  "plugins": [
-    "transform-object-rest-spread",
-    "transform-decorators-legacy"
-  ]
+  "env": {
+    "test": {
+      "plugins": ["istanbul"]
+    },
+    "production": {
+      "plugins": [
+        "transform-object-rest-spread",
+        "transform-decorators-legacy"
+      ]
+    }
+  }
 }

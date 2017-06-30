@@ -36,6 +36,8 @@ const Sidebar = ({ search, clearSearch, updateSearchState, userDetails }) =>
 
 Sidebar.PropTypes = {
   search: PropTypes.func,
+  userDetails: PropTypes.object,
+  clearFrom: PropTypes.func,
   updateSearchState: PropTypes.func
 };
 

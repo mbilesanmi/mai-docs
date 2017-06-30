@@ -4,20 +4,34 @@
   "description": "simple doc-man",
   "main": "index.js",
   "scripts": {
-    "test:frontend": "NODE_ENV=test mocha -w test/mocha-helper.js test/**/*.spec.js --slow 5000 --compilers js:babel-register",
     "start:webpack": "webpack",
-    "test:cover": "NODE_ENV=test npm run test:cover:server && npm run test:cover:src",
-    "test": "NODE_ENV=test nyc --reporter=html --reporter=text node_modules/.bin/_mocha --reporter spec ./tools/testSetup.js ./server/test/*.test.js ./src/test/**/*.test.js --require babel-register --timeout 20000",
-    "test:front": "NODE_ENV=test nyc --reporter=html --reporter=text ./node_modules/.bin/_mocha --reporter spec ./tools/testSetup.js ./src/test/**/*.test.js --require babel-register --timeout 20000",
-    "test:client": "NODE_ENV=test nyc --reporter=text  --reporter=html --extension .jsx ./node_modules/mocha/bin/_mocha client/tests/testSetup.js client/tests/components/**/*spec.js client/tests/**/*spec.js",
+    "test": "npm run test:front && npm run test:server",
+    "test:front": "NODE_ENV=test nyc --reporter=text ./node_modules/.bin/_mocha --reporter spec ./tools/testSetup.js ./src/test/**/*.test.js --timeout 20000",
+    "test:server": "NODE_ENV=test nyc --reporter=text npm run mocha",
+    "mocha": "NODE_ENV=test mocha ./server/test/ --require babel-register --timeout 20000",
+    "test:server2": "NODE_ENV=test ./node_modules/.bin/istanbul cover ./node_modules/.bin/mocha -- ./server/test/ --require babel-register",
     "test:watch": "npm run test -- --watch",
+    "report": "nyc report",
+    "cover": "NODE_ENV=test npm run db:seed && NODE_ENV=test istanbul cover _mocha -- ./server/test/controllers/*.spec.js server/test/models/*.spec.js server/test/middleware/*.spec.js --compilers js:babel-core/register && npm run test:client",
     "coveralls": "npm test && cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "test:e2e": "node_modules/.bin/nightwatch --config nightwatch.conf.js --require babel-register",
+    "postinstall": "sequelize db:migrate:undo:all && sequelize db:migrate",
     "db:seed": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
     "db:test:seed": "NODE_ENV=development babel-node ./server/test/helper/seeder.js",
     "db:clear:seed": "NODE_ENV=test babel-node ./server/test/helper/clearDb.js",
     "start": "npm run build && nodemon ./index.js --exec babel-node",
     "build": "babel-node tools/build.js"
+  },
+  "nyc": {
+    "require": [
+      "babel-register"
+    ],
+    "sourceMap": false,
+    "instrument": false,
+    "exclude": [
+      "**/*.test.js",
+      "build"
+    ]
   },
   "repository": {
     "type": "git",
@@ -27,22 +41,6 @@
   "author": "Maranatha A. Ilesanmi",
   "bugs": {
     "url": "https://github.com/andela-milesanmi/mai-docs/issues"
-  },
-  "nyc": {
-    "require": [
-      "babel-register"
-    ],
-    "exclude": [
-      "**/*.test.jsx",
-      "dist"
-    ],
-    "extension": [
-      ".jsx",
-      ".js",
-      ".es6"
-    ],
-    "sourceMap": false,
-    "instrument": false
   },
   "homepage": "https://github.com/andela-milesanmi/mai-docs#readme",
   "license": "MIT",
@@ -58,7 +56,6 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
-    "babel-register": "^6.24.1",
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.1",
     "cheerio": "^1.0.0-rc.1",
@@ -104,13 +101,16 @@
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.0",
+    "babel-plugin-istanbul": "^4.1.4",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.8.0",
     "chai": "^3.5.0",
+    "chai-enzyme": "^0.7.1",
     "css-loader": "^0.28.4",
     "enzyme": "^2.8.2",
     "eslint": "^3.19.0",
@@ -122,15 +122,18 @@
     "extract-text-webpack-plugin": "^2.1.2",
     "faker": "^4.1.0",
     "file-loader": "^0.11.2",
+    "istanbul": "^0.4.5",
     "jsdom": "^9.12.0",
+    "jsdom-global": "^3.0.2",
     "less": "^2.7.2",
     "less-loader": "^4.0.4",
-    "mocha": "^3.4.2",
+    "mocha": "^2.4.5",
+    "mocha-lcov-reporter": "^1.3.0",
     "moxios": "^0.4.0",
     "nightwatch": "^0.9.16",
     "nock": "^9.0.13",
     "node-sass": "^4.5.3",
-    "nyc": "^11.0.2",
+    "nyc": "^10.3.2",
     "react-addons-test-utils": "^15.6.0",
     "redux-mock-store": "^1.2.3",
     "sass-loader": "^6.0.6",

@@ -35,7 +35,7 @@ table.striped > tbody > tr:nth-child(even) {
   font-size: 17px; }
 
 a.docTitle:hover {
-  color: #0000cd; }
+  color: #555555; }
 
 ul.pagination {
   cursor: pointer; }
@@ -44,7 +44,10 @@ ul.pagination li.previous a, ul.pagination li.next a {
   color: #ffffff; }
 
 ul.pagination li.active {
-  background-color: #2196F3; }
+  background-color: #795548; }
+
+.first-btn {
+  margin: 0 10px; }
 
 .input-field {
   margin-top: 0; }

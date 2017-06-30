@@ -1,7 +1,7 @@
 import supertest from 'supertest';
 import expect from 'expect';
+import server from '../../index.js';
 import models from '../models';
-import server from '../../index';
 import seeds from './helper/seeders';
 import { document, newData, user } from './helper/testHelper';
 
@@ -26,110 +26,44 @@ describe('Mai Docs Documents Endpoints ', () => {
   before((done) => {
     seeds()
     .then(() => {
-      console.log('seeding done'.green);
+      console.log('seeding done for documents tests'.green);
+      done();
+    });
+  });
+
+  // after((done) => {
+  //   models.sequelize.sync({ force: true })
+  //   .then(() => {
+  //     done();
+  //   });
+  // });
+
+  // describe('Get all documents endpoint', () => {
+    // it('should return an error if the user doesnt have any documents', (done) => {
+    //   app
+    //     .get('/api/users/3/documents')
+    //     .end((error, response) => {
+    //       expect(response.status).toEqual(404);
+    //       expect(response.body.message).toEqual('No documents found');
+    //     });
+    //   done();
+    // });
+    // 
+  // });
+
+  describe('Documents endpoints as Admin', () => {
+
+    before((done) => {
       app
         .post('/api/users/login')
         .send({ loginId: user.adminUser1.username, password: 'password' })
         .end((error, response) => {
           expect(response.status).toEqual(200);
           adminToken = response.body;
-        });
-      app
-        .post('/api/users/login')
-        .send({ loginId: user.regularUser1.email, password: 'password' })
-        .end((error, response) => {
-          expect(response.status).toEqual(200);
-          authorToken1 = response.body;
-        });
-      app
-        .post('/api/users/login')
-        .send({ loginId: user.regularUser2.email, password: 'password' })
-        .end((error, response) => {
-          expect(response.status).toEqual(200);
-          authorToken2 = response.body;
-        });
-      done();
-    });
-  });
-
-  after((done) => {
-    models.sequelize.sync({ force: true })
-    .then(() => {
-      done();
-    });
-  });
-
-  describe('This', () => {
-    it('should expect true to be true', (done) => {
-      expect(true).toEqual(true);
-      done();
-    });
-  });
-
-  describe('Get all documents endpoint', () => {
-    // it('should not find any document if they dont exist', (done) => {
-    //   app
-    //     .get('/api/documents')
-    //     .set('x-access-token', adminToken.token)
-    //     .end((error, response) => {
-    //       expect(response.status).toEqual(404);
-    //       console.log('404-200', response);
-    //       expect(response.body.message).toEqual('No documents found');
-    //       done();
-    //     });
-    // });
-
-    it('should return errors if no token is set', (done) => {
-      app
-        .get('/api/documents')
-        .set('x-access-token', '')
-        .end((error, response) => {
-          expect(response.status).toEqual(400);
           done();
         });
     });
-  });
 
-  describe('Create Document endpoint', () => {
-    it('should not create a new document within logging in', (done) => {
-      app
-        .post('/api/documents')
-        .set('x-access-token', '')
-        .send(privateDoc)
-        .end((error, response) => {
-          expect(response.status).toEqual(400);
-        });
-      done();
-    });
-
-    it('should create new document', (done) => {
-      app
-        .post('/api/documents')
-        .set('x-access-token', adminToken.token)
-        .send(privateDoc)
-        .end((error, response) => {
-          expect(response.status).toEqual(201);
-          expect(response.body.document.title).toEqual(privateDoc.title);
-          expect(response.body.message).toEqual('Document saved successfully');
-          privateDocId = response.body.document.id;
-          done();
-        });
-    });
-  });
-
-  describe('Get all documents endpoint', () => {
-    it('should return all available documents', (done) => {
-      app
-        .get('/api/documents')
-        .set('x-access-token', adminToken.token)
-        .end((error, response) => {
-          expect(response.status).toEqual(200);
-        });
-      done();
-    });
-  });
-
-  describe('Get a user\'s documents endpoint', () => {
     it('should return an error if the userId is invalid', (done) => {
       app
         .get('/api/users/dasdas/documents')
@@ -162,25 +96,13 @@ describe('Mai Docs Documents Endpoints ', () => {
       done();
     });
 
-    it('should return an error if the user doesnt have any documents', (done) => {
-      app
-        .get('/api/users/3/documents')
-        .end((error, response) => {
-          expect(response.status).toEqual(404);
-          expect(response.body.message).toEqual('No documents found');
-        });
-      done();
-    });
-  });
-
-  describe('Get one document endpoint', () => {
     it('should return an error if the documentId is invalid', (done) => {
       app
         .get('/api/document/7hjgjh')
         .set('x-access-token', adminToken.token)
         .end((error, response) => {
           expect(response.status).toEqual(400);
-          expect(response.body.message).toEqual('Invalid userID entered');
+          expect(response.body.message).toEqual('Invalid document ID');
         });
       done();
     });
@@ -215,9 +137,52 @@ describe('Mai Docs Documents Endpoints ', () => {
         });
       done();
     });
-  });
 
-  describe('Update Document', () => {
+    it('should return errors if no token is set', (done) => {
+      app
+        .get('/api/documents')
+        .set('x-access-token', '')
+        .end((error, response) => {
+          expect(response.status).toEqual(400);
+          done();
+        });
+    });
+
+    it('should not create a new document without logging in', (done) => {
+      app
+        .post('/api/documents')
+        .set('x-access-token', '')
+        .send(privateDoc)
+        .end((error, response) => {
+          expect(response.status).toEqual(400);
+        });
+      done();
+    });
+
+    it('should create new document', (done) => {
+      app
+        .post('/api/documents')
+        .set('x-access-token', adminToken.token)
+        .send(privateDoc)
+        .end((error, response) => {
+          expect(response.status).toEqual(201);
+          expect(response.body.document.title).toEqual(privateDoc.title);
+          expect(response.body.message).toEqual('Document saved successfully');
+          privateDocId = response.body.document.id;
+          done();
+        });
+    });
+
+    it('should return all available documents', (done) => {
+      app
+        .get('/api/documents')
+        .set('x-access-token', adminToken.token)
+        .end((error, response) => {
+          expect(response.status).toEqual(200);
+        });
+      done();
+    });
+
     it('should return an error if document id is invalid', (done) => {
       app
       .put('/api/document/vhhhhjjhv88vhkvu')
@@ -274,9 +239,7 @@ describe('Mai Docs Documents Endpoints ', () => {
         });
       done();
     });
-  });
 
-  describe('Search All Document', () => {
     it('Should return a list of documents based on search criteria', (done) => {
       app
         .get('/api/search/documents/?search=seed')
@@ -311,24 +274,6 @@ describe('Mai Docs Documents Endpoints ', () => {
         });
     });
 
-    it('it should not allow users search for private document', (done) => {
-      app
-        .get('/api/search/documents/?search=seed')
-        .set({ 'x-access-token': authorToken1.token })
-        .end((error, response) => {
-          expect(response.status).toBe(200);
-          expect(typeof response.body.documents).toBe('object');
-          const noPrivate = response.body.documents.filter((docs) => {
-            if (docs.access === 0) {
-              return docs;
-            }
-            return undefined;
-          });
-          expect(noPrivate).toEqual([]);
-          done();
-        });
-    });
-
     it('Should return an error message when no search query is entered', (done) => {
       app
         .get('/api/search/documents/?search=')
@@ -339,9 +284,7 @@ describe('Mai Docs Documents Endpoints ', () => {
           done();
         });
     });
-  });
 
-  describe('Search all of a user\'s documents', () => {
     it('Should return a list of documents based on search criteria', (done) => {
       app
         .get('/api/search/userdocuments/?search=seed')
@@ -404,12 +347,53 @@ describe('Mai Docs Documents Endpoints ', () => {
           done();
         });
     });
+
+    it('should successfully delete a document', (done) => {
+      app
+        .delete('/api/document/1')
+        .set('x-access-token', adminToken.token)
+        .end((error, response) => {
+          expect(response.status).toEqual(200);
+          expect(response.body.message).toEqual('Document successfully deleted');
+          done();
+        });
+    });
   });
 
-  describe('Delete Document API endpoint', () => {
+  describe('Get a user\'s documents endpoint as Author', () => {
+
+    before((done) => {
+      app
+        .post('/api/users/login')
+        .send({ loginId: user.regularUser1.email, password: 'password' })
+        .end((error, response) => {
+          expect(response.status).toEqual(200);
+          authorToken1 = response.body;
+          done();
+        });
+    });
+
+    it('it should not allow users search for private document', (done) => {
+      app
+        .get('/api/search/documents/?search=seed')
+        .set({ 'x-access-token': authorToken1.token })
+        .end((error, response) => {
+          expect(response.status).toBe(200);
+          expect(typeof response.body.documents).toBe('object');
+          const noPrivate = response.body.documents.filter((docs) => {
+            if (docs.access === 0) {
+              return docs;
+            }
+            return undefined;
+          });
+          expect(noPrivate).toEqual([]);
+        });
+        done();
+    });
+
     it('should not allow a user to delete another user\'s document', (done) => {
       app
-      .delete('/api/document/1')
+      .delete('/api/document/2')
       .set('x-access-token', authorToken1.token)
       .end((error, response) => {
         expect(response.status).toEqual(401);
@@ -448,17 +432,6 @@ describe('Mai Docs Documents Endpoints ', () => {
         expect(response.status).toEqual(400);
         done();
       });
-    });
-
-    it('should successfully delete a document', (done) => {
-      app
-        .delete('/api/document/1')
-        .set('x-access-token', adminToken.token)
-        .end((error, response) => {
-          expect(response.status).toEqual(200);
-          expect(response.body.message).toEqual('Document successfully deleted');
-          done();
-        });
     });
   });
 });

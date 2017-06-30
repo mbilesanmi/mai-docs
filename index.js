@@ -7,6 +7,8 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import serverRoutes from './server/routes';
 
 const app = express();
+const isProd = process.env.NODE_ENV === 'production';
+const isTest = process.env.NODE_ENV === 'test';
 
 // swagger definition
 const swaggerDefinition = {
@@ -27,23 +29,21 @@ const options = {
   apis: ['./server/routes/index.js']
 };
 
-// initialize swagger-jsdoc
-const swaggerSpec = swaggerJSDoc(options);
+const PORT = isTest ? 4444 : process.env.PORT || 8080;
 
-// serve swagger
-app.get('/swagger.json', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.send(swaggerSpec);
-});
+if (!isTest) {
+  // initialize swagger-jsdoc
+  const swaggerSpec = swaggerJSDoc(options);
 
-let PORT;
-if (process.env.NODE_ENV === 'test') {
-  PORT = 4444;
-} else {
-  PORT = process.env.PORT || 8080;
+  // serve swagger
+  app.get('/swagger.json', (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(swaggerSpec);
+  });
 }
 
-if ((process.env.NODE_ENV !== 'test') || (process.env.NODE_ENV !== 'production')) {
+if (!isProd && !isTest) {
+
   const webpackConfig = require('./webpack.config');
   const webpackDevMiddleware = require('webpack-dev-middleware');
   const webpackHotMiddleware = require('webpack-hot-middleware');
