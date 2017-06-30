@@ -15,7 +15,7 @@ import Sidebar from '../common/Sidebar.jsx';
  * @class AllDocuments
  * @extends {React.Component}
  */
-class AllDocuments extends Component {
+export class AllDocuments extends Component {
   /**
    * Creates an instance of AllDocuments.
    * @param {any} props property of component
@@ -43,9 +43,9 @@ class AllDocuments extends Component {
    * @returns {null} returns no value
    */
   componentWillMount() {
-    if (!this.props.isAuthenticated) {
-      this.context.router.push('/login');
-    } else {
+    if (this.props.isAuthenticated) {
+    //   this.context.router.push('/login');
+    // } else {
 			this.setState({ isLoading: true });
 			this.props.documentActions.getAllDocuments(this.state.offset)
 			.then(() => {
@@ -208,6 +208,9 @@ AllDocuments.PropTypes = {
   message: PropTypes.string,
   isAuthenticated: PropTypes.bool.isRequired,
   userActions: PropTypes.object.isRequired,
+	user: PropTypes.object,
+	documents: PropTypes.array,
+	authUser: PropTypes.object,
   documentActions: PropTypes.object.isRequired
 };
 

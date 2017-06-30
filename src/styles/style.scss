@@ -46,7 +46,7 @@ table.striped>tbody>tr:nth-child(even) {
   font-size: 17px;
 }
 a.docTitle:hover {
-  color: #0000cd;
+  color: #555555;
 }
 
 ul.pagination {
@@ -59,6 +59,10 @@ ul.pagination li.previous a, ul.pagination li.next a {
 
 ul.pagination li.active {
   background-color: #795548;
+}
+
+.first-btn {
+  margin: 0 10px;
 }
 
 .input-field {

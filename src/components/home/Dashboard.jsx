@@ -230,10 +230,10 @@ export class Dashboard extends Component {
 												<td>
 													<Link
 														to={`/document/${document.id}`}
-														className="editDoc waves-effect waves-light btn green darken-2">
+														className="editDoc waves-effect waves-light btn green darken-2 first-btn">
 														<i className="fa fa-pencil" aria-hidden="true"></i>
 													</Link>
-													&nbsp;
+
 													<button
 														onClick={this.deleteDocument}
 														name={document.id}
