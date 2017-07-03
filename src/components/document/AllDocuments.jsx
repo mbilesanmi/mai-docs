@@ -89,16 +89,9 @@ export class AllDocuments extends Component {
 
     this.setState({ offset }, () => {
 			if (this.props.documents.search) {
-				this.setState({ isLoading: true });
-				this.props.documentActions.searchAllDocuments(this.state.search, offset)
-				.then(() => {
-					this.setState({ isLoading: false });
-				});
+				this.props.documentActions.searchAllDocuments(this.state.search, offset);
 			} else {
-				this.props.documentActions.getAllDocuments(offset)
-				.then(() => {
-					this.setState({ isLoading: false });
-				});
+				this.props.documentActions.getAllDocuments(offset);
 			}
     });
   }

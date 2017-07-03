@@ -132,6 +132,7 @@
     "moxios": "^0.4.0",
     "nightwatch": "^0.9.16",
     "nock": "^9.0.13",
+    "node-sass": "^4.5.3",
     "nyc": "^10.3.2",
     "react-addons-test-utils": "^15.6.0",
     "redux-mock-store": "^1.2.3",
