@@ -5,7 +5,7 @@ const loginId = 'mai';
 const password = 'password';
 
 module.exports = {
-  'Click add new document button': browser => {
+  'Should not ': browser => {
     browser
       .url('http://localhost:8080/login')
       .waitForElementVisible('body', 20000)
@@ -22,15 +22,26 @@ module.exports = {
       .assert.urlEquals('http://localhost:8080/document')
 
       .waitForElementVisible('input[name=title]', 1000)
+      .setValue('input[name=title]', '')
+      .waitForElementVisible('select[name=access]', 1000)
+      .setValue('select[name=access]', '')
+      .waitForElementVisible('.fr-element', 3000)
+      .waitForElementVisible('.fr-view', 3000)
+      .setValue('div.fr-element', '')
+      .waitForElementVisible('#saveDocument', 1000)
+      .click('#saveDocument')
+      .waitForElementVisible('.toast', 3000)
+
+      .waitForElementVisible('input[name=title]', 1000)
       .setValue('input[name=title]', 'E2E Test')
       .waitForElementVisible('select[name=access]', 1000)
       .setValue('select[name=access]', 'Public')
-      .waitForElementVisible('div', 'fr-element')
-      .waitForElementVisible('div', 'fr-view')
+      .waitForElementVisible('.fr-element', 3000)
+      .waitForElementVisible('.fr-view', 3000)
       .setValue('div.fr-element', faker.lorem.paragraph())
       .waitForElementVisible('#saveDocument', 1000)
       .click('#saveDocument')
-      .waitForElementVisible('.toast-success', '.toast-message')
+      .waitForElementVisible('.toast-success', 3000)
       .assert.containsText('.toast-message', 'Document saved successfully')
 
       .waitForElementVisible('.dashboard', 5000)
@@ -39,9 +50,8 @@ module.exports = {
       .click('.docTitle')
       .waitForElementVisible('h3', 5000)
       .assert.containsText('h3', 'E2E Test')
-      .waitForElementVisible('.toDashboard', 3000)
-      .click('.toDashboard')
 
+      .url('http://localhost:8080/dashboard')
       .waitForElementVisible('.dashboard', 5000)
       .assert.urlEquals('http://localhost:8080/dashboard')
       .waitForElementVisible('.editDoc', 5000)
@@ -49,14 +59,27 @@ module.exports = {
       .waitForElementVisible('input[name=title]', 1000)
       .waitForElementVisible('select[name=access]', 1000)
       .setValue('select[name=access]', 'Public')
-      .waitForElementVisible('div', 'fr-element')
-      .waitForElementVisible('div', 'fr-view')
+      .waitForElementVisible('.fr-element', 3000)
+      .waitForElementVisible('.fr-view', 3000)
       .waitForElementVisible('#saveDocument', 1000)
       .click('#saveDocument')
-      .waitForElementVisible('.toast-success', '.toast-message')
+      .waitForElementVisible('.toast-success', 3000)
       .assert.containsText('.toast-message', 'Document successfully updated')
+
       .waitForElementVisible('.dashboard', 10000)
       .assert.urlEquals('http://localhost:8080/dashboard')
+      .waitForElementVisible('.deleteDoc', 5000)
+      .click('.deleteDoc')
+      .waitForElementVisible('.sweet-alert', 5000)
+      .waitForElementVisible('.confirm', 5000)
+      .click('.confirm')
+      .waitForElementVisible('.sweet-alert', 5000)
+      .waitForElementVisible('.confirm', 5000)
+      .click('.confirm')
+      .assert.urlEquals('http://localhost:8080/dashboard')
+      .waitForElementVisible('.next-button', 5000)
+      .click('.next-button')
+      .pause(3000)
       .end();
   }
 };

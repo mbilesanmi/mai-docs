@@ -15,7 +15,7 @@ import Sidebar from '../common/Sidebar.jsx';
  * @class AllUsers
  * @extends {React.Component}
  */
-class AllUsers extends Component {
+export class AllUsers extends Component {
   /**
    * Creates an instance of AllUsers.
    * @param {any} props property of component

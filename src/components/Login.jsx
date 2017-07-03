@@ -10,7 +10,7 @@ import * as userActions from '../actions/userActions';
  * @class Login
  * @extends {React.Component}
  */
-class Login extends Component {
+export class Login extends Component {
   /**
    * Creates an instance of Login.
    * @param {any} props property of component
@@ -97,7 +97,7 @@ class Login extends Component {
       <div className="section">
         <div className="container">
           <div className="card">
-            <form className="col s8 offset-s2" onSubmit={this.onSubmit}>
+            <form className="col s8 offset-s2" id="loginForm" onSubmit={this.onSubmit}>
               <div className="card-content">
                 <span className="card-title">
                   <h5 className="center">

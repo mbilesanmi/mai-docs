@@ -5,16 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start:webpack": "webpack",
-    "test": "npm run test:front && npm run test:server",
+    "test": "NODE_ENV=test nyc --reporter=text --reporter=lcov ./node_modules/.bin/_mocha --reporter spec ./tools/testSetup.js ./src/test/**/*.test.js ./server/test/ --require babel-register --timeout 20000",
     "test:front": "NODE_ENV=test nyc --reporter=text --reporter=lcov ./node_modules/.bin/_mocha --reporter spec ./tools/testSetup.js ./src/test/**/*.test.js --timeout 20000",
-    "test:server": "NODE_ENV=test nyc --reporter=text --reporter=lcov npm run mocha",
-    "mocha": "NODE_ENV=test mocha ./server/test/ --require babel-register --timeout 20000",
-    "test:server2": "NODE_ENV=test ./node_modules/.bin/istanbul cover ./node_modules/.bin/mocha -- ./server/test/ --require babel-register",
+    "test:server": "NODE_ENV=test nyc --reporter=text --reporter=lcov npm run test:mocha",
+    "test:mocha": "NODE_ENV=test mocha ./server/test/ --require babel-register --timeout 20000",
+    "test:e2e": "NODE_ENV=test node_modules/.bin/nightwatch --config nightwatch.json --require babel-register",
     "test:watch": "npm run test -- --watch",
-    "report": "nyc report",
-    "cover": "NODE_ENV=test npm run db:seed && NODE_ENV=test istanbul cover _mocha -- ./server/test/controllers/*.spec.js server/test/models/*.spec.js server/test/middleware/*.spec.js --compilers js:babel-core/register && npm run test:client",
-    "coveralls": "npm test && cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
-    "test:e2e": "node_modules/.bin/nightwatch --config nightwatch.conf.js --require babel-register",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "coveralls": "npm test && cat ./coverage/lcov.info | coveralls",
     "postinstall": "NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate",
     "db:seed": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
     "db:test:seed": "NODE_ENV=development babel-node ./server/test/helper/seeder.js",
@@ -30,7 +28,8 @@
     "instrument": false,
     "exclude": [
       "**/*.test.js",
-      "build"
+      "build",
+      "src/utils"
     ]
   },
   "repository": {
