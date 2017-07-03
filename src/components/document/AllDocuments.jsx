@@ -168,7 +168,7 @@ export class AllDocuments extends Component {
 												<Link
 													className="docTitle"
 													to={`/document/view/${document.id}`}>
-												{document.title.slice(0, 60)}...</Link>
+												{document.title.slice(0, 60)}</Link>
 											</h6></td>
 											<td>
 												{document.User.firstname} {document.User.lastname}

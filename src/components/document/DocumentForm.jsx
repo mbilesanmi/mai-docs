@@ -69,7 +69,7 @@ const DocumentForm = ({ document, roleId, onSave, onChange, onModelChange, savin
           <div className="form-group has-feedback input-field col l5 m5 s12">
             <span>Access Level</span>
             <select name="access" className="browser-default" required="required"
-              value={document.viewAccess} onChange={onChange}>
+              value={document.access} onChange={onChange}>
               <option value="">Choose your option</option>
               <option value="-1">Private</option>
               <option value="0">Public</option>

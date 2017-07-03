@@ -142,7 +142,7 @@ export class ManageDocument extends Component {
               <i className="icon-plus3"></i>
             </div>
             <h5 className="center flow-text">
-              {isUpdate ? `Edit: ${documentTitle}` : 'Add new document'}
+              {isUpdate ? `Edit: ${this.props.document.title}` : 'Add new document'}
             </h5>
             <div className="center red-text">
               <small>
