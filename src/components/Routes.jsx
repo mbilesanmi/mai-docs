@@ -5,7 +5,7 @@ import Login from './Login.jsx';
 import Signup from './Signup.jsx';
 import Dashboard from './home/Dashboard.jsx';
 import AllDocuments from './document/AllDocuments.jsx';
-import ManageDocument from './document/manageDocument.jsx';
+import ManageDocument from './document/ManageDocument.jsx';
 import ViewDocument from './document/ViewDocument.jsx';
 import AllUsers from './home/AllUsers.jsx';
 import UpdateProfile from './home/UpdateProfile.jsx';

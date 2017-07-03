@@ -46,7 +46,7 @@ ul.pagination li.previous a, ul.pagination li.next a {
 ul.pagination li.active {
   background-color: #795548; }
 
-.first-btn {
+.first-btn, .second-btn {
   margin: 0 10px; }
 
 .input-field {
