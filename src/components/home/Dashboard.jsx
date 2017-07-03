@@ -202,6 +202,7 @@ export class Dashboard extends Component {
 				onPageChange={this.handlePageClick}
 				containerClassName={'pagination'}
 				subContainerClassName={'pages pagination'}
+				nextClassName="next-button"
 				activeClassName={'active'} />;
 			return (
 				<div className="dashboard container">
@@ -236,10 +237,12 @@ export class Dashboard extends Component {
 
 													<button
 														onClick={this.deleteDocument}
+														id="deleteDoc"
 														name={document.id}
-														className="waves-effect waves-light btn red darken-2 deleteDoc">
+														className="waves-effect waves-light btn red darken-2 second-btn deleteDoc">
 														<i name={document.id}
 															className="fa fa-trash"
+															id="deleteDoc"
 															aria-hidden="true"></i>
 													</button>
 												</td>
@@ -259,6 +262,19 @@ export class Dashboard extends Component {
 		}
   }
 }
+
+/**
+ * @desc Set the PropTypes
+ */
+Dashboard.PropTypes = {
+	message: PropTypes.string,
+  isAuthenticated: PropTypes.bool.isRequired,
+	authUser: PropTypes.object,
+	user: PropTypes.object,
+	documents: PropTypes.array,
+  userActions: PropTypes.object.isRequired,
+  documentActions: PropTypes.object.isRequired
+};
 
 /**
  * @desc Set the contextTypes

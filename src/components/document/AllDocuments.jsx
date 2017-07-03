@@ -29,7 +29,7 @@ export class AllDocuments extends Component {
     this.state = {
       isLoading: false,
 			search: '',
-			offset: 0,
+			offset: 0
     };
 
 		this.searchDocuments = this.searchDocuments.bind(this);
@@ -44,8 +44,6 @@ export class AllDocuments extends Component {
    */
   componentWillMount() {
     if (this.props.isAuthenticated) {
-    //   this.context.router.push('/login');
-    // } else {
 			this.setState({ isLoading: true });
 			this.props.documentActions.getAllDocuments(this.state.offset)
 			.then(() => {
@@ -128,6 +126,7 @@ export class AllDocuments extends Component {
 				onPageChange={this.handlePageClick}
 				containerClassName={'pagination'}
 				subContainerClassName={'pages pagination'}
+				nextClassName="next-button"
 				activeClassName={'active'} />;
 		} else {
 			documentDetails = [];

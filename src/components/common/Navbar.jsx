@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { IndexLink, Link } from 'react-router';
 import toastr from 'toastr';
@@ -21,6 +22,10 @@ export class Navbar extends Component {
     super(props, context);
 
     this.logout = this.logout.bind(this);
+  }
+
+  componentWillMount() {
+    $('.button-collapse').sideNav();
   }
 
   /**
@@ -59,8 +64,32 @@ export class Navbar extends Component {
               className="brand-logo">
               Mai Docs
             </IndexLink>
+            <a href="#" data-activates="mobile-demo" className="button-collapse">
+              {/*<i className="material-icons">menu</i>*/}
+              <i className="fa fa-bars" aria-hidden="true"></i>
+            </a>
 
             <ul className="right hide-on-med-and-down">
+              { userIsAuth
+              ? <span>
+                <li><Link to="/dashboard">Dashboard</Link></li>
+                <li><Link to="/documents">All Documents</Link></li>
+              </span>
+              : '' }
+              {isAdmin ? <li><Link to="/users">Manage Users</Link></li> : ''}
+              { userIsAuth
+              ? <li>
+                  <Link activeClassName="active" to="/logout" onClick={this.logout}>
+                Logout</Link>
+                </li>
+                : <span>
+                  <li><Link to="/login">Login</Link></li>
+                  <li id="signup"><Link to="/signup">Signup</Link></li>
+                </span>
+              }
+            </ul>
+
+            <ul className="side-nav" id="mobile-demo">
               { userIsAuth
               ? <span>
                 <li><Link to="/dashboard">Dashboard</Link></li>
@@ -85,6 +114,12 @@ export class Navbar extends Component {
     );
   }
 }
+
+Navbar.PropTypes = {
+  logout: PropTypes.func,
+  authUser: PropTypes.object,
+  isAuth: PropTypes.bool
+};
 
 /**
  * @desc Set the contextTypes

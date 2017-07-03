@@ -15,10 +15,10 @@ const Sidebar = ({ search, clearSearch, updateSearchState, userDetails }) =>
 
   <div className="card-panel">
     <h6 className="sidebar-title left">Search</h6>
-    <a className="right" onClick={clearSearch}>x</a>
+    <a className="right" id="clearSearch" onClick={clearSearch}>x</a>
     <div className="clearfix"></div>
     <div className="divider"></div>
-    <form onSubmit={search}>
+    <form id="search" onSubmit={search}>
       <input
         id="search"
         type="text"

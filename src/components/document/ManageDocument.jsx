@@ -8,17 +8,17 @@ import * as documentActions from '../../actions/documentActions.js';
 import DocumentForm from './DocumentForm.jsx';
 
 /**
- * ManageDocuments page view
- * @class ManageDocuments
+ * ManageDocument page view
+ * @class ManageDocument
  * @extends {React.Component}
  */
-class ManageDocuments extends Component {
+export class ManageDocument extends Component {
   /**
-   * Creates an instance of ManageDocuments.
+   * Creates an instance of ManageDocument.
    * @param {any} props property of component
    * @param {any} context property of component
    * @returns {*} no return value
-   * @memberof ManageDocuments
+   * @memberof ManageDocument
    */
   constructor(props, context) {
     super(props, context);
@@ -127,7 +127,7 @@ class ManageDocuments extends Component {
   /**
    * Renders the view of the component
    * @returns {Object} react component to render
-   * @memberOf ManageDocuments
+   * @memberOf ManageDocument
    */
   render() {
     const { document } = this.state;
@@ -168,7 +168,7 @@ class ManageDocuments extends Component {
 /**
  * @desc Set the PropTypes
  */
-ManageDocuments.PropTypes = {
+ManageDocument.PropTypes = {
   message: PropTypes.string,
   document: PropTypes.object,
   roleId: PropTypes.number,
@@ -179,7 +179,7 @@ ManageDocuments.PropTypes = {
 /**
  * @desc Set the contextTypes
  */
-ManageDocuments.contextTypes = {
+ManageDocument.contextTypes = {
   router: PropTypes.object
 };
 
@@ -221,4 +221,4 @@ const mapDispatchToProps = (dispatch) => ({
   documentActions: bindActionCreators(documentActions, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageDocuments);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageDocument);

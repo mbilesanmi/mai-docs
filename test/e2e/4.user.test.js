@@ -2,7 +2,7 @@ const config = require('./config');
 
 const loginId = 'mai';
 const password = 'password';
-const firstname = 'A.';
+const firstname = '';
 
 module.exports = {
   'Click edit profile button': browser => {
@@ -24,7 +24,7 @@ module.exports = {
       .waitForElementVisible('input[name=lastname]', 1000)
       .waitForElementVisible('button[name=updateProfile]', 1000)
       .click('button[name=updateProfile]')
-      .waitForElementVisible('.toast-success', '.toast-message')
+      .waitForElementVisible('.toast', 5000)
       .waitForElementVisible('.dashboard', 1000)
       .assert.urlEquals('http://localhost:8080/dashboard')
       .end();

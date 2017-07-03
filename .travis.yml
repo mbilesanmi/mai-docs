@@ -5,7 +5,6 @@ node_js:
 services:
   - postgresql
 
-
 postgres:
  adapter: postgresql
  database: myapp_test
@@ -23,4 +22,4 @@ addons:
     repo_token: 15f145fdea863c28c680b0d22d8c07afa12b3c969ac94344ef63766e961df243
 
 after_failure:
-  - npm run coverage
+  - npm run coveralls
