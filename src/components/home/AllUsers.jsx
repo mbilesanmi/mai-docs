@@ -27,7 +27,6 @@ export class AllUsers extends Component {
     super(props, context);
 
     this.state = {
-      // user: Object.assign({}, props.user),
       isLoading: false,
 			search: '',
 			offset: 0

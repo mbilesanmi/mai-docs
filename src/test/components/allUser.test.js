@@ -39,7 +39,6 @@ function setup(isAuthenticated, oneUser, allUsers) {
  * @returns {null} returns no value
  */
 function shallowSetup(isAuthenticated, oneUser, allUsers) {
-  // const spyPaginate = sinon.spy(AllUsers.prototype, 'handlePageClick');
   props = {
     allUsers,
     isAuthenticated,

@@ -37,5 +37,4 @@ node_modules
 .DS_Store
 .editorconfig
 old_files
-.codeclimate.yml
 reports
