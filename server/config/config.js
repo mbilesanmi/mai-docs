@@ -20,8 +20,17 @@ module.exports = {
     dialect: 'postgres',
     logging: false
   },
-  test: {
+  tests: {
     use_env_variable: 'DATABASE_TEST_URL',
+    dialect: 'postgres',
+    logging: false
+  },
+  test: {
+    username: 'mai',
+    password: 'mai',
+    database: 'maidocstest',
+    host: '127.0.0.1',
+    port: 5432,
     dialect: 'postgres',
     logging: false
   },

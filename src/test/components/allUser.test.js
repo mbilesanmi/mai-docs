@@ -59,7 +59,6 @@ function shallowSetup(isAuthenticated, oneUser, allUsers) {
 
 describe('The AllUsers', () => {
   describe('component <AllUsers />', () => {
-    let component;
     let userDetails;
     let pagination;
     const allUsers = {
@@ -80,9 +79,7 @@ describe('The AllUsers', () => {
     const user = { id: 1, firstname: 'mai', lastname: 'mai', username: 'mai', email: 'mai@mai.com', Role: { title: 'Admin' } }
 
     it.skip('should exist', () => {
-      // wrapper = shallow(<AllUsers {...props} />);
       wrapper = shallowSetup(false);
-      console.log(wrapper.props(), 'fubdkuekvbkyus');
       expect(wrapper).toExist();
     });
 
