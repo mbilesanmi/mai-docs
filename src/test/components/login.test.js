@@ -21,7 +21,9 @@ function setup(isAuthenticated) {
     message: ''
   };
 
-  return mount(<Login {...props} />);
+  const context = { router: [] };
+
+  return shallow(<Login {...props} />, { context });
 }
 
 describe('The Login', () => {
@@ -35,7 +37,6 @@ describe('The Login', () => {
 
     it('should exist', () => {
       wrapper = setup(false);
-      // console.log('kcvjhjjd kh gahd kzh dg dd', wrapper.state());
       expect(wrapper).toExist();
     });
 

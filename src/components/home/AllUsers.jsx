@@ -127,6 +127,7 @@ export class AllUsers extends Component {
 				onPageChange={this.handlePageClick}
 				containerClassName={'pagination'}
 				subContainerClassName={'pages pagination'}
+				nextClassName="next-button"
 				activeClassName={'active'} />;
 		} else {
 			usersDetails = [];

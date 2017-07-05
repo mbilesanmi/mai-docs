@@ -89,7 +89,7 @@ export class Dashboard extends Component {
 
 	deleteDocument(event) {
 		event.preventDefault();
-    const id = event.target.getAttribute('name');
+    const id = event.target.name;
     swal({
       title: 'Are you sure?',
       text: 'You will not be able to recover this document!',
@@ -231,19 +231,14 @@ export class Dashboard extends Component {
 												<td>
 													<Link
 														to={`/document/${document.id}`}
-														className="editDoc waves-effect waves-light btn green darken-2 first-btn">
-														<i className="fa fa-pencil" aria-hidden="true"></i>
+														className="fa fa-pencil editDoc waves-effect waves-light btn green darken-2 first-btn">
 													</Link>
 
 													<button
 														onClick={this.deleteDocument}
 														id="deleteDoc"
 														name={document.id}
-														className="waves-effect waves-light btn red darken-2 second-btn deleteDoc">
-														<i name={document.id}
-															className="fa fa-trash"
-															id="deleteDoc"
-															aria-hidden="true"></i>
+														className="fa fa-trash waves-effect waves-light btn red darken-2 second-btn deleteDoc">
 													</button>
 												</td>
 											</tr>

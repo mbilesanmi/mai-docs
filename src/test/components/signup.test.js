@@ -21,12 +21,14 @@ function setup(isAuthenticated) {
     message: ''
   };
 
-  return mount(<Signup {...props} />);
+  const context = { router: [] };
+
+  return shallow(<Signup {...props} />, { context });
 }
 
 describe('The Signup', () => {
   describe('component <Signup />', () => {
-    let component;
+    // let component;
 
     it('should exist', () => {
       wrapper = setup(true);
