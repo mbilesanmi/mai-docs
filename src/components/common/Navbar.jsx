@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import $ from 'jquery';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { IndexLink, Link } from 'react-router';
@@ -25,7 +26,7 @@ export class Navbar extends Component {
   }
 
   componentWillMount() {
-    $('.button-collapse').sideNav();
+    // $('.button-collapse').sideNav();
   }
 
   /**
@@ -65,7 +66,6 @@ export class Navbar extends Component {
               Mai Docs
             </IndexLink>
             <a href="#" data-activates="mobile-demo" className="button-collapse">
-              {/*<i className="material-icons">menu</i>*/}
               <i className="fa fa-bars" aria-hidden="true"></i>
             </a>
 
@@ -79,7 +79,8 @@ export class Navbar extends Component {
               {isAdmin ? <li><Link to="/users">Manage Users</Link></li> : ''}
               { userIsAuth
               ? <li>
-                  <Link activeClassName="active" to="/logout" onClick={this.logout}>
+                  <Link activeClassName="active" id="logout"
+                    to="/logout" onClick={this.logout}>
                 Logout</Link>
                 </li>
                 : <span>
@@ -103,7 +104,7 @@ export class Navbar extends Component {
                 Logout</Link>
                 </li>
                 : <span>
-                  <li><Link to="/login">Login</Link></li>
+                  <li><Link className="login" to="/login">Login</Link></li>
                   <li id="signup"><Link to="/signup">Signup</Link></li>
                 </span>
               }
@@ -115,6 +116,9 @@ export class Navbar extends Component {
   }
 }
 
+/**
+ * @desc Set the propTypes
+ */
 Navbar.PropTypes = {
   logout: PropTypes.func,
   authUser: PropTypes.object,

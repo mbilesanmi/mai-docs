@@ -21,9 +21,6 @@ function setup(isAuthenticated, user, documents) {
     isAuthenticated,
     userActions: { getOneUser: spy(() => new Promise((resolve) => { resolve(); })) },
     documentActions: {
-      //
-      // ADD PROMISE REJECTION HERE
-      //
       deleteDocuments: spy(() => new Promise((resolve, reject) => { resolve(); })),
       getUserDocuments: spy(() => new Promise((resolve) => { resolve(); })),
       searchUserDocuments: spy(() => new Promise((resolve, reject) => { resolve(); }))
@@ -43,16 +40,12 @@ function setup(isAuthenticated, user, documents) {
  * @returns {null} returns no value
  */
 function shallowSetup(isAuthenticated, user, documents) {
-  // const spyPaginate = sinon.spy(Dashboard.prototype, 'handlePageClick');
   props = {
     user,
     documents,
     isAuthenticated,
     userActions: { getOneUser: spy(() => new Promise((resolve) => { resolve(); })) },
     documentActions: {
-      //
-      // ADD PROMISE REJECTION HERE
-      //
       deleteDocuments: spy(() => new Promise((resolve, reject) => { resolve(); })),
       getUserDocuments: spy(() => new Promise((resolve) => { resolve(); })),
       searchUserDocuments: spy(() => new Promise((resolve, reject) => { resolve(); }))
@@ -91,7 +84,6 @@ describe('The Dashboard', () => {
 
     it('should exist', () => {
       wrapper = setup(true);
-      // console.log('kcvjhjjd kh gahd kzh dg dd', wrapper.state());
       expect(wrapper).toExist();
     });
 
@@ -168,26 +160,6 @@ describe('The Dashboard', () => {
       wrapper.setState({ search: 'hello world', isLoading: false });
       wrapper.instance().handlePageClick({ selected: 1 });
       expect(wrapper.props().documentActions.searchUserDocuments.called).toBe(true);
-    });
-
-    it.skip('should delete a document', () => {
-      // wrapper = mount(<Dashboard {...props} />);
-      wrapper = shallow(<Dashboard {...props} />);
-      const deleteDoc = wrapper.find('#deleteDoc').first();
-      // const deleteDoc1 =  wrapper.findWhere(name => name === '1').simulate('click', {
-      //   preventDefault: () => {
-      //   }
-      // });
-      deleteDoc.simulate('click', {
-        preventDefault: () => {
-        },
-        target: { name: 1 }
-      });
-      const swalDelete = wrapper.find('.confirm');
-      console.log(swalDelete.props(), 'swalDelete');
-      // expect(wrapper.props().documentActions.deleteDocuments.called).toBeTruthy();
-    //   // const id
-    //   expect(wrapper.state().isLoading).toBe(false);
     });
   });
 });

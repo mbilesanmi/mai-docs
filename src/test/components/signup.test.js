@@ -98,10 +98,3 @@ describe('The Signup', () => {
     });
   });
 });
-
-
-//
-//
-// WRITE TEST FOR MAPSTATETOPROPS && MAPDISPATCHTOPROPS
-//
-//

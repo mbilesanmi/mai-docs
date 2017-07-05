@@ -17,6 +17,7 @@ module.exports = {
       .waitForElementVisible('button[name=login]', 1000)
       .click('button[name=login]')
       .waitForElementVisible('form', 1000)
+      .pause(2000)
 
       .waitForElementVisible('input[name=loginId]', 1000)
       .setValue('input[name=loginId]', 'dsbhc')
@@ -25,6 +26,7 @@ module.exports = {
       .waitForElementVisible('button[name=login]', 1000)
       .click('button[name=login]')
       .waitForElementVisible('.toast-error', 10000)
+      .pause(2000)
       .end();
   },
 
@@ -41,5 +43,6 @@ module.exports = {
       .waitForElementVisible('.toast-success', 10000)
       .waitForElementVisible('.dashboard', 10000)
       .assert.urlEquals('http://localhost:8080/dashboard')
+      .pause(2000)
       .end()
 };

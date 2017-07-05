@@ -1,4 +1,3 @@
-/*eslint-disable no-tabs */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -16,6 +15,7 @@ import Sidebar from '../common/Sidebar.jsx';
  * @extends {React.Component}
  */
 export class AllDocuments extends Component {
+	/* eslint-disable no-tabs */
   /**
    * Creates an instance of AllDocuments.
    * @param {any} props property of component
@@ -53,10 +53,16 @@ export class AllDocuments extends Component {
 		}
   }
 
+	/**
+   * @desc handles change of the pagination
+   * @param {any} event
+   * @returns {*} no return value
+   */
 	searchDocuments(event) {
 		event.preventDefault();
 		this.setState({ isLoading: true });
-		this.props.documentActions.searchAllDocuments(this.state.search, this.state.offset)
+		this.props.documentActions.searchAllDocuments(
+			this.state.search, this.state.offset)
 		.then(() => {
 			toastr.success(this.props.message);
 			this.setState({ isLoading: false });
@@ -67,11 +73,21 @@ export class AllDocuments extends Component {
 		});
 	}
 
+	/**
+   * @desc handles change of the pagination
+   * @param {any} event
+   * @returns {*} no return value
+   */
 	updateSearchState(event) {
 		event.preventDefault();
 		this.setState({ search: event.target.value });
 	}
 
+	/**
+   * @desc handles change of the pagination
+   * @param {*} event
+   * @returns {*} no return value
+   */
 	clearSearch(event) {
 		event.preventDefault();
 		this.props.documentActions.getAllDocuments(this.state.offset);
@@ -85,11 +101,13 @@ export class AllDocuments extends Component {
   handlePageClick(data) {
     const selected = data.selected;
 
-    const offset = Math.ceil(selected * this.props.documents.metaData.pageSize);
+    const offset = Math.ceil(selected
+		* this.props.documents.metaData.pageSize);
 
     this.setState({ offset }, () => {
 			if (this.props.documents.search) {
-				this.props.documentActions.searchAllDocuments(this.state.search, offset);
+				this.props.documentActions.searchAllDocuments(
+					this.state.search, offset);
 			} else {
 				this.props.documentActions.getAllDocuments(offset);
 			}
@@ -113,7 +131,8 @@ export class AllDocuments extends Component {
 				nextLabel={'next'}
 				breakLabel={<a href="">...</a>}
 				breakClassName={'break-me'}
-				pageCount={documents.metaData.pages ? documents.metaData.pages : null}
+				pageCount={documents.metaData.pages
+					? documents.metaData.pages : null}
 				marginPagesDisplayed={2}
 				pageRangeDisplayed={5}
 				onPageChange={this.handlePageClick}

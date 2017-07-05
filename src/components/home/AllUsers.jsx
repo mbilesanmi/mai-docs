@@ -188,6 +188,12 @@ const mapStateToProps = state => ({
   allUsers: state.allUsers || null
 });
 
+/**
+ *  map dispatch to props
+ *
+ * @param {*} dispatch
+ * @returns {*} props
+ */
 const mapDispatchToProps = dispatch => ({
   userActions: bindActionCreators(userActions, dispatch)
 });

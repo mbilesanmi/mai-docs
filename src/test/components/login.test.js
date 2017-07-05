@@ -66,9 +66,3 @@ describe('The Login', () => {
     });
   });
 });
-
-//
-//
-// WRITE TEST FOR MAPSTATETOPROPS && MAPDISPATCHTOPROPS
-//
-//

@@ -152,13 +152,13 @@ export class UpdateProfile extends Component {
     const userData = this.state.user;
 
     if (this.state.updatePassword) {
-      passwordFields = <div>
+      passwordFields = <div className="passwordFields">
         <div className="form-group has-feedback">
           <span>Password</span>
           <input
             type="password"
             name="password"
-            className="form-control"
+            className="form-control password"
             onChange={this.updateFormState}
             placeholder="Password"
             required="required" />
@@ -168,7 +168,7 @@ export class UpdateProfile extends Component {
           <input
             type="password"
             name="confirmPassword"
-            className="form-control"
+            className="form-control confirmPassword"
             onChange={this.isPassword}
             placeholder="confirmPassword"
             required="required" />
@@ -225,7 +225,7 @@ export class UpdateProfile extends Component {
                     Toggle to change your password: &nbsp;
                     <label>
                       Off
-                      <input type="checkbox" value="off" onClick={this.changePasswordClick} />
+                      <input className="changePassword" type="checkbox" value="off" onClick={this.changePasswordClick} />
                       <span className="lever"></span>
                       On
                     </label>

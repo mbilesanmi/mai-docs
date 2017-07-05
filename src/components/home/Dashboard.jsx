@@ -293,6 +293,12 @@ const mapStateToProps = state => ({
   metaData: state.documents || null
 });
 
+/**
+ *  map dispatch to props
+ *
+ * @param {*} dispatch
+ * @returns {*} props
+ */
 const mapDispatchToProps = dispatch => ({
   userActions: bindActionCreators(userActions, dispatch),
   documentActions: bindActionCreators(documentActions, dispatch)

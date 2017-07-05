@@ -25,6 +25,7 @@ module.exports = {
       .waitForElementVisible('button[name=signup]', 1000)
       .click('button[name=signup]')
       .waitForElementVisible('form', 1000)
+      .pause(2000)
 
       .url('http://localhost:8080/signup')
       .waitForElementVisible('body', 20000)
@@ -43,5 +44,6 @@ module.exports = {
       .waitForElementVisible('button[name=signup]', 1000)
       .click('button[name=signup]')
       .waitForElementVisible('form', 1000)
+      .pause(2000)
       .end()
 };
