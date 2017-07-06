@@ -10,8 +10,12 @@ let props;
 /**
  *
  * @desc handles the triggering of the necessary action
+<<<<<<< HEAD
  * @param {*} isAuth
  * @param {*} authUser
+=======
+ * @param {*} isAuthenticated
+>>>>>>> a46700e42c2a67765ecffc5c02cfc79a9527abcf
  * @returns {null} returns no value
  *
  */
