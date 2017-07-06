@@ -25,10 +25,6 @@ export class Navbar extends Component {
     this.logout = this.logout.bind(this);
   }
 
-  componentDidMount() {
-    // $('.button-collapse').sideNav({ 'closeOnClick': true });
-  }
-
   /**
    * @desc handles change of the user logout
    * @param {any} event html event
@@ -65,7 +61,7 @@ export class Navbar extends Component {
               className="brand-logo">
               Mai Docs
             </IndexLink>
-            <a href="#" data-activates="mobile-demo" className="button-collapse">
+            <a data-activates="mobile-demo" className="button-collapse">
               <i className="fa fa-bars" aria-hidden="true"></i>
             </a>
 

@@ -8,7 +8,6 @@ import Footer from './common/Footer.jsx';
  * @extends {React.Component}
  */
 class App extends React.Component {
-
   /**
    * Renders the view of the component
    * @returns {Object} react component to render
