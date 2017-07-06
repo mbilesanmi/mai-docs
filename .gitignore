@@ -1,4 +1,6 @@
 .env
+dist
+screenshots
 
 # Logs
 logs
@@ -37,5 +39,3 @@ node_modules
 .DS_Store
 .editorconfig
 reports
-dist
-screenshots
