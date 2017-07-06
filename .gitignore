@@ -36,6 +36,6 @@ node_modules
 
 .DS_Store
 .editorconfig
-old_files
 reports
 dist
+screenshots
