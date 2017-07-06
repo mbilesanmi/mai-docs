@@ -7,6 +7,7 @@ import { Link } from 'react-router';
 import toastr from 'toastr';
 import swal from 'sweetalert';
 import ReactPaginate from 'react-paginate';
+import { jsUcFirst } from '../../utils/helper.js';
 import * as userActions from '../../actions/userActions';
 import * as documentActions from '../../actions/documentActions';
 import Sidebar from '../common/Sidebar.jsx';
@@ -179,7 +180,7 @@ export class Dashboard extends Component {
 								<div className="col s12 m12 l9">
 									<div className="card white">
 										<div className="card-content">
-											<span className="card-title">Card Title</span>
+											<span className="card-title">No Documents Yet</span>
 											<p>You have not created any documents. Click the Add New
 												Document button to begin.</p>
 										</div>
@@ -226,7 +227,7 @@ export class Dashboard extends Component {
 													<Link
 														className="docTitle"
 														to={`/document/view/${document.id}`}>
-													{document.title.slice(0, 60)}</Link>
+													{jsUcFirst(document.title)}</Link>
 												</h6></td>
 												<td>
 													<Link

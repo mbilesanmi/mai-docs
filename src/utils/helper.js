@@ -29,6 +29,14 @@ export const setDefaultHeader = (token) => {
   axios.defaults.headers.common['x-access-token'] = token;
 };
 
+export const jsUcFirst = (string) => {
+  const newString = string.charAt(0).toUpperCase() + string.slice(1);
+  if (newString.length > 40) {
+    return `${newString.slice(0, 40)}...`;
+  } else {
+    return newString;
+  }
+};
 
 /**
  * clear or remove one or all items from localStorage

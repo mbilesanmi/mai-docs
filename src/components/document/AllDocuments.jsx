@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import toastr from 'toastr';
 import ReactPaginate from 'react-paginate';
+import { jsUcFirst } from '../../utils/helper.js';
 import * as userActions from '../../actions/userActions';
 import * as documentActions from '../../actions/documentActions';
 import Sidebar from '../common/Sidebar.jsx';
@@ -187,7 +188,7 @@ export class AllDocuments extends Component {
 												<Link
 													className="docTitle"
 													to={`/document/view/${document.id}`}>
-												{document.title.slice(0, 60)}</Link>
+												{jsUcFirst(document.title)}</Link>
 											</h6></td>
 											<td>
 												{document.User.firstname} {document.User.lastname}
