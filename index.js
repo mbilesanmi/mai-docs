@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import webpack from 'webpack';
 import logger from 'morgan';
+import log from 'npmlog';
 import bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
 import serverRoutes from './server/routes';
@@ -43,7 +44,7 @@ if (!isTest) {
 }
 
 if (!isProd && !isTest) {
-
+  /*eslint-disable global-require*/
   const webpackConfig = require('./webpack.config');
   const webpackDevMiddleware = require('webpack-dev-middleware');
   const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -73,7 +74,7 @@ app.get('/*', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.info('==> 🌎 Listening on PORT %s.', PORT);// eslint-disable-line
+  log.info('==> 🌎 Listening on PORT %s.', PORT);
 });
 
 export default app;

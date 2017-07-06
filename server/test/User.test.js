@@ -3,6 +3,7 @@ import expect from 'expect';
 import models from '../models';
 import server from '../../index';
 import seeds from './helper/seeders';
+import log from 'npmlog';
 import { newData, user } from './helper/testHelper';
 
 require('dotenv').config();
@@ -20,7 +21,7 @@ describe('Mai Docs Users Endpoints ', () => {
   before((done) => {
     seeds()
     .then(() => {
-      console.log('seeding done for Users tests'.green);
+      log.info('seeding done for Users tests'.green);
       done();
     });
   });

@@ -3,6 +3,7 @@ import expect from 'expect';
 import server from '../../index.js';
 import models from '../models';
 import seeds from './helper/seeders';
+import log from 'npmlog';
 import { document, newData, user } from './helper/testHelper';
 
 require('dotenv').config();
@@ -26,32 +27,12 @@ describe('Mai Docs Documents Endpoints ', () => {
   before((done) => {
     seeds()
     .then(() => {
-      console.log('seeding done for documents tests'.green);
+      log.info('seeding done for documents tests'.green);
       done();
     });
   });
 
-  // after((done) => {
-  //   models.sequelize.sync({ force: true })
-  //   .then(() => {
-  //     done();
-  //   });
-  // });
-
-  // describe('Get all documents endpoint', () => {
-    // it('should return an error if the user doesnt have any documents', (done) => {
-    //   app
-    //     .get('/api/users/3/documents')
-    //     .end((error, response) => {
-    //       expect(response.status).toEqual(404);
-    //       expect(response.body.message).toEqual('No documents found');
-    //     });
-    //   done();
-    // });
-    // 
-  // });
-
-  describe('Documents endpoints as Admin', () => {
+  describe('Documents endpoints/controllers as Admin', () => {
 
     before((done) => {
       app
@@ -361,7 +342,6 @@ describe('Mai Docs Documents Endpoints ', () => {
   });
 
   describe('Get a user\'s documents endpoint as Author', () => {
-
     before((done) => {
       app
         .post('/api/users/login')

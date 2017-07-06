@@ -3,13 +3,6 @@
 // load environmental variables
 require('dotenv').config();
 
-// CONFIG FOR TRAVIS
-// test: {
-//   use_env_variable: 'DATABASE_TEST_URL',
-//   dialect: 'postgres',
-//   logging: false
-// },
-
 module.exports = {
   development: {
     username: 'mai',

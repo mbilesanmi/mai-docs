@@ -34,7 +34,7 @@ export default (sequelize, DataTypes) => {
   }, {
     classMethods: {
       associate: (models) => {
-        // associations can be defined here
+        // associations are defined here
         Document.belongsTo(models.User, {
           foreignKey: 'ownerId'
         });

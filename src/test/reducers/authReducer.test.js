@@ -22,7 +22,6 @@ describe('Authenticated Users Reducer', () => {
   });
 
   it('should fetch loggedin user when passed USER_DATA', () => {
-    // const user = {};
 
     const action = userActions.setCurrentUser({ isAuth: false });
 

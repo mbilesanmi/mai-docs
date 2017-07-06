@@ -9,7 +9,7 @@ import ManageDocument from './document/ManageDocument.jsx';
 import ViewDocument from './document/ViewDocument.jsx';
 import AllUsers from './home/AllUsers.jsx';
 import UpdateProfile from './home/UpdateProfile.jsx';
-import NotFound from './static/NotFound.component.jsx';
+import NotFound from './static/NotFound.jsx';
 
 const routes = <Route path="/" component={App}>
   <IndexRoute component={Login} />
@@ -29,7 +29,7 @@ const routes = <Route path="/" component={App}>
 /**
  * Declare and define all routes in the application
  * @class Routes
- * @extends {React.Component}
+ * @extends {Component}
  */
 class Routes extends Component {
 
@@ -38,7 +38,6 @@ class Routes extends Component {
    * @returns {Object} react component to render
    * @memberOf Routes
    */
-  /*eslint-disable*/
   render() {
     return (
       <Router history={browserHistory} routes={routes} />

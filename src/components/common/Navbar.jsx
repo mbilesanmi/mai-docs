@@ -25,8 +25,8 @@ export class Navbar extends Component {
     this.logout = this.logout.bind(this);
   }
 
-  componentWillMount() {
-    // $('.button-collapse').sideNav();
+  componentDidMount() {
+    // $('.button-collapse').sideNav({ 'closeOnClick': true });
   }
 
   /**

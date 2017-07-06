@@ -47,7 +47,8 @@ const editorConfig = {
  * @desc component used to display the document form
  * @returns {*} no form element
  */
-const DocumentForm = ({ document, roleId, onSave, onChange, onModelChange, saving }) =>
+const DocumentForm =
+({ document, roleId, onSave, onChange, onModelChange, saving }) =>
 <form onSubmit={onSave}>
   <div className="row">
     <div className="col s8 m8 ofset-s2 offset-m2">
@@ -68,8 +69,12 @@ const DocumentForm = ({ document, roleId, onSave, onChange, onModelChange, savin
 
           <div className="form-group has-feedback input-field col l5 m5 s12">
             <span>Access Level</span>
-            <select name="access" className="browser-default" required="required"
-              value={document.access} onChange={onChange}>
+            <select
+              name="access"
+              className="browser-default"
+              required="required"
+              value={document.access}
+              onChange={onChange}>
               <option value="">Choose your option</option>
               <option value="-1">Private</option>
               <option value="0">Public</option>

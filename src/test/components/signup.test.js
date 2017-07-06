@@ -28,7 +28,6 @@ function setup(isAuthenticated) {
 
 describe('The Signup', () => {
   describe('component <Signup />', () => {
-    // let component;
 
     it('should exist', () => {
       wrapper = setup(true);

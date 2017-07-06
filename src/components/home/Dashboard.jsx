@@ -1,4 +1,3 @@
-/*eslint-disable no-tabs */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -18,6 +17,7 @@ import Sidebar from '../common/Sidebar.jsx';
  * @extends {React.Component}
  */
 export class Dashboard extends Component {
+	/*eslint-disable no-tabs */
   /**
    * Creates an instance of Dashboard.
    * @param {any} props property of component
@@ -62,6 +62,11 @@ export class Dashboard extends Component {
 		}
   }
 
+	/**
+   * @desc handles change of the pagination
+   * @param {any} event
+   * @returns {*} no return value
+   */
 	searchDocuments(event) {
 		event.preventDefault();
 		this.setState({ isLoading: true });
@@ -77,17 +82,32 @@ export class Dashboard extends Component {
 			});
 	}
 
+	/**
+   * @desc handles change of the pagination
+   * @param {any} event
+   * @returns {*} no return value
+   */
 	updateSearchState(event) {
 		event.preventDefault();
 		this.setState({ search: event.target.value });
 	}
 
+	/**
+   * @desc handles change of the pagination
+   * @param {*} event
+   * @returns {*} no return value
+   */
 	clearSearch(event) {
 		event.preventDefault();
 		this.props.documentActions.getUserDocuments(
 			this.props.authUser.id, this.state.offset);
 	}
 
+	/**
+   * @desc handles delete document
+   * @param {any} event
+   * @returns {*} no return value
+   */
 	deleteDocument(event) {
 		event.preventDefault();
     const id = event.target.name;
@@ -304,4 +324,5 @@ const mapDispatchToProps = dispatch => ({
   userActions: bindActionCreators(userActions, dispatch),
   documentActions: bindActionCreators(documentActions, dispatch)
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -50,6 +50,11 @@ export class AllUsers extends Component {
     this.props.userActions.getOneUser(this.props.authUser.id);
   }
 
+	/**
+   * @desc handles change of the search
+   * @param {any} event
+   * @returns {*} no return value
+   */
 	searchUsers(event) {
 		event.preventDefault();
 		this.props.userActions.searchAllUsers(this.state.search, this.state.offset)
@@ -62,11 +67,21 @@ export class AllUsers extends Component {
 		;
 	}
 
+	/**
+   * @desc handles change of the search state
+   * @param {any} event
+   * @returns {*} no return value
+   */
 	updateSearchState(event) {
 		event.preventDefault();
 		this.setState({ search: event.target.value });
 	}
 
+	/**
+   * @desc handles clearing of the search form
+   * @param {*} event
+   * @returns {*} no return value
+   */
 	clearSearch(event) {
 		event.preventDefault();
 		this.props.userActions.getAllUsers(this.state.offset);

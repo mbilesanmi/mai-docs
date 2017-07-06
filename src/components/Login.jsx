@@ -91,9 +91,6 @@ export class Login extends Component {
    */
   render() {
     return (
-      //
-      // Style this page using the \'LOGIN-BODY\' class
-      //
       <div className="section">
         <div className="container">
           <div className="card">

@@ -34,6 +34,9 @@ const Sidebar = ({ search, clearSearch, updateSearchState, userDetails }) =>
   </div>
 </div>;
 
+/**
+ *  Proptypes declaration
+ */
 Sidebar.PropTypes = {
   search: PropTypes.func,
   userDetails: PropTypes.object,

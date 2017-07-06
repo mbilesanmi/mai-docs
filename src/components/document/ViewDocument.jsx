@@ -58,6 +58,11 @@ export class ViewDocument extends Component {
     }
   }
 
+  /**
+   * @desc handles the deleting of documents
+   * @param {any} event
+   * @returns {null} returns no value
+   */
   deleteDocument(event) {
     event.preventDefault();
     const id = event.target.getAttribute('name');

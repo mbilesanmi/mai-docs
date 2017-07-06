@@ -1,4 +1,3 @@
-/*eslint-disable*/
 'use strict';
 const roles = [
   {
@@ -16,26 +15,9 @@ const roles = [
 module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.bulkInsert('Roles', roles, { returning: true, validate: true });
-    /*
-      Add altering commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkInsert('Person', [{
-        name: 'John Doe',
-        isBetaMember: false
-      }], {});
-    */
   },
 
   down: function (queryInterface, Sequelize) {
     return queryInterface.bulkInsert('Roles', null, {});
-    /*
-      Add reverting commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkDelete('Person', null, {});
-    */
   }
 };

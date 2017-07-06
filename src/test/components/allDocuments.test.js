@@ -21,9 +21,6 @@ function setup(isAuthenticated, documents, user) {
     isAuthenticated,
     userActions: { getOneUser: spy(() => new Promise((resolve) => { resolve(); })) },
     documentActions: {
-      //
-      // ADD PROMISE REJECTION HERE
-      //
       getAllDocuments: spy(() => new Promise((resolve) => { resolve(); })),
       searchAllDocuments: spy(() => new Promise((resolve, reject) => { resolve(); }))
     },

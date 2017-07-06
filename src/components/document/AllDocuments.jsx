@@ -16,7 +16,6 @@ import Sidebar from '../common/Sidebar.jsx';
  * @extends {React.Component}
  */
 export class AllDocuments extends Component {
-	/* eslint-disable no-tabs */
   /**
    * Creates an instance of AllDocuments.
    * @param {any} props property of component
@@ -24,7 +23,7 @@ export class AllDocuments extends Component {
    * @returns {*} no return value
    * @memberof AllDocuments
    */
-  constructor(props, context) {
+	constructor(props, context) {
     super(props, context);
 
     this.state = {
@@ -55,7 +54,7 @@ export class AllDocuments extends Component {
   }
 
 	/**
-   * @desc handles change of the pagination
+   * @desc handles change of the search
    * @param {any} event
    * @returns {*} no return value
    */
@@ -75,7 +74,7 @@ export class AllDocuments extends Component {
 	}
 
 	/**
-   * @desc handles change of the pagination
+   * @desc handles change of the search state
    * @param {any} event
    * @returns {*} no return value
    */
@@ -85,7 +84,7 @@ export class AllDocuments extends Component {
 	}
 
 	/**
-   * @desc handles change of the pagination
+   * @desc handles clearing of the search form
    * @param {*} event
    * @returns {*} no return value
    */
@@ -247,8 +246,15 @@ const mapStateToProps = state => ({
   documents: state.documents || []
 });
 
+/**
+ *  map dispatch to props
+ *
+ * @param {*} dispatch
+ * @returns {*} props
+ */
 const mapDispatchToProps = dispatch => ({
   userActions: bindActionCreators(userActions, dispatch),
   documentActions: bindActionCreators(documentActions, dispatch)
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(AllDocuments);

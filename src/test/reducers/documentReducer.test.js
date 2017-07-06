@@ -14,13 +14,10 @@ describe('Document Reducer', () => {
       { title: 'B' }
     ];
 
-    // const initialState = { title: 'C' };
-
     const action = documentActions.getUserDocsSuccess(docs);
 
     const newState1 = documentReducer(initialState, action);
 
-    // expect(newState1.length).toEqual(3);
     expect(newState1[0].title).toEqual('A');
     expect(newState1[1].title).toEqual('B');
   });
@@ -32,7 +29,6 @@ describe('Document Reducer', () => {
       { id: 'C', title: 'C' }
     ];
 
-    // const initialState3 = {};
     const action = documentActions.getAllDocsSuccess(docs);
 
     const newState = documentReducer(initialState, action);

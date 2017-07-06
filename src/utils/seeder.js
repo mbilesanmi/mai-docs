@@ -110,4 +110,3 @@ module.exports = {
         .then(() => queryInterface.bulkDelete('Role', null, {}));
   }
 };
-// sequelize db:seed --seed ./src/utils/seeder.js

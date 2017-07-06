@@ -66,7 +66,7 @@ export default (sequelize, DataTypes) => {
   }, {
     classMethods: {
       associate: (models) => {
-        // associations can be defined here
+        // associations are defined here
         User.belongsTo(models.Role, {
           foreignKey: 'roleId',
           onDelete: 'CASCADE'

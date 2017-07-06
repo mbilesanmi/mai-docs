@@ -2,7 +2,6 @@
 'use strict';
 const faker = require('faker');
 const bcrypt = require('bcrypt');
-// const models = require('../../models');
 
 const salt = bcrypt.genSaltSync();
 const encryptedPassword = bcrypt.hashSync('password', salt);
@@ -53,26 +52,9 @@ for (var i = 0; i < 30; i++) {
 module.exports = {
   up(queryInterface) {
     return queryInterface.bulkInsert('Users', users, { returning: true, validate: true });
-    /*
-      Add altering commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkInsert('Person', [{
-        name: 'John Doe',
-        isBetaMember: false
-      }], {});
-    */
   },
 
   down(queryInterface) {
     return queryInterface.bulkDelete('Users', null, {});
-    /*
-      Add reverting commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkDelete('Person', null, {});
-    */
   }
 };

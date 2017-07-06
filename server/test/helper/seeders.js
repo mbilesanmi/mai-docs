@@ -1,5 +1,6 @@
 import faker from 'faker';
 import colors from 'colors';
+import log from 'npmlog';
 import models from '../../models';
 
 export const roles = [
@@ -62,10 +63,10 @@ export const documents = [{
 const seeds = () => models.sequelize.sync({ force: true })
   .then(() => models.Role.bulkCreate(roles)
     .then(() => {
-      console.log('Users created'.cyan);
+      log.info('Users created'.cyan);
       return models.User.bulkCreate(users, { individualHooks: true })
       .then(() => {
-        console.log('Documents created'.yellow);
+        log.info('Documents created'.yellow);
         return models.Document.bulkCreate(documents);
       });
     }));
