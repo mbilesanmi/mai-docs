@@ -71,7 +71,7 @@ export class Dashboard extends Component {
 		event.preventDefault();
 		this.setState({ isLoading: true });
 		this.props.documentActions.searchUserDocuments(
-			this.state.search, this.state.offset)
+			this.state.search, 0)
 			.then(() => {
 				toastr.success(this.props.message);
 				this.setState({ isLoading: false });

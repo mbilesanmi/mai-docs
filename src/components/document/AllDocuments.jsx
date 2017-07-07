@@ -62,7 +62,7 @@ export class AllDocuments extends Component {
 		event.preventDefault();
 		this.setState({ isLoading: true });
 		this.props.documentActions.searchAllDocuments(
-			this.state.search, this.state.offset)
+			this.state.search, 0)
 		.then(() => {
 			toastr.success(this.props.message);
 			this.setState({ isLoading: false });
@@ -129,7 +129,7 @@ export class AllDocuments extends Component {
 			documentDetails = documents.documents;
 			pagination = <ReactPaginate previousLabel={'previous'}
 				nextLabel={'next'}
-				breakLabel={<a href="">...</a>}
+				breakLabel={'...'}
 				breakClassName={'break-me'}
 				pageCount={documents.metaData.pages
 					? documents.metaData.pages : null}

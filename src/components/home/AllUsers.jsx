@@ -54,7 +54,7 @@ export class AllUsers extends Component {
    */
 	searchUsers(event) {
 		event.preventDefault();
-		this.props.userActions.searchAllUsers(this.state.search, this.state.offset)
+		this.props.userActions.searchAllUsers(this.state.search, 0)
 		.then(() => {
 			toastr.success(this.props.message);
 		})
@@ -129,7 +129,7 @@ export class AllUsers extends Component {
 			usersDetails = allUsers.users;
 			pagination = <ReactPaginate previousLabel={'previous'}
 				nextLabel={'next'}
-				breakLabel={<a href="">...</a>}
+				breakLabel={'...'}
 				breakClassName={'break-me'}
 				pageCount={allUsers.metaData.pages ? allUsers.metaData.pages : null}
 				marginPagesDisplayed={2}
