@@ -175,6 +175,15 @@ export class ViewDocument extends Component {
 /**
  * @desc Set the contextTypes
  */
+ViewDocument.PropTypes = {
+  documentId: PropTypes.number,
+  document: PropTypes.object,
+  authUser: PropType.object
+};
+
+/**
+ * @desc Set the contextTypes
+ */
 ViewDocument.contextTypes = {
   router: PropTypes.object
 };

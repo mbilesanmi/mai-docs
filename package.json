@@ -29,7 +29,8 @@
     "exclude": [
       "**/*.test.js",
       "build",
-      "src/utils"
+      "src/utils",
+      "index.js"
     ]
   },
   "repository": {

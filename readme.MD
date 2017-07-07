@@ -51,11 +51,41 @@ View full API documentation [here](https://mai-docs-staging.herokuapp.com/api-do
 
 ### Limitations
 
-One major limitation is that the application cannot handle creation of new roles from the frontend.
+1. The application cannot handle creation of new roles from the frontend.
+2. The Admin user functionality is quite limited to just viewing all users
+3. Site analytics is currently unavailable.
 
 ### Contributing
 
-Contributions are most welcome. Simply fork the repository, work on the feature and raise a PR.
+We value ways to constantly improve the applications. In a bid to do this, we welcome all contributions, suggestions, and issues. To contribute, kindly follow the following simple steps:
+
+1. Fork the repo on [here](https://github.com/andela-milesanmi/mai-docs)
+2. Clone the repository from a terminal `git clone https://github.com/andela-milesanmi/mai-docs.git`.
+3. Run the steps listed in the Installation section of this documentation
+4. Create a new working branch on your local machine
+5. Commit your local changes to your branch
+6. Push your branch to our repo
+7. Create a Pull Request to our `development` branch.
 
 ### Licence
-MIT
+MIT License
+
+Copyright (c) 2017 Maranatha A. Ilesanmi
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
