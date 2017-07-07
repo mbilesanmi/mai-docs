@@ -3,6 +3,7 @@ import sinon, { spy } from 'sinon';
 import expect from 'expect';
 import { shallow, mount, render } from 'enzyme';
 import { Navbar } from '../../../components/common/Navbar.jsx';
+import { authUser, authUser2, noUser} from '../../testHelper';
 
 let wrapper;
 let props;
@@ -29,9 +30,6 @@ function setup(isAuth, authUser) {
 
 describe('Navbar component', () => {
   let component;
-  const authUser = { id: 1, roleId: 1, expiresIn: '1hr', iat: 1498921548 };
-  const authUser2 = { id: 2, roleId: 2, expiresIn: '1hr', iat: 1498921549 };
-  const noUser = { id: '', roleId: '', expiresIn: '', iat: '' };
 
   it('should display the menu items for an admin', () => {
     wrapper = setup(true, authUser);

@@ -2,6 +2,7 @@ import expect from 'expect';
 import userReducer from '../../reducers/userReducer';
 import initialState from '../../reducers/initialState';
 import * as documentActions from '../../actions/userActions';
+import { user } from '../testHelper';
 
 describe('User Reducer', () => {
   it('should have a null initialState', () => {
@@ -9,10 +10,6 @@ describe('User Reducer', () => {
   });
 
   it('should fetch all users when passed USERS_DATA', () => {
-    const user = [
-      { username: 'A' }
-    ];
-
     const action = documentActions.getUserSuccess(user);
 
     const newState = userReducer(initialState.users, action);

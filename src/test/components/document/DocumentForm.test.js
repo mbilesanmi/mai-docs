@@ -2,6 +2,7 @@ import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
 import DocumentForm from '../../../components/document/DocumentForm.jsx';
+import { noDocument, document } from '../../testHelper';
 
 let wrapper;
 let props;
@@ -27,18 +28,6 @@ function setup(document, saving) {
 }
 
 describe('DocumentForm component', () => {
-  const document =  {
-    id: 1,
-    title: 'document',
-    content: 'fdilunsdhfbhd',
-    access: -1
-  }
-  const noDocument = {
-    title: '',
-    content: '',
-    access: ''
-  }
-
   it('should display the Add New Document form', () => {
     wrapper = setup(noDocument, false);
     expect(wrapper).toExist();

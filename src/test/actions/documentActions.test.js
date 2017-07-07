@@ -11,39 +11,11 @@ import {
   ALL_DOCS,
   DOCS_NOT_FOUND
 } from '../../actions/actionTypes.js';
+import { document, documents, search, metaData } from '../testHelper';
 
 let expectedActions, store;
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const document = {
-    id: 2,
-    title: 'pigs is pigs',
-    content: 'pigs are great',
-    access: 'public'
-  };
-const documents = [{
-    title: 'test',
-    content: 'test',
-    access: 'public',
-    ownerId: 20,
-    User: { firstName: 'mai', lastName: 'iles' }
-  },
-  {
-    title: 'test',
-    content: 'test',
-    access: 'public',
-    ownerId: 20,
-    User: { firstName: 'dami', lastName: 'peju' }
-  }];
-const metaData = { pageCount: 3, currentPage: 10 };
-const search = {
-    query: '',
-    access: '',
-    limit: 1,
-    offset: 1
-  };
-
-
 
 describe('The', () => {
   beforeEach(() => moxios.install());

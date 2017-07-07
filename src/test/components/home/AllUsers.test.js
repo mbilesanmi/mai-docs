@@ -3,6 +3,7 @@ import sinon, { spy } from 'sinon';
 import expect from 'expect';
 import { shallow, mount, render } from 'enzyme';
 import { AllUsers } from '../../../components/home/AllUsers.jsx';
+import { allUsers, user } from '../../testHelper';
 
 let wrapper;
 let props;
@@ -60,29 +61,7 @@ function shallowSetup(isAuthenticated, oneUser, allUsers) {
 describe('AllUsers component', () => {
   let userDetails;
   let pagination;
-  const allUsers = {
-    users: [
-      { username: 'mai', id: 1, email: 'a@a.c', Role: { title: 'Admin' } },
-      { username: 'ade', id: 2, email: 'b@b.c' },
-      { username: 'tom', id: 3, email: 'c@c.c' },
-      { username: 'hope', id: 4, email: 'd@d.c' }
-    ],
-    metaData: {
-      'totalCount': 4,
-      'pages': 2,
-      'currentPage': 1,
-      'pageSize': 2
-      }
-  };
   const noUsers = null;
-  const user = {
-    id: 1,
-    firstname: 'mai',
-    lastname: 'mai',
-    username: 'mai',
-    email: 'mai@mai.com',
-    Role: { title: 'Admin' }
-  }
 
   it('should render appropriately', () => {
     wrapper = setup(true);

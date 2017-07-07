@@ -12,29 +12,12 @@ import {
   USER_DATA,
   SIGNOUT_USER
 } from '../../actions/actionTypes.js';
+import { user, users, metaData } from '../testHelper';
 
 let expectedActions, store;
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const user = {
-    firstname: 'dami',
-    lastname: 'dami',
-    username: 'dami',
-    password: 'dami'
-  };
-const users = [{
-    firstname: 'mai',
-    lastname: 'mai',
-    username: 'mai',
-    password: 'mai'
-  },
-  {
-    firstname: 'peju',
-    lastname: 'peju',
-    username: 'peju',
-    password: 'peju'
-  }];
-const metaData = { pageCount: 3, currentPage: 1 };
+
 const token = 1234;
 
 describe('The', () => {

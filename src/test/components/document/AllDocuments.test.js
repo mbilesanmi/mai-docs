@@ -3,6 +3,7 @@ import sinon, { spy } from 'sinon';
 import expect from 'expect';
 import { shallow, mount, render } from 'enzyme';
 import { AllDocuments } from '../../../components/document/AllDocuments.jsx';
+import { documents2, user } from '../../testHelper.js';
 
 let wrapper;
 let props;
@@ -36,31 +37,8 @@ describe('AllDocuments component', () => {
   let userDetails;
   let documentDetails;
   let pagination;
-  const user = { id: 1, firstname: 'mai', lastname: 'mai', username: 'mai', email: 'mai@mai.com', Role: { title: 'Admin' } };
-  const documents = {
-    documents: [
-      { title: 'doc1', content: 'content', id: 1, User: { firstname: 'mai', lastname: 'mai' } },
-      { title: 'doc2', content: 'content', id: 2, User: { firstname: 'mai', lastname: 'mai' } },
-      { title: 'doc3', content: 'content', id: 31, User: { firstname: 'mai', lastname: 'mai' } },
-      { title: 'doc4', content: 'content', id: 4, User: { firstname: 'mai', lastname: 'mai' } },
-      { title: 'doc3', content: 'content', id: 5, User: { firstname: 'mai', lastname: 'mai' } },
-      { title: 'doc4', content: 'content', id: 6, User: { firstname: 'mai', lastname: 'mai' } },
-      { title: 'doc3', content: 'content', id: 7, User: { firstname: 'mai', lastname: 'mai' } },
-      { title: 'doc4', content: 'content', id: 8, User: { firstname: 'mai', lastname: 'mai' } },
-      { title: 'doc4', content: 'content', id: 9, User: { firstname: 'mai', lastname: 'mai' } },
-      { title: 'doc4', content: 'content', id: 10, User: { firstname: 'mai', lastname: 'mai' } },
-      { title: 'doc4', content: 'content', id: 11, User: { firstname: 'mai', lastname: 'mai' } },
-      { title: 'doc4', content: 'content', id: 12, User: { firstname: 'mai', lastname: 'mai' } },
-      { title: 'doc3', content: 'content', id: 13, User: { firstname: 'mai', lastname: 'mai' } },
-      { title: 'doc4', content: 'content', id: 14, User: { firstname: 'mai', lastname: 'mai' } }
-    ],
-    metaData: {
-      'totalCount': 14,
-      'pages': 2,
-      'currentPage': 1,
-      'pageSize': 12
-      }
-  };
+  // const user = { id: 1, firstname: 'mai', lastname: 'mai', username: 'mai', email: 'mai@mai.com', Role: { title: 'Admin' } };
+  const documents = documents2;
   const noDocuments = [];
 
   it('should have a clearSearch function', () => {

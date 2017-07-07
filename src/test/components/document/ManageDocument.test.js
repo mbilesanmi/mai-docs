@@ -3,6 +3,7 @@ import sinon, { spy } from 'sinon';
 import expect from 'expect';
 import { shallow, mount, render } from 'enzyme';
 import { ManageDocument } from '../../../components/document/ManageDocument.jsx';
+import { manageDocument, manageDocument1 } from '../../testHelper';
 
 let wrapper;
 let props;
@@ -30,24 +31,8 @@ function setup(document, documentId) {
 
 describe('ManageDocument component', () => {
   let component;
-  const document = {
-    title: 'doc1',
-    content: 'content',
-    ownerId: 1,
-    access: -1,
-    id: 1,
-    User: { firstname: 'mai', lastname: 'mai' },
-    createdAt: '2017-07-06T04:57:21.797Z'
-  };
-  const document1 = {
-    title: 'doc1',
-    content: 'content',
-    ownerId: 5,
-    access: 0,
-    id: 1,
-    User: { firstname: 'mai', lastname: 'mai' },
-    createdAt: '2017-07-06T04:57:21.797Z'
-  };
+  const document = manageDocument;
+  const document1 = manageDocument1;
   const noDocument = [];
 
   it('should display the required document', () => {

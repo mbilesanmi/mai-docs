@@ -2,6 +2,7 @@ import expect from 'expect';
 import documentReducer from '../../reducers/documentReducer';
 import initialState from '../../reducers/initialState';
 import * as documentActions from '../../actions/documentActions';
+import { documents } from '../testHelper';
 
 describe('Document Reducer', () => {
   it('should have a null initialState', () => {
@@ -9,40 +10,25 @@ describe('Document Reducer', () => {
   });
 
   it('should add document when passed USER_DOCS', () => {
-    const docs = [
-      { title: 'A' },
-      { title: 'B' }
-    ];
-
-    const action = documentActions.getUserDocsSuccess(docs);
+    const action = documentActions.getUserDocsSuccess(documents);
 
     const newState1 = documentReducer(initialState, action);
 
-    expect(newState1[0].title).toEqual('A');
-    expect(newState1[1].title).toEqual('B');
+    expect(newState1[0].title).toEqual('test');
+    expect(newState1[1].title).toEqual('test');
   });
 
   it('should fetch all documents when passed ALL_DOCS', () => {
-    const docs = [
-      { id: 'A', title: 'A' },
-      { id: 'B', title: 'B' },
-      { id: 'C', title: 'C' }
-    ];
-
-    const action = documentActions.getAllDocsSuccess(docs);
+    const action = documentActions.getAllDocsSuccess(documents);
 
     const newState = documentReducer(initialState, action);
 
-    expect(newState).toEqual(docs);
-    expect(newState.length).toEqual(3);
+    expect(newState).toEqual(documents);
+    expect(newState.length).toEqual(2);
   });
 
   it('should return initialState when nothing is passed', () => {
-    const initialState2 = [
-      { id: 'A', title: 'A' },
-      { id: 'B', title: 'B' },
-      { id: 'C', title: 'C' }
-    ];
+    const initialState2 = documents;
 
     const docs = {};
     const action = documentActions.passSuccessMessage(docs);
@@ -50,6 +36,6 @@ describe('Document Reducer', () => {
     const newState = documentReducer(initialState2, action);
 
     expect(newState).toEqual(initialState2);
-    expect(newState.length).toEqual(3);
+    expect(newState.length).toEqual(2);
   });
 });

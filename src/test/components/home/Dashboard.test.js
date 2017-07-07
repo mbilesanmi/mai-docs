@@ -3,6 +3,7 @@ import sinon, { spy } from 'sinon';
 import expect from 'expect';
 import { shallow, mount, render } from 'enzyme';
 import { Dashboard } from '../../../components/home/Dashboard.jsx';
+import { documents2, user } from '../../testHelper';
 
 let wrapper;
 let props;
@@ -65,22 +66,9 @@ describe('The Dashboard', () => {
     let userDetails;
     let documentDetails;
     let pagination;
-    const documents = {
-      documents: [
-        { title: 'doc1', id: 1, content: 'content', User: { firstname: 'mai' } },
-        { title: 'doc2', id: 2, content: 'content' },
-        { title: 'doc3', id: 3, content: 'content' },
-        { title: 'doc4', id: 4, content: 'content' }
-      ],
-      metaData: {
-        'totalCount': 4,
-        'pages': 2,
-        'currentPage': 1,
-        'pageSize': 2
-       }
-    };
+    const documents = documents2;
     const noDocuments = [];
-    const user = { id: 1, firstname: 'mai', lastname: 'mai', username: 'mai', email: 'mai@mai.com', Role: { title: 'Admin' } }
+    // const user = { id: 1, firstname: 'mai', lastname: 'mai', username: 'mai', email: 'mai@mai.com', Role: { title: 'Admin' } }
 
     it('should exist', () => {
       wrapper = setup(true);
@@ -146,9 +134,9 @@ describe('The Dashboard', () => {
         }
       });
 
-      expect(wrapper.props().documents.metaData.pageSize).toBe(2);
+      expect(wrapper.props().documents.metaData.pageSize).toBe(12);
       wrapper.instance().handlePageClick({ selected: 1 });
-      expect(wrapper.state().offset).toBe(2);
+      expect(wrapper.state().offset).toBe(12);
       expect(wrapper.state().offset).toBe(wrapper.props().documents.metaData.pageSize);
       expect(wrapper.props().documentActions.getUserDocuments.called).toBe(true);
     });
