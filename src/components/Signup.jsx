@@ -116,8 +116,8 @@ export class Signup extends Component {
     return (
       <div className="section">
         <div className="container">
-          <div className="card">
-            <form className="col s12" id="signupForm" onSubmit={this.onSubmit}>
+          <div className="row">
+            <form className="card col s12 l8 offset-l2" id="signupForm" onSubmit={this.onSubmit}>
               <div className="card-content">
                 <span className="card-title row">
                   <div className="icon-object border-success text-success">
@@ -126,14 +126,14 @@ export class Signup extends Component {
                   <h5 className="center">
                     Create account
                   </h5>
-                  <small className="col s12 m6 l3 offset-l5 offset-m3">
+                  <small className="center col s8 m6 l4 offset-l4 offset-m3">
                     All fields are required
                   </small>
                 </span>
 
                 <div className="divider" />
                 <div className="row">
-                  <div className="input-field col s6 offset-s3">
+                  <div className="input-field col s8 offset-s2">
                     <span>Firstname</span>
                     <input
                       type="text"
@@ -142,10 +142,10 @@ export class Signup extends Component {
                       placeholder="Firstname"
                       required="required" />
                   </div>
-                </div>
 
-                <div className="row">
-                  <div className="input-field col s6 offset-s3">
+                  <div className="clearfix"></div>
+
+                  <div className="input-field col s8 offset-s2">
                     <span>Lastname</span>
                     <input
                       type="text"
@@ -154,10 +154,10 @@ export class Signup extends Component {
                       placeholder="Lastname"
                       required="required" />
                   </div>
-                </div>
 
-                <div className="row">
-                  <div className="input-field col s6 offset-s3">
+                  <div className="clearfix"></div>
+
+                  <div className="input-field col s8 offset-s2">
                     <span>Username</span>
                     <input
                       type="text"
@@ -166,10 +166,10 @@ export class Signup extends Component {
                       placeholder="Choose username"
                       required="required" />
                   </div>
-                </div>
 
-                <div className="row">
-                  <div className="input-field col s6 offset-s3">
+                  <div className="clearfix"></div>
+
+                  <div className="input-field col s8 offset-s2">
                     <span>Email</span>
                     <input
                       type="email"
@@ -178,10 +178,10 @@ export class Signup extends Component {
                       placeholder="Your email"
                       required="required" />
                   </div>
-                </div>
 
-                <div className="row">
-                  <div className="input-field col s6 offset-s3">
+                  <div className="clearfix"></div>
+
+                  <div className="input-field col s8 offset-s2">
                     <span>Password</span>
                     <input
                       type="password"
@@ -191,10 +191,10 @@ export class Signup extends Component {
                       placeholder="Create password"
                       required="required" />
                   </div>
-                </div>
 
-                <div className="row">
-                  <div className="input-field col s6 offset-s3">
+                  <div className="clearfix"></div>
+
+                  <div className="input-field col s8 offset-s2">
                     <span>Confirm Password</span>
                     <input
                       type="password"

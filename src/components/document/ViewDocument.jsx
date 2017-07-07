@@ -103,19 +103,21 @@ export class ViewDocument extends Component {
     let manageDocument;
 
     if (authUser.id === document.ownerId) {
-      manageDocument = <div className="col s3">
-        <Link
-          to={`/document/${document.id}`}
-          className="waves-effect waves-light btn green darken-2 editDoc">
-          <i className="fa fa-pencil" aria-hidden="true"></i>
-        </Link>
-        &nbsp;
-        <button
-          onClick={this.deleteDocument}
-          name={document.id}
-          className="waves-effect waves-light btn red darken-2 deleteDoc">
-          <i name={document.id} className="fa fa-trash deleteDoc" aria-hidden="true"></i>
-        </button>
+      manageDocument = <div className="col l9">
+        <div className="col s8 m4 l2 offset-s2 offset-m4 offset-l5">
+          <Link
+            to={`/document/${document.id}`}
+            className="waves-effect waves-light btn green darken-2 editDoc">
+            <i className="fa fa-pencil" aria-hidden="true"></i>
+          </Link>
+          &nbsp;
+          <button
+            onClick={this.deleteDocument}
+            name={document.id}
+            className="waves-effect waves-light btn red darken-2 deleteDoc">
+            <i name={document.id} className="fa fa-trash deleteDoc" aria-hidden="true"></i>
+          </button>
+        </div>
       </div>;
     } else {
       manageDocument = '';
@@ -144,11 +146,10 @@ export class ViewDocument extends Component {
       <div className="container">
         <div className="section card-panel">
           <div className="text-center">
-            <div className="row">
+            <div className="row titleRow">
               <h3 className="docTitle center col s12 m12 l9 flow-text">
                 {document.title}
               </h3>
-                {manageDocument}
             </div>
             <div className="divider" />
             <div className="row">
@@ -164,6 +165,9 @@ export class ViewDocument extends Component {
               <div className="col s9">
                 {renderHTML(document.content)}
               </div>
+            </div>
+            <div className="row">
+              {manageDocument}
             </div>
           </div>
         </div>

@@ -93,8 +93,8 @@ export class Login extends Component {
     return (
       <div className="section">
         <div className="container">
-          <div className="card">
-            <form className="col s8 offset-s2" id="loginForm" onSubmit={this.onSubmit}>
+          <div className="row">
+            <form className="card col s8 offset-s2" id="loginForm" onSubmit={this.onSubmit}>
               <div className="card-content">
                 <span className="card-title">
                   <h5 className="center">
@@ -103,7 +103,7 @@ export class Login extends Component {
                 </span>
                 <div className="divider" />
                 <div className="row">
-                  <div className="input-field col s6 offset-s3">
+                  <div className="input-field col s8 offset-s2">
                     <input
                       placeholder="Username/Email"
                       id="loginId"
@@ -114,10 +114,8 @@ export class Login extends Component {
                       required="required" />
                     <label htmlFor="first_name">Username/Email</label>
                   </div>
-                </div>
-
-                <div className="row">
-                  <div className="input-field col s6 offset-s3">
+                  <div className="clearfix"></div>
+                  <div className="input-field col s8 offset-s2">
                     <input
                       placeholder="Password"
                       id="password"

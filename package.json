@@ -13,7 +13,7 @@
     "test:watch": "npm run test -- --watch",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coveralls": "npm test && cat ./coverage/lcov.info | coveralls",
-    "postinstall": "NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate && NODE_ENV=test npm run db:seed",
+    "ssdspostinstall": "NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate && NODE_ENV=test npm run db:seed",
     "db:seed": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
     "db:test:seed": "NODE_ENV=development babel-node ./server/test/helper/seeder.js",
     "db:clear:seed": "NODE_ENV=test babel-node ./server/test/helper/clearDb.js",
