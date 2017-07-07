@@ -50,16 +50,14 @@ describe('The Navbar', () => {
       expect(input).toExist();
     });
 
-    it.skip('should logout a user', () => {
-      props.authUser = authUser;
-      props.isAuth = true;
-      wrapper = mount(<Navbar {...props} />);
-      const input = wrapper.find('a[id="logout"]');
+    it('should logout a user', () => {
+      wrapper = setup(true, authUser);
+      const input = wrapper.find('#logout');
       input.simulate('click', {
         preventDefault: () => {
         },
         target: { value: 'ade' } });
-      expect(wrapper.props().logout.called).toBe(true);
+      expect(props.logout.called).toBe(true);
     });
   });
 });

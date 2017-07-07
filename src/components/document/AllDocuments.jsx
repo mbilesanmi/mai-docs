@@ -171,7 +171,7 @@ export class AllDocuments extends Component {
 					<h4>General Documents</h4>
 					<div className="divider"></div>
 					<div className="row">
-						<div className="col s9">
+						<div className="col s12 m12 l9">
 							<table className="striped responsive">
 								<thead>
 									<tr>

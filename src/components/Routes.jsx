@@ -10,18 +10,20 @@ import ViewDocument from './document/ViewDocument.jsx';
 import AllUsers from './home/AllUsers.jsx';
 import UpdateProfile from './home/UpdateProfile.jsx';
 import NotFound from './static/NotFound.jsx';
+import requireAuth from '../utils/requireAuth.js';
+import requireAdminAuth from '../utils/requireAdminAuth.js';
 
 const routes = <Route path="/" component={App}>
   <IndexRoute component={Login} />
   <Route path="/login" component={Login} />
   <Route path="/signup" component={Signup} />
-  <Route path="/dashboard" component={Dashboard} />
-  <Route path="/documents" component={AllDocuments} />
-  <Route path="/document" component={ManageDocument} />
-  <Route path="/document/:id" component={ManageDocument} />
-  <Route path="/document/view/:id" component={ViewDocument} />
-  <Route path="/users" component={AllUsers} />
-  <Route path="/user/:id" component={UpdateProfile} />
+  <Route path="/dashboard" component={requireAuth(Dashboard)} />
+  <Route path="/documents" component={requireAuth(AllDocuments)} />
+  <Route path="/document" component={requireAuth(ManageDocument)} />
+  <Route path="/document/:id" component={requireAuth(ManageDocument)} />
+  <Route path="/document/view/:id" component={requireAuth(ViewDocument)} />
+  <Route path="/users" component={requireAdminAuth(AllUsers)} />
+  <Route path="/user/:id" component={requireAuth(UpdateProfile)} />
   <Route path="/*" component={NotFound} />
 </Route>;
 
