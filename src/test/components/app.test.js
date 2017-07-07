@@ -5,7 +5,7 @@ import App from '../../components/App.jsx';
 
 describe('App component', () => {
   const wrapper = shallow(<App />);
-  it('it renders without crashing', () => {
+  it('should render without crashing', () => {
     expect(wrapper).toExist();
   });
 });

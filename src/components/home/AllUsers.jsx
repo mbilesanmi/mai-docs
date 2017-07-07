@@ -43,9 +43,6 @@ export class AllUsers extends Component {
    * @returns {null} returns no value
    */
   componentWillMount() {
-    // if (!this.props.isAuthenticated) {
-    //   this.context.router.push('/login');
-    // }
     this.props.userActions.getAllUsers(this.state.offset);
     this.props.userActions.getOneUser(this.props.authUser.id);
   }
@@ -63,8 +60,7 @@ export class AllUsers extends Component {
 		})
 		.catch(() => {
 			toastr.error(this.props.message);
-		})
-		;
+		});
 	}
 
 	/**

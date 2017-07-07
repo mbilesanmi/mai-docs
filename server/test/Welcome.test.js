@@ -16,6 +16,7 @@ describe('Mai Docs test for default server route', () => {
       });
     done();
   });
+
   it('should return a Welcome to the Mai Docs API message', (done) => {
     app
       .get('/api')
@@ -27,6 +28,7 @@ describe('Mai Docs test for default server route', () => {
       });
     done();
   });
+
   it('should return a json object', (done) => {
     app
       .get('/api')

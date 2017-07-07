@@ -1,7 +1,7 @@
 import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
-import DocumentForm from '../../components/document/DocumentForm.jsx';
+import DocumentForm from '../../../components/document/DocumentForm.jsx';
 
 let wrapper;
 let props;
@@ -39,12 +39,12 @@ describe('DocumentForm component', () => {
     access: ''
   }
 
-  it('it renders without crashing', () => {
+  it('should display the Add New Document form', () => {
     wrapper = setup(noDocument, false);
     expect(wrapper).toExist();
   });
 
-  it('it renders without crashing', () => {
+  it('should display the Edit form', () => {
     wrapper = setup(document, true);
     expect(wrapper).toExist();
   });

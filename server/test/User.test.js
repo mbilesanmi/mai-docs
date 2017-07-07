@@ -25,6 +25,7 @@ describe('Mai Docs Users Endpoints ', () => {
       done();
     });
   });
+
   describe('User API endpoint as Admin', () => {
     before((done) => {
       app
@@ -48,6 +49,7 @@ describe('Mai Docs Users Endpoints ', () => {
           done();
         });
     });
+
     it('should create new user', (done) => {
       app
         .post('/api/users')
@@ -374,6 +376,5 @@ describe('Mai Docs Users Endpoints ', () => {
           done();
         });
     });
-
   });
 });

@@ -37,12 +37,12 @@ const users = [{
 const metaData = { pageCount: 3, currentPage: 1 };
 const token = 1234;
 
-describe('async actions', () => {
+describe('The', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
 
-  describe('Mai Docs Users actions getAllUsers', () => {
-    it('returns ERROR_MESSAGE when users are not found', () => {
+  describe('getAllUsers action', () => {
+    it('should display an error message when users are not found', () => {
       moxios.stubRequest('/api/users/?offset=0', {
         status:400,
         response: { message: 'No users found' }
@@ -60,7 +60,7 @@ describe('async actions', () => {
       });
     });
 
-    it('returns USERS_DATA when all users are retrieved', () => {
+    it('should return all users', () => {
       moxios.stubRequest('/api/users/?offset=0', {
         status: 200,
         response: { users, metaData }
@@ -79,8 +79,8 @@ describe('async actions', () => {
     });
   });
 
-  describe('Mai Docs Users actions getOneUser', () => {
-    it('returns ERROR_MESSAGE when a user is not fetched', () => {
+  describe('getOneUser action', () => {
+    it('should display an error message when a user is not fetched', () => {
       moxios.stubRequest('/api/user/123', {
         status:404,
         response: { message: 'No user found' }
@@ -98,7 +98,7 @@ describe('async actions', () => {
       });
     });
 
-    it('returns USER_DATA when a user info is fetched', () => {
+    it('should return a user\'s info successfully', () => {
       moxios.stubRequest('/api/user/1', {
         status: 200,
         response: { user }
@@ -117,8 +117,8 @@ describe('async actions', () => {
     });
   });
 
-  describe('Mai Docs Users actions signup', () => {
-    it('returns ERROR_MESSAGE when user signup fails', () => {
+  describe('signup action', () => {
+    it('should display an error message when user signup fails', () => {
       moxios.stubRequest('/api/users', {
         status:400,
         response: { message: 'User signup failed' }
@@ -135,7 +135,8 @@ describe('async actions', () => {
         expect(store.getActions()).toEqual(expectedActions);
       });
     });
-    it('returns SUCCESS_MESSAGE & LOGGEDIN_USER when user profile is created', () => {
+
+    it('should create a user profile', () => {
       moxios.stubRequest('/api/users', {
         status: 201,
         response: { message: 'user created successfully', user }
@@ -152,8 +153,8 @@ describe('async actions', () => {
     });
   });
 
-  describe('Mai Docs Users actions login', () => {
-    it('returns ERROR_MESSAGE when user login fails', () => {
+  describe('login action', () => {
+    it('should display an error message when user login fails', () => {
       moxios.stubRequest('/api/users/login', {
         status:400,
         response: { message: 'User login failed' }
@@ -171,7 +172,7 @@ describe('async actions', () => {
       });
     });
 
-    it('returns SUCCESS_MESSAGE & LOGGEDIN_USER when user profile is created', () => {
+    it('should log a user successfully', () => {
       moxios.stubRequest('/api/users/login', {
         status: 200,
         response: { message: 'user login successful', user, token }
@@ -188,8 +189,8 @@ describe('async actions', () => {
     });
   });
 
-  describe('Mai Docs Users actions updateProfile', () => {
-    it('returns ERROR_MESSAGE when user update fails', () => {
+  describe('updateProfile action', () => {
+    it('should display an error message when user update fails', () => {
       moxios.stubRequest('/api/user/1211321', {
         status: 400,
         response: { message: 'Profile update failed' }
@@ -207,7 +208,7 @@ describe('async actions', () => {
       });
     });
 
-    it('returns SUCCESS_MESSAGE when profile is updated', () => {
+    it('should display a success message when profile is updated', () => {
       moxios.stubRequest('/api/user/1', {
         status: 200,
         response: { message: 'Profile updated successfully' }
@@ -226,8 +227,8 @@ describe('async actions', () => {
     });
   });
 
-  describe('Mai Docs Users actions searchAllUsers', () => {
-    it('returns ERROR_MESSAGE when no users are not retrieved', () => {
+  describe('searchAllUsers action', () => {
+    it('should display an error message when no users are not retrieved', () => {
       moxios.stubRequest('/api/search/users/?search=ade&offset=0', {
         status:404,
         response: { message: 'No users found' }
@@ -244,7 +245,8 @@ describe('async actions', () => {
         expect(store.getActions()).toEqual(expectedActions);
       });
     });
-    it('returns SUCCESS_MESSAGE when users are retrieved', () => {
+
+    it('should display a success message when users are retrieved', () => {
       moxios.stubRequest('/api/search/users/?search=ade&offset=0', {
         status:200,
         response: { message: 'Found 2 users' }

@@ -114,7 +114,7 @@ export class ViewDocument extends Component {
           onClick={this.deleteDocument}
           name={document.id}
           className="waves-effect waves-light btn red darken-2 deleteDoc">
-          <i name={document.id} className="fa fa-trash" aria-hidden="true"></i>
+          <i name={document.id} className="fa fa-trash deleteDoc" aria-hidden="true"></i>
         </button>
       </div>;
     } else {
@@ -177,8 +177,7 @@ export class ViewDocument extends Component {
  */
 ViewDocument.PropTypes = {
   documentId: PropTypes.number,
-  document: PropTypes.object,
-  authUser: PropType.object
+  document: PropTypes.object
 };
 
 /**

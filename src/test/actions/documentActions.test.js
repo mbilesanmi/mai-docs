@@ -45,12 +45,12 @@ const search = {
 
 
 
-describe('async actions', () => {
+describe('The', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
 
-  describe('Mai Docs Document actions getAllDocuments', () => {
-    it('returns DOCS_NOT_FOUND when documents are not retrieved', () => {
+  describe('getAllDocuments action', () => {
+    it('should display an error message when documents are not found', () => {
       moxios.stubRequest('/api/documents', {
         status:400,
         response: { message: 'No documents found' }
@@ -67,7 +67,8 @@ describe('async actions', () => {
         expect(store.getActions()).throws(expectedActions);
       });
     });
-    it('returns DOCS_NOT_FOUND when documents are not retrieved', () => {
+
+    it('should not return any documents when none are found', () => {
       moxios.stubRequest('/api/documents', {
         status:400,
         response: { message: 'No documents found' }
@@ -84,7 +85,8 @@ describe('async actions', () => {
         expect(store.getActions()).toEqual(expectedActions);
       });
     });
-    it('returns ALL_DOCS when all documents are retrieved', () => {
+
+    it('should return all found documents', () => {
       moxios.stubRequest('/api/documents/?offset=0', {
         status: 200,
         response: { documents, metaData }
@@ -103,8 +105,8 @@ describe('async actions', () => {
     });
   });
 
-  describe('Mai Docs Document actions getOneDocument', () => {
-    it('returns DOCS_NOT_FOUND when document is not found', () => {
+  describe('getOneDocument action', () => {
+    it('should display an error message when required document is not found', () => {
       moxios.stubRequest('/api/document/1234566', {
         status:404,
         response: { message: 'No documents found' }
@@ -121,7 +123,8 @@ describe('async actions', () => {
         expect(store.getActions()).throws(expectedActions);
       });
     });
-    it('returns DOCS_NOT_FOUND when no document are not retrieved', () => {
+
+    it('should not return any documents when a wrong ID is entered', () => {
       moxios.stubRequest('/api/document/sdjshdjsd', {
         status:400,
         response: { message: 'Invalid document ID' }
@@ -138,7 +141,8 @@ describe('async actions', () => {
         expect(store.getActions()).toEqual(expectedActions);
       });
     });
-    it('returns ALL_DOCS when one document is retrieved', () => {
+
+    it('should return the required document successfully', () => {
       moxios.stubRequest('/api/document/1', {
         status: 200,
         response: { document: { document } }
@@ -157,8 +161,8 @@ describe('async actions', () => {
     });
   });
 
-  describe('Mai Docs Document actions createDocuments', () => {
-    it('returns ERROR_MESSAGE when document creation fails', () => {
+  describe('createDocuments action', () => {
+    it('display an error message when document creation fails', () => {
       moxios.stubRequest('/api/documents', {
         status:400,
         response: { message: 'Document creation failed' }
@@ -175,7 +179,8 @@ describe('async actions', () => {
         expect(store.getActions()).throws(expectedActions);
       });
     });
-    it('returns SUCCESS_MESSAGE when document is created', () => {
+
+    it('should display a success message when a new document is created', () => {
       moxios.stubRequest('/api/documents', {
         status: 201,
         response: { message: 'document created successfully', document }
@@ -194,8 +199,8 @@ describe('async actions', () => {
     });
   });
 
-  describe('Mai Docs Document actions updateDocuments', () => {
-    it('returns ERROR_MESSAGE when document update fails', () => {
+  describe('updateDocuments action', () => {
+    it('should display an error message when document update fails', () => {
       moxios.stubRequest('/api/document/1211321', {
         status: 400,
         response: { message: 'Document update failed' }
@@ -213,7 +218,7 @@ describe('async actions', () => {
       });
     });
 
-    it('returns SUCCESS_MESSAGE when document is updated', () => {
+    it('should display a success message when a document is updated', () => {
       moxios.stubRequest('/api/document/1', {
         status: 200,
         response: { message: 'document updated successfully' }
@@ -232,8 +237,8 @@ describe('async actions', () => {
     });
   });
 
-  describe('Mai Docs Document actions getUserDocuments', () => {
-    it('returns DOCS_NOT_FOUND when documents are not retrieved', () => {
+  describe('getUserDocuments action', () => {
+    it('should display an error message when documents are not retrieved', () => {
       moxios.stubRequest('/api/users/23/documents/?offset=12', {
         status:404,
         response: { message: 'No documents found' }
@@ -250,7 +255,8 @@ describe('async actions', () => {
         expect(store.getActions()).throws(expectedActions);
       });
     });
-    it('returns DOCS_NOT_FOUND when documents are not retrieved', () => {
+
+    it('should not return any documents when none are found', () => {
       moxios.stubRequest('/api/users/23/documents/?offset=12', {
         status:404,
         response: { message: 'No documents found' }
@@ -267,7 +273,8 @@ describe('async actions', () => {
         expect(store.getActions()).toEqual(expectedActions);
       });
     });
-    it('returns USER_DOCS when all documents are retrieved', () => {
+
+    it('should return all found documents', () => {
       moxios.stubRequest('/api/users/23/documents/?offset=0', {
         status: 200,
         response: { documents, metaData }
@@ -286,8 +293,8 @@ describe('async actions', () => {
     });
   });
 
-  describe('Mai Docs Document actions searchUserDocuments', () => {
-    it('returns ERROR_MESSAGE when documents are not retrieved', () => {
+  describe('searchUserDocuments action', () => {
+    it('should return an error message when documents are not retrieved', () => {
       moxios.stubRequest('/api/search/userdocuments/?search=ade&offset=0', {
         status:404,
         response: { message: 'No documents found' }
@@ -304,7 +311,8 @@ describe('async actions', () => {
         expect(store.getActions()).throws(expectedActions);
       });
     });
-    it('returns SUCCESS_MESSAGE when documents are retrieved', () => {
+
+    it('should return a success message when documents are retrieved', () => {
       moxios.stubRequest('/api/search/userdocuments/?search=ade&offset=0', {
         status:200,
         response: { message: 'Found 2 documents' }
@@ -323,8 +331,8 @@ describe('async actions', () => {
     });
   });
 
-  describe('Mai Docs Document actions searchAllDocuments', () => {
-    it('returns ERROR_MESSAGE when documents are not retrieved', () => {
+  describe('searchAllDocuments action', () => {
+    it('should return an error message when documents are not retrieved', () => {
       moxios.stubRequest('/api/search/documents/?search=ade&offset=0', {
         status:404,
         response: { message: 'No documents found' }
@@ -341,7 +349,8 @@ describe('async actions', () => {
         expect(store.getActions()).throws(expectedActions);
       });
     });
-    it('returns SUCCESS_MESSAGE when documents are retrieved', () => {
+
+    it('should return a success message when documents are retrieved', () => {
       moxios.stubRequest('/api/search/documents/?search=ade&offset=0', {
         status:200,
         response: { message: 'Found 2 documents' }
@@ -360,8 +369,8 @@ describe('async actions', () => {
     });
   });
 
-  describe('Mai Docs Document actions deleteDocument', () => {
-    it('returns ERROR_MESSAGE when document is not deleted', () => {
+  describe('deleteDocument action', () => {
+    it('should return an error message when document is not deleted', () => {
       moxios.stubRequest('/api/document/0', {
         status:404,
         response: { message: 'Document not found' }
@@ -378,7 +387,8 @@ describe('async actions', () => {
         expect(store.getActions()).throws(expectedActions);
       });
     });
-    it('returns SUCCESS_MESSAGE when document is deleted', () => {
+
+    it('should return a success message when document is deleted', () => {
       moxios.stubRequest('/api/document/1', {
         status:200,
         response: { message: 'Document deleted' }

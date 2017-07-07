@@ -26,43 +26,41 @@ function setup(isAuthenticated) {
   return shallow(<Login {...props} />, { context });
 }
 
-describe('The Login', () => {
-  describe('component <Login />', () => {
-    let component;
+describe('Login component', () => {
+  let component;
 
-    it('should exist', () => {
-      wrapper = setup(true);
-      expect(wrapper).toExist();
-    });
+  it('should display the redirected component', () => {
+    wrapper = setup(true);
+    expect(wrapper).toExist();
+  });
 
-    it('should exist', () => {
-      wrapper = setup(false);
-      expect(wrapper).toExist();
-    });
+  it('should display the login form', () => {
+    wrapper = setup(false);
+    expect(wrapper).toExist();
+  });
 
-    it('should change state when form is filled', () => {
-      wrapper = setup(false);
-      const loginId = wrapper.find('input[id="loginId"]');
-      loginId.simulate('change', {
-        preventDefault: () => {
-        },
-        target: { value: 'ade', name: 'loginId' } });
-      const password = wrapper.find('input[id="password"]');
-      password.simulate('change', {
-        preventDefault: () => {
-        },
-        target: { value: 'password', name: 'password' } });
-      expect(wrapper.state().user.loginId).toEqual('ade');
-      expect(wrapper.state().user.password).toEqual('password');
-    });
+  it('should change state when form is filled', () => {
+    wrapper = setup(false);
+    const loginId = wrapper.find('input[id="loginId"]');
+    loginId.simulate('change', {
+      preventDefault: () => {
+      },
+      target: { value: 'ade', name: 'loginId' } });
+    const password = wrapper.find('input[id="password"]');
+    password.simulate('change', {
+      preventDefault: () => {
+      },
+      target: { value: 'password', name: 'password' } });
+    expect(wrapper.state().user.loginId).toEqual('ade');
+    expect(wrapper.state().user.password).toEqual('password');
+  });
 
-    it('should submit the form when button is clicked', () => {
-      const form = wrapper.find('form[id="loginForm"]');
-      form.simulate('submit', {
-        preventDefault: () => {
-        }
-      });
-      expect(wrapper.state().isLoading).toBeTruthy();
+  it('should submit the form when button is clicked', () => {
+    const form = wrapper.find('form[id="loginForm"]');
+    form.simulate('submit', {
+      preventDefault: () => {
+      }
     });
+    expect(wrapper.state().isLoading).toBeTruthy();
   });
 });

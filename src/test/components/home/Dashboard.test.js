@@ -2,7 +2,7 @@ import React from 'react';
 import sinon, { spy } from 'sinon';
 import expect from 'expect';
 import { shallow, mount, render } from 'enzyme';
-import { AllUsers } from '../../components/home/AllUsers.jsx';
+import { Dashboard } from '../../../components/home/Dashboard.jsx';
 
 let wrapper;
 let props;
@@ -10,43 +10,45 @@ let props;
 /**
  * @desc handles the triggering of the necessary action
  * @param {*} isAuthenticated
- * @param {*} oneUser
- * @param {*} allUsers
+ * @param {*} user
+ * @param {*} documents
  * @returns {null} returns no value
  */
-function setup(isAuthenticated, oneUser, allUsers) {
+function setup(isAuthenticated, user, documents) {
   props = {
-    allUsers,
+    user,
+    documents,
     isAuthenticated,
-    oneUser,
-    userActions: {
-      getAllUsers: spy(() => new Promise((resolve) => { resolve(); })),
-      searchAllUsers: spy(() => new Promise((resolve) => { resolve(); })),
-      getOneUser: spy(() => new Promise((resolve) => { resolve(); }))
+    userActions: { getOneUser: spy(() => new Promise((resolve) => { resolve(); })) },
+    documentActions: {
+      deleteDocuments: spy(() => new Promise((resolve, reject) => { resolve(); })),
+      getUserDocuments: spy(() => new Promise((resolve) => { resolve(); })),
+      searchUserDocuments: spy(() => new Promise((resolve, reject) => { resolve(); }))
     },
     authUser: { id: 1, roleId: 1, expiresIn: '1hr', iat: 1498921548 },
     message: ''
   };
 
-  return mount(<AllUsers {...props} />);
+  return mount(<Dashboard {...props} />);
 }
 
 /**
  * @desc handles the triggering of the necessary action
  * @param {*} isAuthenticated
- * @param {*} oneUser
- * @param {*} allUsers
+ * @param {*} user
+ * @param {*} documents
  * @returns {null} returns no value
  */
-function shallowSetup(isAuthenticated, oneUser, allUsers) {
+function shallowSetup(isAuthenticated, user, documents) {
   props = {
-    allUsers,
+    user,
+    documents,
     isAuthenticated,
-    oneUser,
-    userActions: {
-      getAllUsers: spy(() => new Promise((resolve) => { resolve(); })),
-      searchAllUsers: spy(() => new Promise((resolve) => { resolve(); })),
-      getOneUser: spy(() => new Promise((resolve) => { resolve(); }))
+    userActions: { getOneUser: spy(() => new Promise((resolve) => { resolve(); })) },
+    documentActions: {
+      deleteDocuments: spy(() => new Promise((resolve, reject) => { resolve(); })),
+      getUserDocuments: spy(() => new Promise((resolve) => { resolve(); })),
+      searchUserDocuments: spy(() => new Promise((resolve, reject) => { resolve(); }))
     },
     authUser: { id: 1, roleId: 1, expiresIn: '1hr', iat: 1498921548 },
     message: ''
@@ -54,19 +56,21 @@ function shallowSetup(isAuthenticated, oneUser, allUsers) {
 
   const context = { router: [] };
 
-  return shallow(<AllUsers {...props} />, { context });
+  return shallow(<Dashboard {...props} />, { context });
 }
 
-describe.only('The AllUsers', () => {
-  describe('component <AllUsers />', () => {
+describe('The Dashboard', () => {
+  describe('component <Dashboard />', () => {
+    let component;
     let userDetails;
+    let documentDetails;
     let pagination;
-    const allUsers = {
-      users: [
-        { username: 'mai', id: 1, email: 'a@a.c', Role: { title: 'Admin' } },
-        { username: 'ade', id: 2, email: 'b@b.c' },
-        { username: 'tom', id: 3, email: 'c@c.c' },
-        { username: 'hope', id: 4, email: 'd@d.c' }
+    const documents = {
+      documents: [
+        { title: 'doc1', id: 1, content: 'content', User: { firstname: 'mai' } },
+        { title: 'doc2', id: 2, content: 'content' },
+        { title: 'doc3', id: 3, content: 'content' },
+        { title: 'doc4', id: 4, content: 'content' }
       ],
       metaData: {
         'totalCount': 4,
@@ -75,15 +79,8 @@ describe.only('The AllUsers', () => {
         'pageSize': 2
        }
     };
-    const noUsers = null;
+    const noDocuments = [];
     const user = { id: 1, firstname: 'mai', lastname: 'mai', username: 'mai', email: 'mai@mai.com', Role: { title: 'Admin' } }
-
-    // it('should exist', () => {
-    //   wrapper = shallowSetup(false, null, noUsers);
-    //   console.log(wrapper, 'wrapper');
-    //   // wrapper = setup(true, authUser);
-    //   expect(wrapper).toNotExist();
-    // });
 
     it('should exist', () => {
       wrapper = setup(true);
@@ -91,19 +88,28 @@ describe.only('The AllUsers', () => {
     });
 
     it('should exist', () => {
-      props.allUsers = noUsers;
-      wrapper = mount(<AllUsers {...props} />);
+      wrapper = shallowSetup(false, null, noDocuments);
+      expect(wrapper).toExist();
+    });
+
+    it('should exist', () => {
+      wrapper = setup(true, user, noDocuments);
       expect(wrapper).toExist();
     });
 
     it('should have a clearSearch function', () => {
-      wrapper = setup(true, user, allUsers);
+      wrapper = setup(true, user, documents);
       expect(wrapper.node.clearSearch).toBeA('function');
     });
 
-    it('should have a searchUsers function', () => {
-      wrapper = setup(true, user, allUsers);
-      expect(wrapper.node.searchUsers).toBeA('function');
+    it('should have a searchDocuments function', () => {
+      wrapper = setup(true, user, documents);
+      expect(wrapper.node.searchDocuments).toBeA('function');
+    });
+
+    it('should have a searchDocuments function', () => {
+      wrapper = setup(true, user, documents);
+      expect(wrapper.node.searchDocuments).toBeA('function');
     });
 
     it('should change state when search is done', () => {
@@ -121,7 +127,7 @@ describe.only('The AllUsers', () => {
         preventDefault: () => {
         },
         target: { value: 'ade' } });
-        expect(wrapper.props().userActions.searchAllUsers.called).toBe(true);
+      expect(wrapper.state().isLoading).toBeTruthy();
     });
 
     it('should clear the search results', () => {
@@ -140,19 +146,19 @@ describe.only('The AllUsers', () => {
         }
       });
 
-      expect(wrapper.props().allUsers.metaData.pageSize).toBe(2);
+      expect(wrapper.props().documents.metaData.pageSize).toBe(2);
       wrapper.instance().handlePageClick({ selected: 1 });
       expect(wrapper.state().offset).toBe(2);
-      expect(wrapper.state().offset).toBe(wrapper.props().allUsers.metaData.pageSize);
-      expect(wrapper.props().userActions.getAllUsers.called).toBe(true);
+      expect(wrapper.state().offset).toBe(wrapper.props().documents.metaData.pageSize);
+      expect(wrapper.props().documentActions.getUserDocuments.called).toBe(true);
     });
 
     it('should handle pagination search action', () => {
-      props.allUsers.search = 'doc';
-      wrapper = mount(<AllUsers {...props} />);
+      props.documents.search = 'doc';
+      wrapper = mount(<Dashboard {...props} />);
       wrapper.setState({ search: 'hello world', isLoading: false });
       wrapper.instance().handlePageClick({ selected: 1 });
-      expect(wrapper.props().userActions.searchAllUsers.called).toBe(true);
+      expect(wrapper.props().documentActions.searchUserDocuments.called).toBe(true);
     });
   });
 });
